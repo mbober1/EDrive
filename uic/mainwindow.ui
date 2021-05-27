@@ -96,9 +96,9 @@
       <height>361</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="mainLayout">
      <item>
-      <widget class="QWidget" name="ChartWidget" native="true"/>
+      <layout class="QGridLayout" name="chartLayout"/>
      </item>
      <item>
       <widget class="QSlider" name="SetpointSlider">

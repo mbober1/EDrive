@@ -15,15 +15,18 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS uic)
 set(AUTORCC_EXECUTABLE resources/resources.qrc)
 
 find_package(Qt5Widgets)
+find_package(Qt5Charts)
 
 
 set(SOURCES
     source/main.cpp
     source/mainwindow.cpp
+    source/chart.cpp
 )
 
 set(HEADERS
     include/mainwindow.hpp
+    include/chart.hpp
 )
 
 set(UIS
@@ -36,4 +39,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC include ui)
 
 target_link_libraries(EDrive 
 Qt5::Widgets 
+Qt5::Charts 
 )
