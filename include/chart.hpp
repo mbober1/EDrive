@@ -1,10 +1,6 @@
 #ifndef CHART_H
 #define CHART_H
 
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMainWindow>
-#include <QDateTime>
-#include <QtCore/QTimer>
 #include <QtCharts>
 
 QT_CHARTS_BEGIN_NAMESPACE
@@ -32,10 +28,9 @@ public slots:
     void addPoint(int x, int y, int z);
 
 private:
-
-    QSplineSeries *x_series;
-    QSplineSeries *y_series;
-    QSplineSeries *z_series;
+    QSplineSeries *a_series;
+    QSplineSeries *b_series;
+    QSplineSeries *c_series;
     QStringList m_titles;
     QValueAxis *m_axisX;
     QValueAxis *m_axisY;

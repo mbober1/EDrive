@@ -8,9 +8,9 @@
  */
 Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) : 
     QChart(QChart::ChartTypeCartesian, parent, wFlags),
-    x_series(new QSplineSeries(this)), 
-    y_series(new QSplineSeries(this)),
-    z_series(new QSplineSeries(this)),
+    a_series(new QSplineSeries(this)), 
+    b_series(new QSplineSeries(this)),
+    c_series(new QSplineSeries(this)),
     m_axisX(new QValueAxis()),
     m_axisY(new QValueAxis()),
     m_x(0), m_y(0),
@@ -24,19 +24,19 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     green.setWidth(2);
     blue.setWidth(2);
 
-    x_series->setPen(red);
-    y_series->setPen(green);
-    z_series->setPen(blue);
+    a_series->setPen(red);
+    b_series->setPen(green);
+    c_series->setPen(blue);
 
-    x_series->setName("X");
-    y_series->setName("Y");
-    z_series->setName("Z");
+    a_series->setName("X");
+    b_series->setName("Y");
+    c_series->setName("Z");
 
     QBrush axisBrush(Qt::white);
 
-    addSeries(x_series);
-    addSeries(y_series);
-    addSeries(z_series);
+    addSeries(a_series);
+    addSeries(b_series);
+    addSeries(c_series);
 
     QFont labelsFont;
     labelsFont.setBold(true);
@@ -50,12 +50,12 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     addAxis(m_axisX,Qt::AlignBottom);
     addAxis(m_axisY,Qt::AlignLeft);
 
-    x_series->attachAxis(m_axisX);
-    x_series->attachAxis(m_axisY);
-    y_series->attachAxis(m_axisX);
-    y_series->attachAxis(m_axisY);
-    z_series->attachAxis(m_axisX);
-    z_series->attachAxis(m_axisY);
+    a_series->attachAxis(m_axisX);
+    a_series->attachAxis(m_axisY);
+    b_series->attachAxis(m_axisX);
+    b_series->attachAxis(m_axisY);
+    c_series->attachAxis(m_axisX);
+    c_series->attachAxis(m_axisY);
 
     m_axisX->setTickCount(this->pointCount);
     m_axisX->setRange(0, 10);
@@ -79,14 +79,14 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
  */
 void Chart::addPoint(int x, int y, int z)
 {
-    if(this->x_series->points().size() > this->pointCount) this->x_series->remove(0);
-    if(this->y_series->points().size() > this->pointCount) this->y_series->remove(0);
-    if(this->z_series->points().size() > this->pointCount) this->z_series->remove(0);
+    if(this->a_series->points().size() > this->pointCount) this->a_series->remove(0);
+    if(this->b_series->points().size() > this->pointCount) this->b_series->remove(0);
+    if(this->c_series->points().size() > this->pointCount) this->c_series->remove(0);
     
     m_x += (m_axisX->max() - m_axisX->min()) / m_axisX->tickCount();
-    this->x_series->append(m_x + 10, x);
-    this->y_series->append(m_x + 10, y);
-    this->z_series->append(m_x + 10, z);
+    this->a_series->append(m_x + 10, x);
+    this->b_series->append(m_x + 10, y);
+    this->c_series->append(m_x + 10, z);
 
     scroll(plotArea().width() / m_axisX->tickCount(), 0);
 }
