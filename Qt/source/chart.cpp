@@ -6,7 +6,7 @@
  * @param[in,out] parent QWidget type parent.
  * @param[in] wFlags Window flags.
  */
-Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) : 
+Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) : 
     QChart(QChart::ChartTypeCartesian, parent, wFlags),
     a_series(new QSplineSeries(this)), 
     b_series(new QSplineSeries(this)),
@@ -14,7 +14,7 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     m_axisX(new QValueAxis()),
     m_axisY(new QValueAxis()),
     m_x(0), m_y(0),
-    pointCount(30)
+    pointCount(pointCount)
 {   
     QPen red(Qt::red);
     QPen green(Qt::green);
@@ -28,7 +28,7 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     b_series->setPen(green);
     c_series->setPen(blue);
 
-    a_series->setName("X");
+    a_series->setName("Setpoint");
     b_series->setName("Y");
     c_series->setName("Z");
 

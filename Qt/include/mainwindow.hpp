@@ -18,7 +18,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Chart *chart = new Chart();
+    Chart *chart = new Chart(100);
     QTimer chartTimer;
 
     void readData();

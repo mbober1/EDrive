@@ -22,7 +22,7 @@ class Chart : public QChart
 {
     Q_OBJECT
 public:
-    Chart(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = {});
+    Chart(uint pointCount, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = {});
 
 public slots:
     void addPoint(int x, int y, int z);

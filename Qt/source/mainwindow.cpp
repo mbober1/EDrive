@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     chartView->setRenderHint(QPainter::Antialiasing);
     ui->chartLayout->addWidget(chartView);
 
-    this->chartTimer.start(100);
+    this->chartTimer.start(10);
 
 
 }
