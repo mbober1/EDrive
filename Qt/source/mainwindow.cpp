@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     chartView->setRenderHint(QPainter::Antialiasing);
     ui->chartLayout->addWidget(chartView);
 
-    this->chartTimer.start(10); // 10ms delay = 100Hz
 }
 
 
@@ -55,6 +54,8 @@ void MainWindow::actionDisconnect() {
 
 void MainWindow::enableUi(bool state) {
     ui->centralwidget->setEnabled(state);
+    if(state) this->chartTimer.start(10); // 10ms delay = 100Hz
+    else this->chartTimer.stop();
 }
 
 void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
@@ -77,6 +78,7 @@ void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
         break;
     }
 }
+
 
 void MainWindow::connectionError(QMqttClient::ClientError error) {
     QString mess("Unable connect to the server! ");
