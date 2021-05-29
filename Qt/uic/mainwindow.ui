@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>805</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="palette">
@@ -149,38 +149,19 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
      <item row="0" column="0">
       <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="KpSpinBox">
-         <property name="value">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="KiSpinbox"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="KdSpinbox"/>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="KpLabel">
          <property name="text">
           <string>KP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="KpSpinBox">
+         <property name="value">
+          <number>1</number>
          </property>
         </widget>
        </item>
@@ -191,6 +172,9 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="KiSpinbox"/>
+       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="KdLabel">
          <property name="text">
@@ -198,14 +182,56 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="KdSpinbox"/>
+       </item>
       </layout>
      </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
+     <item row="0" column="1">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <widget class="QLabel" name="voltageLabelValue">
+         <property name="text">
+          <string>0V</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="setpointLabel">
+         <property name="text">
+          <string>Setpoint</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="voltageLabel">
+         <property name="text">
+          <string>Voltage:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="valueLabel">
+         <property name="text">
+          <string>Value</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="setpointLabelValue">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="valueLabelValue">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -237,7 +263,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>805</width>
      <height>32</height>
     </rect>
    </property>

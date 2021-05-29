@@ -70,7 +70,6 @@ void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
         this->subscribe();
         break;
     }
-    
 
     case QMqttClient::Connecting:
     case QMqttClient::Disconnected:
@@ -134,14 +133,14 @@ void MainWindow::connectionError(QMqttClient::ClientError error) {
 
 
 void MainWindow::subscribe() {
-    auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/setpoint"), 1);
+    auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/value"), 1);
     connect(valueSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
-        engine->setValue(msg.payload().toInt());
+        this->setValue(msg.payload().toInt());
     });
 
     auto voltageSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/voltage"), 1);
     connect(voltageSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
-        engine->setVoltage(msg.payload().toInt());
+        this->setVoltage(msg.payload().toInt());
     });
 
 }
@@ -150,3 +149,20 @@ void MainWindow::subscribe() {
 
 
 void MainWindow::unsubscribe() {}
+
+
+void MainWindow::setValue(int value) {
+    engine->setValue(value);
+    ui->valueLabelValue->setText(QString::number(value));
+}
+
+void MainWindow::setSetpoint(int value) {
+    ui->setpointLabelValue->setText(QString::number(value));
+}
+
+void MainWindow::setVoltage(int value) {
+    QString text(QString::number(value));
+    text += " mV";
+    engine->setVoltage(value);
+    ui->voltageLabelValue->setText(text);
+}

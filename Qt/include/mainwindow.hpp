@@ -35,4 +35,8 @@ private:
     void readData();
     void subscribe();
     void unsubscribe();
+
+    void setSetpoint(int value);
+    void setVoltage(int value);
+    void setValue(int value);
 };
