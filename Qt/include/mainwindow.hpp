@@ -4,6 +4,7 @@
 #include "mqtt.hpp"
 #include "secrets.hpp"
 #include "connectiondialog.hpp"
+#include "engine.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,10 +26,13 @@ public slots:
     void connectionError(QMqttClient::ClientError error);
 
 private:
-    Ui::MainWindow *ui;
-    Chart *chart;
-    Mqtt *mqtt;
+    Ui::MainWindow* ui;
+    Chart* chart;
+    Mqtt* mqtt;
     QTimer chartTimer;
+    Engine* engine;
 
     void readData();
+    void subscribe();
+    void unsubscribe();
 };
