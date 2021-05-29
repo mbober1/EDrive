@@ -25,6 +25,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::readData() {
-    chart->addPoint(ui->SetpointSlider->value(), 0, 0);
+    chart->addPoint(ui->SetpointSlider->value(), 0, ui->SetpointSlider->value() - 0);
 }
 

@@ -29,8 +29,8 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     c_series->setPen(blue);
 
     a_series->setName("Setpoint");
-    b_series->setName("Y");
-    c_series->setName("Z");
+    b_series->setName("Value");
+    c_series->setName("Deviation");
 
     QBrush axisBrush(Qt::white);
 
@@ -59,7 +59,7 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 
     m_axisX->setTickCount(this->pointCount);
     m_axisX->setRange(0, 10);
-    m_axisY->setRange(-200, 200);
+    m_axisY->setRange(-50, 150);
 
     this->legend()->setVisible(true);
     this->setAnimationOptions(QChart::NoAnimation);
