@@ -25,18 +25,12 @@ public:
     Chart(uint pointCount, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = {});
 
 public slots:
-    void addPoint(int x, int y, int z);
+    void addPoint(int* values);
 
 private:
-    QSplineSeries *a_series;
-    QSplineSeries *b_series;
-    QSplineSeries *c_series;
-    QStringList m_titles;
-    QValueAxis *m_axisX;
-    QValueAxis *m_axisY;
-    qreal m_x;
-    qreal m_y;
-
+    QSplineSeries** series;
+    QValueAxis *axisX;
+    QValueAxis *axisY;
     uint pointCount;
 };
 

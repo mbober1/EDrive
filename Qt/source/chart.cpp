@@ -8,12 +8,9 @@
  */
 Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) : 
     QChart(QChart::ChartTypeCartesian, parent, wFlags),
-    a_series(new QSplineSeries(this)), 
-    b_series(new QSplineSeries(this)),
-    c_series(new QSplineSeries(this)),
-    m_axisX(new QValueAxis()),
-    m_axisY(new QValueAxis()),
-    m_x(0), m_y(0),
+    axisX(new QValueAxis()),
+    axisY(new QValueAxis()),
+    series(new QSplineSeries*[3]),
     pointCount(pointCount)
 {   
     QPen red(Qt::red);
@@ -24,69 +21,71 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     green.setWidth(2);
     blue.setWidth(2);
 
-    a_series->setPen(red);
-    b_series->setPen(green);
-    c_series->setPen(blue);
-
-    a_series->setName("Setpoint");
-    b_series->setName("Value");
-    c_series->setName("Deviation");
-
-    QBrush axisBrush(Qt::white);
-
-    addSeries(a_series);
-    addSeries(b_series);
-    addSeries(c_series);
+    QPen seriesColor[3] = {red, green, blue};
 
     QFont labelsFont;
     labelsFont.setBold(true);
 
-    m_axisX->setLabelsVisible(false);
-    m_axisY->setLabelsColor(Qt::white);
-    m_axisY->setLabelsFont(labelsFont);
-    m_axisX->setGridLineColor(QColor(150, 150, 150));
-    m_axisY->setGridLineColor(QColor(150, 150, 150));
 
-    addAxis(m_axisX,Qt::AlignBottom);
-    addAxis(m_axisY,Qt::AlignLeft);
+    // setup X axis
+    addAxis(axisX,Qt::AlignBottom);
+    axisX->setGridLineColor(QColor(150, 150, 150));
+    axisX->setLabelsVisible(false);
+    axisX->setTickCount(this->pointCount);
+    axisX->setRange(0, 10);
 
-    a_series->attachAxis(m_axisX);
-    a_series->attachAxis(m_axisY);
-    b_series->attachAxis(m_axisX);
-    b_series->attachAxis(m_axisY);
-    c_series->attachAxis(m_axisX);
-    c_series->attachAxis(m_axisY);
 
-    m_axisX->setTickCount(this->pointCount);
-    m_axisX->setRange(0, 10);
-    m_axisY->setRange(-50, 150);
+    // setup Y axis
+    addAxis(axisY,Qt::AlignLeft);
+    axisY->setLabelsColor(Qt::white);
+    axisY->setLabelsFont(labelsFont);
+    axisY->setGridLineColor(QColor(150, 150, 150));
+    axisY->setRange(-50, 150);
 
+
+    // setup series
+    QString seriesName[3] = {"Setpoint", "Value", "Deviation"};
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        series[i] = new QSplineSeries(this);
+        series[i]->setPen(seriesColor[i]);
+        series[i]->setName(seriesName[i]);
+        addSeries(series[i]);
+        series[i]->attachAxis(axisX);
+        series[i]->attachAxis(axisY);
+    }
+
+
+    // other settings
     this->legend()->setVisible(true);
     this->setAnimationOptions(QChart::NoAnimation);
     this->legend()->setLabelColor(QColor(150, 150, 150));
-
     this->setMargins(QMargins(0,0,0,0));
     this->setBackgroundRoundness(3);
     this->setBackgroundBrush(QBrush(QColor(80, 80, 80)));
 }
 
 
-/**
- * Add point to chart.
- * @param[in] x X series value.
- * @param[in] y Y series value.
- * @param[in] z Z series value.
- */
-void Chart::addPoint(int x, int y, int z)
+void Chart::addPoint(int* values)
 {
-    if(this->a_series->points().size() > this->pointCount) this->a_series->remove(0);
-    if(this->b_series->points().size() > this->pointCount) this->b_series->remove(0);
-    if(this->c_series->points().size() > this->pointCount) this->c_series->remove(0);
+    static qreal xPosition = 10;
     
-    m_x += (m_axisX->max() - m_axisX->min()) / m_axisX->tickCount();
-    this->a_series->append(m_x + 10, x);
-    this->b_series->append(m_x + 10, y);
-    this->c_series->append(m_x + 10, z);
+    // remove redundant points
+    for (size_t i = 0; i < 3; i++)
+    {
+        if(this->series[i]->points().size() > this->pointCount) this->series[i]->remove(0);
+    }
+    
+    // calculate the position for X in the chart
+    xPosition += (axisX->max() - axisX->min()) / axisX->tickCount();
 
-    scroll(plotArea().width() / m_axisX->tickCount(), 0);
+    // add new points
+    for (size_t i = 0; i < 3; i++)
+    {
+        this->series[i]->append(xPosition, values[i]);
+    }
+
+    // scroll the chart
+    scroll(plotArea().width() / axisX->tickCount(), 0);
 }
