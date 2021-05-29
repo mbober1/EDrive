@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QChartView *chartView = new QChartView(this->chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     ui->chartLayout->addWidget(chartView);
-
 }
 
 
@@ -44,7 +43,6 @@ void MainWindow::actionConnect() {
         mqtt->connectToHost(mqttHostname, mqttPort, mqttUsername, mqttPassword);
         // mqtt->connectToHost(dialog.getAdress(), dialog.getPort(), dialog.getUsername(), dialog.getPassword());
     }
-    
 }
 
 
@@ -52,11 +50,13 @@ void MainWindow::actionDisconnect() {
     mqtt->disconnectFromHost();
 }
 
+
 void MainWindow::enableUi(bool state) {
     ui->centralwidget->setEnabled(state);
     if(state) this->chartTimer.start(10); // 10ms delay = 100Hz
     else this->chartTimer.stop();
 }
+
 
 void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
     switch (state)
