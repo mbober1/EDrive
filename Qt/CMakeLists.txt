@@ -24,6 +24,7 @@ set(SOURCES
     source/chart.cpp
     source/mqtt.cpp
     source/connectiondialog.cpp
+    source/engine.cpp
 )
 
 set(HEADERS
@@ -32,6 +33,7 @@ set(HEADERS
     include/mqtt.hpp
     include/secrets.hpp
     include/connectiondialog.hpp
+    include/engine.hpp
 )
 
 set(UIS
