@@ -20,6 +20,9 @@ public:
 public slots:
     void actionConnect();
     void actionDisconnect();
+    void enableUi(bool state);
+    void changeConnectionStatus(QMqttClient::ClientState state);
+    void connectionError(QMqttClient::ClientError error);
 
 private:
     Ui::MainWindow *ui;

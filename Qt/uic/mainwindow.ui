@@ -156,12 +156,18 @@
    </property>
   </action>
   <action name="actionDisconnect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../resources/resources.qrc">
      <normaloff>:/icons/icons/disconnect.png</normaloff>:/icons/icons/disconnect.png</iconset>
    </property>
    <property name="text">
     <string>Disconnect</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionQuit">

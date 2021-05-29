@@ -4,7 +4,7 @@
 Mqtt::Mqtt(QObject *parent) :
 QMqttClient(parent)
 {
-
+    setAutoKeepAlive(true);
 }
 
 Mqtt::~Mqtt() {}
