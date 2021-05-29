@@ -23,6 +23,7 @@ set(SOURCES
     source/mainwindow.cpp
     source/chart.cpp
     source/mqtt.cpp
+    source/connectiondialog.cpp
 )
 
 set(HEADERS
@@ -30,10 +31,12 @@ set(HEADERS
     include/chart.hpp
     include/mqtt.hpp
     include/secrets.hpp
+    include/connectiondialog.hpp
 )
 
 set(UIS
     uic/mainwindow.ui
+    uic/connectiondialog.ui
 )
 
 qt5_add_resources(SOURCES resources/resources.qrc)

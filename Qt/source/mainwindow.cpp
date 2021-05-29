@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::actionConnect);
+    connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::actionDisconnect);
     connect(&chartTimer, &QTimer::timeout, this, &MainWindow::readData);
 
     // setup chart
@@ -18,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->chartTimer.start(10); // 10ms delay = 100Hz
 
-    mqtt->connectToHost(mqttHostname, mqttPort, mqttUsername, mqttPassword);
 }
 
 
@@ -33,3 +34,16 @@ void MainWindow::readData() {
     chart->addPoint(values);
 }
 
+
+void MainWindow::actionConnect() {
+    ConnectionDialog dialog;
+    dialog.setModal(true);
+    if(dialog.exec() == QDialog::Accepted) {
+        mqtt->connectToHost(mqttHostname, mqttPort, mqttUsername, mqttPassword);
+        // mqtt->connectToHost(dialog.getAdress(), dialog.getPort(), dialog.getUsername(), dialog.getPassword());
+    }
+    
+}
+
+
+void MainWindow::actionDisconnect() { }
