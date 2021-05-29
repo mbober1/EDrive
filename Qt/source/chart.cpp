@@ -71,19 +71,13 @@ void Chart::addPoint(int* values)
 {
     static qreal xPosition = 10;
     
-    // remove redundant points
-    for (size_t i = 0; i < 3; i++)
-    {
-        if(this->series[i]->points().size() > this->pointCount) this->series[i]->remove(0);
-    }
-    
     // calculate the position for X in the chart
     xPosition += (axisX->max() - axisX->min()) / axisX->tickCount();
 
-    // add new points
     for (size_t i = 0; i < 3; i++)
     {
-        this->series[i]->append(xPosition, values[i]);
+        if(this->series[i]->points().size() > this->pointCount) this->series[i]->remove(0); // remove redundant points
+        this->series[i]->append(xPosition, values[i]); // add new points
     }
 
     // scroll the chart
