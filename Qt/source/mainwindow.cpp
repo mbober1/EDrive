@@ -5,7 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     chart(new Chart(100)), // 100 points
-    mqtt(new Mqtt(this))
+    mqtt(new Mqtt(this)),
+    engine(new Engine)
 {
     ui->setupUi(this);
     this->enableUi(false);
@@ -31,7 +32,7 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::readData() {
-    int values[3] = {ui->SetpointSlider->value(), 0, ui->SetpointSlider->value() - 0};
+    int values[3] = {ui->SetpointSlider->value(), engine->getValue(), ui->SetpointSlider->value() - engine->getValue()};
     chart->addPoint(values);
 }
 
@@ -61,12 +62,14 @@ void MainWindow::enableUi(bool state) {
 void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
     switch (state)
     {
-    case QMqttClient::Connected:
+    case QMqttClient::Connected: {
         enableUi(true);
         ui->actionConnect->setVisible(false);
         ui->actionDisconnect->setVisible(true);
         ui->actionDisconnect->setEnabled(true);
+        this->subscribe();
         break;
+    }
     
 
     case QMqttClient::Connecting:
@@ -75,6 +78,7 @@ void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
         ui->actionConnect->setVisible(true);
         ui->actionConnect->setEnabled(true);
         ui->actionDisconnect->setVisible(false);
+        this->unsubscribe();
         break;
     }
 }
@@ -128,3 +132,21 @@ void MainWindow::connectionError(QMqttClient::ClientError error) {
     QMessageBox::critical(this, "Connection error", mess);
 }
 
+
+void MainWindow::subscribe() {
+    auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/setpoint"), 1);
+    connect(valueSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
+        engine->setValue(msg.payload().toInt());
+    });
+
+    auto voltageSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/voltage"), 1);
+    connect(voltageSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
+        engine->setVoltage(msg.payload().toInt());
+    });
+
+}
+
+
+
+
+void MainWindow::unsubscribe() {}
