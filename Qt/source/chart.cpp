@@ -60,7 +60,7 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     // other settings
     this->legend()->setVisible(true);
     this->setAnimationOptions(QChart::NoAnimation);
-    this->legend()->setLabelColor(QColor(150, 150, 150));
+    this->legend()->setLabelColor(QColor(255, 255, 255));
     this->setMargins(QMargins(0,0,0,0));
     this->setBackgroundRoundness(3);
     this->setBackgroundBrush(QBrush(QColor(80, 80, 80)));

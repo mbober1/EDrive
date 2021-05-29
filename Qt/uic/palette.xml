@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<palette>
+ <active>
+  <colorrole role="Dark">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>25</red>
+     <green>25</green>
+     <blue>25</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="Highlight">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>38</red>
+     <green>162</green>
+     <blue>105</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="Link">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>87</red>
+     <green>227</green>
+     <blue>137</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="LinkVisited">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>38</red>
+     <green>162</green>
+     <blue>105</blue>
+    </color>
+   </brush>
+  </colorrole>
+ </active>
+ <inactive>
+  <colorrole role="Dark">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>24</red>
+     <green>24</green>
+     <blue>24</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="Highlight">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>51</red>
+     <green>209</green>
+     <blue>122</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="Link">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>87</red>
+     <green>227</green>
+     <blue>137</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="LinkVisited">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>38</red>
+     <green>162</green>
+     <blue>105</blue>
+    </color>
+   </brush>
+  </colorrole>
+ </inactive>
+ <disabled>
+  <colorrole role="Dark">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>24</red>
+     <green>24</green>
+     <blue>24</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="Highlight">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>143</red>
+     <green>240</green>
+     <blue>164</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="Link">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>87</red>
+     <green>227</green>
+     <blue>137</blue>
+    </color>
+   </brush>
+  </colorrole>
+  <colorrole role="LinkVisited">
+   <brush brushstyle="SolidPattern">
+    <color alpha="255">
+     <red>38</red>
+     <green>162</green>
+     <blue>105</blue>
+    </color>
+   </brush>
+  </colorrole>
+ </disabled>
+</palette>
