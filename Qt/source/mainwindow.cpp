@@ -4,7 +4,8 @@
 MainWindow::MainWindow(QWidget *parent) : 
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    chart(new Chart(100)) // 100 points
+    chart(new Chart(100)), // 100 points
+    mqtt(new Mqtt(this))
 {
     ui->setupUi(this);
 
@@ -16,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->chartLayout->addWidget(chartView);
 
     this->chartTimer.start(10); // 10ms delay = 100Hz
+
+    mqtt->connectToHost(mqttHostname, mqttPort, mqttUsername, mqttPassword);
 }
 
 

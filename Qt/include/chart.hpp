@@ -1,5 +1,4 @@
-#ifndef CHART_H
-#define CHART_H
+#pragma once
 
 #include <QtCharts>
 
@@ -33,10 +32,3 @@ private:
     QValueAxis *axisY;
     uint pointCount;
 };
-
-#endif
-
-
-
-
-

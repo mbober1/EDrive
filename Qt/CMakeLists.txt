@@ -22,11 +22,14 @@ set(SOURCES
     source/main.cpp
     source/mainwindow.cpp
     source/chart.cpp
+    source/mqtt.cpp
 )
 
 set(HEADERS
     include/mainwindow.hpp
     include/chart.hpp
+    include/mqtt.hpp
+    include/secrets.hpp
 )
 
 set(UIS

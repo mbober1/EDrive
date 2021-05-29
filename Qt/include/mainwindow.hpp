@@ -1,8 +1,8 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
-
+#pragma once
 #include <QMainWindow>
 #include "chart.hpp"
+#include "mqtt.hpp"
+#include "secrets.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,8 +19,8 @@ public:
 private:
     Ui::MainWindow *ui;
     Chart *chart;
+    Mqtt *mqtt;
     QTimer chartTimer;
 
     void readData();
 };
-#endif // MAINWINDOW_HPP
