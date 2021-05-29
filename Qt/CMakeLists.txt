@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS uic)
 set(AUTORCC_EXECUTABLE resources/resources.qrc)
 
-find_package(Qt5Widgets)
-find_package(Qt5Charts)
+find_package(Qt5 COMPONENTS Widgets Charts Mqtt REQUIRED)
+
 
 
 set(SOURCES
@@ -40,4 +40,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC include ui)
 target_link_libraries(EDrive 
 Qt5::Widgets 
 Qt5::Charts 
+Qt5::Mqtt 
 )
