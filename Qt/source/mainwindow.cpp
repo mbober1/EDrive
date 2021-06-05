@@ -67,6 +67,7 @@ void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
         ui->actionConnect->setVisible(false);
         ui->actionDisconnect->setVisible(true);
         ui->actionDisconnect->setEnabled(true);
+        this->createTopics();
         this->subscribe();
         break;
     }
@@ -143,6 +144,32 @@ void MainWindow::subscribe() {
         this->setVoltage(msg.payload().toInt());
     });
 
+    connect(ui->SetpointSlider, &QAbstractSlider::valueChanged, [this](int value) {
+        QByteArray array;
+        array.setNum(value);
+        mqtt->publish(QMqttTopicName("edrive/setpoint"), array);
+    });
+
+    connect(ui->KpSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
+        QByteArray array;
+        array.setNum(i);
+        mqtt->publish(QMqttTopicName("edrive/kp"), array);
+    });
+
+    connect(ui->KiSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
+        QByteArray array;
+        array.setNum(i);
+        mqtt->publish(QMqttTopicName("edrive/ki"), array);
+    });
+
+    connect(ui->KdSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
+        QByteArray array;
+        array.setNum(i);
+        mqtt->publish(QMqttTopicName("edrive/kd"), array);
+    });
+
+
+    
 }
 
 
@@ -165,4 +192,13 @@ void MainWindow::setVoltage(int value) {
     text += " mV";
     engine->setVoltage(value);
     ui->voltageLabelValue->setText(text);
+}
+
+void MainWindow::createTopics() {
+    mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
+    mqtt->publish(QMqttTopicName("edrive/value"), "0");
+    mqtt->publish(QMqttTopicName("edrive/voltage"), "0");
+    mqtt->publish(QMqttTopicName("edrive/kp"), "0");
+    mqtt->publish(QMqttTopicName("edrive/ki"), "0");
+    mqtt->publish(QMqttTopicName("edrive/kd"), "0");
 }

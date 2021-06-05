@@ -35,6 +35,7 @@ private:
     void readData();
     void subscribe();
     void unsubscribe();
+    void createTopics();
 
     void setSetpoint(int value);
     void setVoltage(int value);
