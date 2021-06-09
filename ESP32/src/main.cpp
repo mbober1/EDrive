@@ -38,5 +38,5 @@ extern "C" void app_main()
 
 
     xTaskCreate(motorDriver, "motorTask", 4096, nullptr, 20, nullptr);
-    xTaskCreate(batteryTask, "batteryTask", configMINIMAL_STACK_SIZE * 3, nullptr, 3, nullptr);
+    xTaskCreate(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr);
 }
