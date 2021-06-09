@@ -162,14 +162,16 @@ void MainWindow::subscribe() {
         mqtt->publish(QMqttTopicName("edrive/ki"), array);
     });
 
-    connect(ui->KdSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
+    connect(ui->KdSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
         QByteArray array;
         array.setNum(i);
         mqtt->publish(QMqttTopicName("edrive/kd"), array);
     });
 
-
-    
+    mqtt->publish(QMqttTopicName("edrive/kp"), "0");
+    mqtt->publish(QMqttTopicName("edrive/ki"), "0");
+    mqtt->publish(QMqttTopicName("edrive/kd"), "0");
+    mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
 }
 
 
