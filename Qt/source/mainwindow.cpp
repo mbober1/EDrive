@@ -134,6 +134,8 @@ void MainWindow::connectionError(QMqttClient::ClientError error) {
 
 
 void MainWindow::subscribe() {
+
+    // read subscription
     auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/value"), 1);
     connect(valueSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
         this->setValue(msg.payload().toInt());
@@ -144,6 +146,15 @@ void MainWindow::subscribe() {
         this->setVoltage(msg.payload().toInt());
     });
 
+
+    // write default data
+    mqtt->publish(QMqttTopicName("edrive/kp"), "0");
+    mqtt->publish(QMqttTopicName("edrive/ki"), "0");
+    mqtt->publish(QMqttTopicName("edrive/kd"), "0");
+    mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
+
+
+    // write subscription
     connect(ui->SetpointSlider, &QAbstractSlider::valueChanged, [this](int value) {
         QByteArray array;
         array.setNum(value);
@@ -168,10 +179,6 @@ void MainWindow::subscribe() {
         mqtt->publish(QMqttTopicName("edrive/kd"), array);
     });
 
-    mqtt->publish(QMqttTopicName("edrive/kp"), "0");
-    mqtt->publish(QMqttTopicName("edrive/ki"), "0");
-    mqtt->publish(QMqttTopicName("edrive/kd"), "0");
-    mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
 }
 
 
