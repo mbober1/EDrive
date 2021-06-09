@@ -1,7 +1,8 @@
 #include "config.hpp"
 
 
-void batteryTask(void*) {
+void batteryTask(void*) 
+{
     myADC battery;
 
     while (1)
@@ -16,13 +17,15 @@ void batteryTask(void*) {
 }
 
 
-void motorDriver(void*) {
-    motor Motor(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
+void motorDriver(void*) 
+{
     int setpoint = 0;
+    motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
 
-    while (1) {
+    while (1) 
+    {
         xQueueReceive(setpointQueue, &setpoint, 0);
-        Motor.compute(setpoint);
+        engine.compute(setpoint);
         
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
