@@ -7,6 +7,7 @@
 // module includes
 #include "motor.hpp"
 #include "adc.hpp"
+#include "wifi.hpp"
 
 // motors config
 const gpio_num_t ENC_A = GPIO_NUM_32;
