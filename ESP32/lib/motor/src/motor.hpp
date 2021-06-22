@@ -40,5 +40,8 @@ public:
     pcnt_unit_t encoder;
     motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t encoderB, gpio_num_t pwmPin, ledc_channel_t pwmChannel, pcnt_unit_t pcntUnit);
     void compute(const int &setpoint);
+    void setKP(int kp);
+    void setKI(int ki);
+    void setKD(int kd);
 };
 

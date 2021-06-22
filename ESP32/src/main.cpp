@@ -21,13 +21,23 @@ void batteryTask(void*)
 void motorDriver(void*) 
 {
     int setpoint = 0;
+    int kp = 40;
+    int ki = 6;
+    int kd = 2;
+
     motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
+    engine.setKP(kp);
+    engine.setKI(ki);
+    engine.setKD(kd);
 
     while (1) 
     {
+        if(xQueueReceive(kpQueue, &kp, 0)) engine.setKP(kp);
+        if(xQueueReceive(kpQueue, &ki, 0)) engine.setKI(ki);
+        if(xQueueReceive(kpQueue, &kd, 0)) engine.setKD(kd);
+
         xQueueReceive(setpointQueue, &setpoint, 0);
         engine.compute(setpoint);
-        // engine.compute(15);
         
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -42,6 +52,9 @@ extern "C" void app_main()
     powerQueue = xQueueCreate(10, sizeof(int16_t));
     voltageQueue = xQueueCreate(10, sizeof(float));
     setpointQueue = xQueueCreate(10, sizeof(int));
+    kpQueue = xQueueCreate(10, sizeof(int));
+    kiQueue = xQueueCreate(10, sizeof(int));
+    kdQueue = xQueueCreate(10, sizeof(int));
 
 
     xTaskCreate(motorDriver, "motorTask", 4096, nullptr, 20, nullptr);

@@ -157,9 +157,6 @@ void motor::compute(const int &setpoint) {
         else if(this->integralError < -MAX_INTEGRAL) this->integralError = -MAX_INTEGRAL;
         this->derivativeError = epsilon - epsilonOld;
 
-        this->kp = 40;
-        this->ki = 6;
-        this->kd = 2;
 
         int p = kp*epsilon;
         int i = ki*this->integralError;
@@ -183,5 +180,11 @@ void motor::compute(const int &setpoint) {
     xQueueSendToBack(powerQueue, &pow, 0);
     // printf("Motor %d -> Error: %+4d, Input1: %+3d, P: %7d + I: %7d + D: %7d = PID: %7d power: %d\n", this->encoder, epsilon, input, p, i, d, pid, pow);
 }
+
+ void motor::setKP(const int kp) { this->kp = kp; }
+ void motor::setKI(const int ki) { this->ki = ki; }
+ void motor::setKD(const int kd) { this->kd = kd; }
+
+
 
 

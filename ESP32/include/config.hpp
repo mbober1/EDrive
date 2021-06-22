@@ -22,3 +22,4 @@ const ledc_channel_t MOTOR_PWM_CHANNEL = LEDC_CHANNEL_0;
 
 // queues init
 QueueHandle_t powerQueue, voltageQueue, setpointQueue;
+QueueHandle_t kpQueue, kiQueue, kdQueue;

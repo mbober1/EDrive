@@ -7,6 +7,40 @@
 
 const char *MQTT_TAG = "MQTT";
 extern QueueHandle_t setpointQueue;
+extern QueueHandle_t kpQueue, kiQueue, kdQueue;
+
+
+void subscribeAllTopics(esp_mqtt_client_handle_t &client) {
+    esp_mqtt_client_subscribe(client, "edrive/setpoint", 0);
+    esp_mqtt_client_subscribe(client, "edrive/kp", 0);
+    esp_mqtt_client_subscribe(client, "edrive/ki", 0);
+    esp_mqtt_client_subscribe(client, "edrive/kd", 0);
+}
+
+void parseData(std::string &topic, std::string &data) {
+    if(topic == "edrive/setpoint") {
+        int setpoint = std::atoi(data.c_str());
+        xQueueSendToBack(setpointQueue, &setpoint, 0);
+    }
+
+    else if(topic == "edrive/kp") {
+        int kp = std::atoi(data.c_str());
+        printf("New KP: %d\n", kp);
+        xQueueSendToBack(kpQueue, &kp, 0);
+    }
+
+    else if(topic == "edrive/ki") {
+        int ki = std::atoi(data.c_str());
+        printf("New KI: %d\n", ki);
+        xQueueSendToBack(kiQueue, &ki, 0);
+    }
+
+    else if(topic == "edrive/kd") {
+        int kd = std::atoi(data.c_str());
+        printf("New KD: %d\n", kd);
+        xQueueSendToBack(kdQueue, &kd, 0);
+    }
+}
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
@@ -19,8 +53,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     switch ((esp_mqtt_event_id_t)event_id) {
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(MQTT_TAG, "Connected to server");
+        subscribeAllTopics(client);
         esp_mqtt_client_publish(client, "edrive/voltage", "11.69", 0, 1, 0);
-        esp_mqtt_client_subscribe(client, "edrive/setpoint", 0);
         break;
 
     case MQTT_EVENT_DISCONNECTED:
@@ -41,11 +75,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
     case MQTT_EVENT_DATA: {
             ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s\n", topic.c_str(), data.c_str());
-            
-            if(topic == "edrive/setpoint") {
-                int setpoint = std::atoi(data.c_str());
-                xQueueSendToBack(setpointQueue, &setpoint, 0);
-            }
+            parseData(topic, data);
             break;
         }
 
