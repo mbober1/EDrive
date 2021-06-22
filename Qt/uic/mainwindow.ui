@@ -319,6 +319,12 @@
      </item>
      <item>
       <widget class="QSlider" name="SetpointSlider">
+       <property name="minimum">
+        <number>-40</number>
+       </property>
+       <property name="maximum">
+        <number>40</number>
+       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
