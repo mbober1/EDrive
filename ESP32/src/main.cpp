@@ -7,11 +7,12 @@ void batteryTask(void*)
 
     while (1)
     {
+        battery.nextMeasurement();
         float voltage = battery.getVoltage();
 
-        printf("Voltage: %.2fV\n", voltage);
+        // printf("Voltage: %.2fV\n", voltage);
         xQueueSendToBack(voltageQueue, &voltage, 0);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }
@@ -44,7 +45,7 @@ extern "C" void app_main()
 
 
     xTaskCreate(motorDriver, "motorTask", 4096, nullptr, 20, nullptr);
-    // xTaskCreate(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr);
+    xTaskCreate(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr);
 
     vTaskDelay(1000 / portTICK_PERIOD_MS);
     mqtt_app_start();
