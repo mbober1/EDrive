@@ -11,8 +11,8 @@ void batteryTask(void*)
         float voltage = battery.getVoltage();
 
         // printf("Voltage: %.2fV\n", voltage);
-        xQueueSendToBack(voltageQueue, &voltage, 0);
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        // xQueueSendToBack(voltageQueue, &voltage, 0);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }
@@ -40,12 +40,13 @@ void motorDriver(void*)
         xQueueReceive(setpointQueue, &setpoint, 0);
         engine.compute(setpoint);
 
-        if(idx++ > 100) {
-            idx = 0;
-            uint16_t pulses = engine.getPulses();
-            xQueueSend(pulsesQueue, &pulses, 0);
-            printf("PULSES: %d\n", pulses);
-        }
+        int16_t pulses = engine.getPulses();
+        xQueueSend(pulsesQueue, &pulses, 0);
+
+        // if(idx++ > 5) {
+        //     idx = 0;
+        //     printf("PULSES: %d\n", pulses);
+        // }
         
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -61,7 +62,7 @@ extern "C" void app_main()
     kiQueue = xQueueCreate(10, sizeof(int));
     kdQueue = xQueueCreate(10, sizeof(int));
     powerQueue = xQueueCreate(10, sizeof(int16_t));
-    pulsesQueue = xQueueCreate(10, sizeof(uint16_t));
+    pulsesQueue = xQueueCreate(10, sizeof(int16_t));
     voltageQueue = xQueueCreate(10, sizeof(float));
     setpointQueue = xQueueCreate(10, sizeof(int));
 

@@ -151,7 +151,7 @@ void motor::compute(const int &setpoint) {
         this->softStop();
     } else {
 
-        int epsilon = setpoint/2 - input;
+        int epsilon = setpoint - input;
 
         this->integralError+= epsilon;
         if(this->integralError > MAX_INTEGRAL) this->integralError = MAX_INTEGRAL;
@@ -186,8 +186,8 @@ void motor::compute(const int &setpoint) {
  void motor::setKI(const int ki) { this->ki = ki; }
  void motor::setKD(const int kd) { this->kd = kd; }
 
- uint16_t motor::getPulses() {
-    uint16_t tmp = this->countedPulses;
+ int16_t motor::getPulses() {
+    int16_t tmp = this->countedPulses;
     this->countedPulses = 0;
     return tmp;
  }

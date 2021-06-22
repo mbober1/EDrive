@@ -44,6 +44,6 @@ public:
     void setKP(int kp);
     void setKI(int ki);
     void setKD(int kd);
-    uint16_t getPulses();
+    int16_t getPulses();
 };
 
