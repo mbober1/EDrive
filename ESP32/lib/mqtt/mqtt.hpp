@@ -8,6 +8,7 @@
 const char *MQTT_TAG = "MQTT";
 extern QueueHandle_t setpointQueue, pulsesQueue, voltageQueue;
 extern QueueHandle_t kpQueue, kiQueue, kdQueue;
+TaskHandle_t* mqtt_sender = nullptr;
 
 
 void subscribeAllTopics(esp_mqtt_client_handle_t &client) {
@@ -42,19 +43,27 @@ void parseData(std::string &topic, std::string &data) {
     }
 }
 
-void mqttSendingTask(esp_mqtt_client_handle_t &client) {
+void mqttSendingTask(void* ptr) {
+    esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t)ptr;
+
     uint16_t pulses;
     float voltage;
 
-    if(xQueueReceive(pulsesQueue, &pulses, 0)) {
-        std::string data = std::to_string(pulses);
-        esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
-    }
+    while (true)
+    {
+        if(xQueueReceive(pulsesQueue, &pulses, 0)) {
+            std::string data = std::to_string(pulses);
+            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+        }
 
-    if(xQueueReceive(voltageQueue, &pulses, 0)) {
-        std::string data = std::to_string(voltage);
-        esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+        if(xQueueReceive(voltageQueue, &voltage, 0)) {
+            std::string data = std::to_string(voltage);
+            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+        }
+
+        vTaskDelay(50 / portTICK_PERIOD_MS);
     }
+    vTaskDelete(NULL);
 }
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
@@ -69,11 +78,14 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(MQTT_TAG, "Connected to server");
         subscribeAllTopics(client);
-        
+        xTaskCreate(mqttSendingTask, "MQTT_SEND_TASK", 4096, (void*)client, 5, mqtt_sender);
+        ESP_LOGI(MQTT_TAG, "New MQTT sender task!");
         break;
 
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(MQTT_TAG, "Disconnected from server");
+        ESP_LOGI(MQTT_TAG, "Killing MQTT sender task!");
+        vTaskDelete(mqtt_sender);
         break;
 
     case MQTT_EVENT_SUBSCRIBED:
@@ -84,12 +96,12 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         ESP_LOGI(MQTT_TAG, "Unsubscribed, Topic: %s", topic.c_str());
         break;
         
-    case MQTT_EVENT_PUBLISHED:
-        ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s", topic.c_str(), data.c_str());
-        break;
+    // case MQTT_EVENT_PUBLISHED:
+    //     ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s", topic.c_str(), data.c_str());
+    //     break;
 
     case MQTT_EVENT_DATA: {
-            ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s", topic.c_str(), data.c_str());
+            // ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s", topic.c_str(), data.c_str());
             parseData(topic, data);
             break;
         }
@@ -99,7 +111,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         break;
 
     default:
-        ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
+        // ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
         break;
     }
 }
