@@ -6,7 +6,7 @@
 #include "secrets.hpp"
 
 const char *MQTT_TAG = "MQTT";
-extern QueueHandle_t setpointQueue;
+extern QueueHandle_t setpointQueue, pulsesQueue, voltageQueue;
 extern QueueHandle_t kpQueue, kiQueue, kdQueue;
 
 
@@ -42,6 +42,21 @@ void parseData(std::string &topic, std::string &data) {
     }
 }
 
+void mqttSendingTask(esp_mqtt_client_handle_t &client) {
+    uint16_t pulses;
+    float voltage;
+
+    if(xQueueReceive(pulsesQueue, &pulses, 0)) {
+        std::string data = std::to_string(pulses);
+        esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+    }
+
+    if(xQueueReceive(voltageQueue, &pulses, 0)) {
+        std::string data = std::to_string(voltage);
+        esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+    }
+}
+
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
     esp_mqtt_event_handle_t event = (esp_mqtt_event_handle_t)event_data;
@@ -54,27 +69,27 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(MQTT_TAG, "Connected to server");
         subscribeAllTopics(client);
-        esp_mqtt_client_publish(client, "edrive/voltage", "11.69", 0, 1, 0);
+        
         break;
 
     case MQTT_EVENT_DISCONNECTED:
-        ESP_LOGI(MQTT_TAG, "Disconnected from server\n");
+        ESP_LOGI(MQTT_TAG, "Disconnected from server");
         break;
 
     case MQTT_EVENT_SUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "Subscribed, Topic: %s\n", topic.c_str());
+        ESP_LOGI(MQTT_TAG, "Subscribed, Topic: %s", topic.c_str());
         break;
 
     case MQTT_EVENT_UNSUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "Unsubscribed, Topic: %s\n", topic.c_str());
+        ESP_LOGI(MQTT_TAG, "Unsubscribed, Topic: %s", topic.c_str());
         break;
         
     case MQTT_EVENT_PUBLISHED:
-        ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s\n", topic.c_str(), data.c_str());
+        ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s", topic.c_str(), data.c_str());
         break;
 
     case MQTT_EVENT_DATA: {
-            ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s\n", topic.c_str(), data.c_str());
+            ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s", topic.c_str(), data.c_str());
             parseData(topic, data);
             break;
         }
@@ -103,4 +118,6 @@ static void mqtt_app_start(void)
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, MQTT_EVENT_ANY, mqtt_event_handler, NULL);
     esp_mqtt_client_start(client);
+
+
 }

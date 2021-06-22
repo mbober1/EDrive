@@ -30,6 +30,7 @@ private:
     int16_t epsilonOld, epsilonSuma, integralError, derivativeError;
     ledc_channel_config_t ledc_channel = {};
     ledc_timer_config_t ledc_timer = {};
+    uint16_t countedPulses;
 
     void power(const uint16_t &pow);
     void fastStop();
@@ -43,5 +44,6 @@ public:
     void setKP(int kp);
     void setKI(int ki);
     void setKD(int kd);
+    uint16_t getPulses();
 };
 

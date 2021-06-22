@@ -143,6 +143,7 @@ void motor::compute(const int &setpoint) {
     count++;
     int16_t input;
     pcnt_get_counter_value(this->encoder, &input);
+    this->countedPulses += input;
     pcnt_counter_clear(this->encoder);
 
     if(!setpoint) {
@@ -184,6 +185,12 @@ void motor::compute(const int &setpoint) {
  void motor::setKP(const int kp) { this->kp = kp; }
  void motor::setKI(const int ki) { this->ki = ki; }
  void motor::setKD(const int kd) { this->kd = kd; }
+
+ uint16_t motor::getPulses() {
+    uint16_t tmp = this->countedPulses;
+    this->countedPulses = 0;
+    return tmp;
+ }
 
 
 
