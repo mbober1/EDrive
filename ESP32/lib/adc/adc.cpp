@@ -2,7 +2,7 @@
 
 myADC::myADC() {
     adc1_config_width(ADC_WIDTH_BIT_12);
-    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_DB_2_5);
+    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_DB_6);
 
     for (int i = 0; i < dataSize; i++) nextMeasurement();
 }
@@ -14,16 +14,7 @@ void myADC::nextMeasurement() {
 }
 
 float myADC::getVoltage() {
-    uint16_t adc_reading = 0;
-
-    for (size_t i = 0; i < dataSize; i++)
-    {
-        adc_reading += this->data[i];
-        printf("[%4d] ", this->data[i]);
-    }
-
-    printf(" -> ADC SUM: %d, ADC result: %d, Voltage: %.3fV\n", adc_reading, adc_reading / dataSize, ((float)adc_reading / dataSize) * this->conversion_factor);
-    
-    
-    return ((float)adc_reading / dataSize) * this->conversion_factor;
+    uint32_t adc_reading = 0;
+    for (size_t i = 0; i < dataSize; i++) adc_reading += this->data[i];
+    return ((float)adc_reading / dataSize) / this->conversion_factor;
 }
