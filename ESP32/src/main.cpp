@@ -24,7 +24,6 @@ void motorDriver(void*)
     int kp = 40;
     int ki = 6;
     int kd = 2;
-    int idx = 0;
 
     motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
     engine.setKP(kp);
