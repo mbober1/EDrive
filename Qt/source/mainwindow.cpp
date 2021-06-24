@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::readData() {
-    int values[3] = {ui->SetpointSlider->value(), engine->getValue(), ui->SetpointSlider->value() - engine->getValue()};
+    int values[3] = {ui->SetpointSlider->value(), engine->getValue(), 0};
     chart->addPoint(values);
 }
 
@@ -135,7 +135,7 @@ void MainWindow::connectionError(QMqttClient::ClientError error) {
 
 void MainWindow::subscribe() {
 
-    // read subscription
+    // read subscriptions
     auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/value"), 1);
     connect(valueSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
         this->setValue(msg.payload().toInt());

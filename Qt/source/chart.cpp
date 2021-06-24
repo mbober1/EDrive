@@ -40,7 +40,7 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     axisY->setLabelsColor(Qt::white);
     axisY->setLabelsFont(labelsFont);
     axisY->setGridLineColor(QColor(150, 150, 150));
-    axisY->setRange(-50, 150);
+    axisY->setRange(-70, 70);
 
 
     // setup series
