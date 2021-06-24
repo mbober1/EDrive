@@ -35,7 +35,7 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
     err += mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config); 
 
 
-    if(!err) printf("Motor %d PWM initialized, freq %d\n", pcntUnit, ledc_get_freq(LEDC_HIGH_SPEED_MODE, LEDC_TIMER_0));
+    if(!err) printf("Motor %d PWM initialized\n", pcntUnit);
     else printf("Motor %d PWM failed with error: %d\n", pcntUnit, err);
 
     err = ESP_OK;
