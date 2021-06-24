@@ -1,5 +1,8 @@
 #include "motor.hpp"
 
+#include "driver/mcpwm.h"
+#include "soc/mcpwm_reg.h"
+#include "soc/mcpwm_struct.h"
 
 /**
  * Constructor.
@@ -11,40 +14,31 @@
  * @param pwmChannel PWM channel.
  * @param pcntUnit PCNT unit.
  */
-motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t encoderB, gpio_num_t pwmPin, ledc_channel_t pwmChannel, pcnt_unit_t pcntUnit) : in1(in1), in2(in2), pwmPin(pwmPin) {
-    esp_err_t err;
+motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t encoderB, gpio_num_t enPin, ledc_channel_t pwmChannel, pcnt_unit_t pcntUnit) : in1(in1), in2(in2), enPin(enPin) {
+    esp_err_t err = ESP_OK;
 
-    gpio_config_t in1_conf = {};
-    in1_conf.mode = GPIO_MODE_OUTPUT;
-    in1_conf.pin_bit_mask = (1ULL<<in1);
-    err = gpio_config(&in1_conf);
+    err += mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0A, in2);
+    err += mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0B, in1);
 
-    gpio_config_t in2_conf = {};
-    in2_conf.mode = GPIO_MODE_OUTPUT;
-    in2_conf.pin_bit_mask = (1ULL<<in2);
-    err += gpio_config(&in2_conf);
+    gpio_config_t en_conf = {};
+    en_conf.mode = GPIO_MODE_OUTPUT;
+    en_conf.pin_bit_mask = (1ULL<<enPin);
+    err += gpio_config(&en_conf);
+    err += gpio_set_level(this->enPin, 1);
 
-    if(!err) printf("Motor %d GPIO initialized\n", pcntUnit);
-    else printf("Motor %d GPIO failed with error: %d\n", pcntUnit, err);
-
-    ledc_timer.duty_resolution = LEDC_TIMER_10_BIT;
-    ledc_timer.freq_hz = 25000;
-    ledc_timer.speed_mode = LEDC_HIGH_SPEED_MODE;
-    ledc_timer.timer_num = LEDC_TIMER_0;
-    ledc_timer.clk_cfg = LEDC_AUTO_CLK;
-    err = ledc_timer_config(&ledc_timer);
-
-    ledc_channel.channel = pwmChannel;
-    ledc_channel.duty = 0;
-    ledc_channel.gpio_num = pwmPin;
-    ledc_channel.speed_mode = LEDC_HIGH_SPEED_MODE;
-    ledc_channel.hpoint     = 0;
-    ledc_channel.timer_sel  = LEDC_TIMER_0;
-    err += ledc_channel_config(&ledc_channel);
+    mcpwm_config_t pwm_config;
+    pwm_config.frequency = 25000;    //frequency = 500Hz,
+    pwm_config.cmpr_a = 0;    //duty cycle of PWMxA = 0
+    pwm_config.cmpr_b = 0;    //duty cycle of PWMxb = 0
+    pwm_config.counter_mode = MCPWM_UP_COUNTER;
+    pwm_config.duty_mode = MCPWM_DUTY_MODE_0;
+    err += mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config); 
 
 
     if(!err) printf("Motor %d PWM initialized, freq %d\n", pcntUnit, ledc_get_freq(LEDC_HIGH_SPEED_MODE, LEDC_TIMER_0));
-    else printf("Encoder %d PWM failed with error: %d\n", pcntUnit, err);
+    else printf("Motor %d PWM failed with error: %d\n", pcntUnit, err);
+
+    err = ESP_OK;
 
     printf("Encoder %d Config: \n", pcntUnit);
     printf("- ENCA = %d\n", encoderA);
@@ -61,7 +55,7 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
     pcnt_config.hctrl_mode = PCNT_MODE_KEEP;
     pcnt_config.counter_h_lim = 1000;
     pcnt_config.counter_l_lim = -1000;
-    err = pcnt_unit_config(&pcnt_config);
+    err += pcnt_unit_config(&pcnt_config);
 
     pcnt_config_t pcnt_config2 = {};
     pcnt_config2.pulse_gpio_num = encoderB;
@@ -85,8 +79,6 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
     if(!err) printf("Encoder %d initialized\n", pcntUnit);
     else printf("Encoder %d failed with error: %d\n", pcntUnit, err);
 
-    softStop();
-
     this->encoder = pcntUnit;
     this->integralError = 0;
     this->epsilonOld = 0;
@@ -94,94 +86,60 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
     this->derivativeError = 0;
 }
 
-/**
- * Set motor direction.
- * @param dir direction
- */
-inline void motor::direction(const Direction &dir) {
-    if(static_cast<uint8_t>(dir)) {
-        gpio_set_level(this->in1, 1);
-        gpio_set_level(this->in2, 0);
-    } else {
-        gpio_set_level(this->in1, 0);
-        gpio_set_level(this->in2, 1);
-    }
-}
-
-/**
- * Set fast stop mode.
- */
-inline void motor::fastStop() {
-    gpio_set_level(this->in1, 1);
-    gpio_set_level(this->in2, 1);
-}
-
-/**
- * Set soft stop mode.
- */
-inline void motor::softStop() {
-    gpio_set_level(this->in1, 0);
-    gpio_set_level(this->in2, 0);
-}
-
-/**
- * Set motor power.
- * @param power Motor power [0, (2**duty_resolution)]
- */
-inline void motor::power(const uint16_t &pow) {
-    ledc_set_duty(this->ledc_channel.speed_mode, this->ledc_channel.channel, pow);
-    ledc_update_duty(this->ledc_channel.speed_mode, this->ledc_channel.channel);
-}
 
 /**
  * Compute PID.
  * @param setpoint Setpoint
  */
 void motor::compute(const int &setpoint) {
-    static uint16_t count;
-    uint16_t pow = 0; 
-    count++;
+    float pow = 0; 
     int16_t input;
     pcnt_get_counter_value(this->encoder, &input);
     this->countedPulses += input;
     pcnt_counter_clear(this->encoder);
 
-    if(!setpoint) {
-        this->power(0);
-        this->softStop();
+
+
+    int epsilon = setpoint - input;
+
+    this->integralError+= epsilon;
+    if(this->integralError > MAX_INTEGRAL) this->integralError = MAX_INTEGRAL;
+    else if(this->integralError < -MAX_INTEGRAL) this->integralError = -MAX_INTEGRAL;
+    this->derivativeError = epsilon - epsilonOld;
+    this->epsilonOld = epsilon;
+
+
+    int16_t p = this->kp*epsilon;
+    int16_t i = this->ki*this->integralError;
+    int16_t d = this->kd*this->derivativeError;
+
+
+    float pid = p + i + d;
+    
+    if(pid > MAX_POWER) pid = MAX_POWER;
+
+    printf("PID: %4.4f, SETPOINT: %3d, INPUT: %3d, %d,%d,%d\n", pid, setpoint, input, this->kp, this->ki, this->kd);
+
+
+    if(pid > 0) {
+        mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B);
+        mcpwm_set_duty(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_A, pid);
+        mcpwm_set_duty_type(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_A, MCPWM_DUTY_MODE_0);
+
+    } else if(pid < 0) {
+        mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_A);
+        mcpwm_set_duty(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B, -pid);
+        mcpwm_set_duty_type(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B, MCPWM_DUTY_MODE_0); 
+
     } else {
-
-        int epsilon = setpoint - input;
-
-        this->integralError+= epsilon;
-        if(this->integralError > MAX_INTEGRAL) this->integralError = MAX_INTEGRAL;
-        else if(this->integralError < -MAX_INTEGRAL) this->integralError = -MAX_INTEGRAL;
-        this->derivativeError = epsilon - epsilonOld;
-
-
-        int p = kp*epsilon;
-        int i = ki*this->integralError;
-        int d = kd*this->derivativeError;
-
-
-        int32_t pid = p + i + d;
-        
-
-        pow = abs(pid); 
-        if(pow > MAX_POWER) pow = MAX_POWER;
-        if(pid > 0) this->direction(Direction::FORWARD);
-        else if(pid < 0) this->direction(Direction::BACKWARD);
-        else this->softStop();
-
-        this->power(pow);
-
-        epsilonOld = epsilon;
+        mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_A);
+        mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B);
     }
 
-    xQueueSendToBack(powerQueue, &pow, 0);
-    // printf("Motor %d -> Error: %+4d, Input1: %+3d, P: %7d + I: %7d + D: %7d = PID: %7d power: %d\n", this->encoder, epsilon, input, p, i, d, pid, pow);
+    xQueueSendToBack(powerQueue, &pid, 0);
 }
 
+ 
  void motor::setKP(const int kp) { this->kp = kp; }
  void motor::setKI(const int ki) { this->ki = ki; }
  void motor::setKD(const int kd) { this->kd = kd; }
