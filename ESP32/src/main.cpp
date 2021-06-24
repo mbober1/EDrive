@@ -10,8 +10,7 @@ void batteryTask(void*)
         battery.nextMeasurement();
         float voltage = battery.getVoltage();
 
-        // printf("Voltage: %.2fV\n", voltage);
-        // xQueueSendToBack(voltageQueue, &voltage, 0);
+        xQueueSendToBack(voltageQueue, &voltage, 0);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
@@ -31,21 +30,18 @@ void motorDriver(void*)
     engine.setKD(kd);
 
     while (1) 
-    {
+    {   
+        uint32_t lastTime = esp_timer_get_time();
         if(xQueueReceive(kpQueue, &kp, 0)) engine.setKP(kp);
-        if(xQueueReceive(kpQueue, &ki, 0)) engine.setKI(ki);
-        if(xQueueReceive(kpQueue, &kd, 0)) engine.setKD(kd);
+        if(xQueueReceive(kiQueue, &ki, 0)) engine.setKI(ki);
+        if(xQueueReceive(kdQueue, &kd, 0)) engine.setKD(kd);
 
         xQueueReceive(setpointQueue, &setpoint, 0);
         engine.compute(setpoint);
 
         int16_t pulses = engine.getPulses();
         xQueueSend(pulsesQueue, &pulses, 0);
-
-        // if(idx++ > 5) {
-        //     idx = 0;
-        //     printf("PULSES: %d\n", pulses);
-        // }
+        // printf("%d\n", (uint32_t)esp_timer_get_time() - lastTime);
         
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
