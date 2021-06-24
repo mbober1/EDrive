@@ -27,9 +27,9 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
     err += gpio_set_level(this->enPin, 1);
 
     mcpwm_config_t pwm_config;
-    pwm_config.frequency = 25000;    //frequency = 500Hz,
-    pwm_config.cmpr_a = 0;    //duty cycle of PWMxA = 0
-    pwm_config.cmpr_b = 0;    //duty cycle of PWMxb = 0
+    pwm_config.frequency = 25000;
+    pwm_config.cmpr_a = 0;
+    pwm_config.cmpr_b = 0;
     pwm_config.counter_mode = MCPWM_UP_COUNTER;
     pwm_config.duty_mode = MCPWM_DUTY_MODE_0;
     err += mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config); 
@@ -91,7 +91,7 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
  * Compute PID.
  * @param setpoint Setpoint
  */
-void motor::compute(const int &setpoint) {
+void IRAM_ATTR motor::compute(const int &setpoint) {
     float pow = 0; 
     int16_t input;
     pcnt_get_counter_value(this->encoder, &input);
@@ -115,10 +115,8 @@ void motor::compute(const int &setpoint) {
 
 
     float pid = p + i + d;
-    
-    if(pid > MAX_POWER) pid = MAX_POWER;
 
-    printf("PID: %4.4f, SETPOINT: %3d, INPUT: %3d, %d,%d,%d\n", pid, setpoint, input, this->kp, this->ki, this->kd);
+    // printf("PID: %4.4f, SETPOINT: %3d, INPUT: %3d, %d,%d,%d\n", pid, setpoint, input, this->kp, this->ki, this->kd);
 
 
     if(pid > 0) {
@@ -136,7 +134,7 @@ void motor::compute(const int &setpoint) {
         mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B);
     }
 
-    xQueueSendToBack(powerQueue, &pid, 0);
+    // xQueueSendToBack(powerQueue, &pid, 0);
 }
 
  

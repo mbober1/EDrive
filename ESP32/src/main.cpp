@@ -20,9 +20,9 @@ void batteryTask(void*)
 void motorDriver(void*) 
 {
     int setpoint = 0;
-    int kp = 40;
-    int ki = 6;
-    int kd = 2;
+    int kp = 0;
+    int ki = 0;
+    int kd = 0;
 
     motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
     engine.setKP(kp);
@@ -31,7 +31,6 @@ void motorDriver(void*)
 
     while (1) 
     {   
-        uint32_t lastTime = esp_timer_get_time();
         if(xQueueReceive(kpQueue, &kp, 0)) engine.setKP(kp);
         if(xQueueReceive(kiQueue, &ki, 0)) engine.setKI(ki);
         if(xQueueReceive(kdQueue, &kd, 0)) engine.setKD(kd);
@@ -41,7 +40,6 @@ void motorDriver(void*)
 
         int16_t pulses = engine.getPulses();
         xQueueSend(pulsesQueue, &pulses, 0);
-        // printf("%d\n", (uint32_t)esp_timer_get_time() - lastTime);
         
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -62,9 +60,8 @@ extern "C" void app_main()
     setpointQueue = xQueueCreate(10, sizeof(int));
 
 
-    xTaskCreate(motorDriver, "motorTask", 4096, nullptr, 20, nullptr);
-    xTaskCreate(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr);
+    xTaskCreate(motorDriver, "motorTask", 4096, nullptr, 40, nullptr); // <- przypisać do rdzenia
+    // xTaskCreate(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr);
 
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
     mqtt_app_start();
 }

@@ -53,12 +53,12 @@ void mqttSendingTask(void* ptr) {
     {
         if(xQueueReceive(pulsesQueue, &pulses, 0)) {
             std::string data = std::to_string(pulses);
-            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 0, 0);
         }
 
         if(xQueueReceive(voltageQueue, &voltage, 0)) {
             std::string data = std::to_string(voltage);
-            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 1, 0);
+            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 0, 0);
         }
 
         vTaskDelay(50 / portTICK_PERIOD_MS);
