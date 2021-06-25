@@ -92,7 +92,6 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
  * @param setpoint Setpoint
  */
 void IRAM_ATTR motor::compute(const int &setpoint) {
-    float pow = 0; 
     int16_t input;
     pcnt_get_counter_value(this->encoder, &input);
     this->countedPulses += input;
