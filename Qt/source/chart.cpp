@@ -83,3 +83,8 @@ void Chart::addPoint(int* values)
     // scroll the chart
     scroll(plotArea().width() / axisX->tickCount(), 0);
 }
+
+void Chart::setSeriesVisible(int series, bool enable)
+{
+    this->series[series]->setVisible(enable);
+}

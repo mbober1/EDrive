@@ -18,6 +18,22 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mqtt, &QMqttClient::errorChanged, this, &MainWindow::connectionError);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
 
+    connect(ui->checkBox, &QCheckBox::stateChanged, [this](int state) {
+        if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(0, false);
+        else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(0, true);
+    });
+
+    connect(ui->checkBox_2, &QCheckBox::stateChanged, [this](int state) {
+        if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(1, false);
+        else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(1, true);
+    });
+
+    connect(ui->checkBox_3, &QCheckBox::stateChanged, [this](int state) {
+        if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(2, false);
+        else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(2, true);
+    });
+
+
     // setup chart
     QChartView *chartView = new QChartView(this->chart);
     chartView->setRenderHint(QPainter::Antialiasing);

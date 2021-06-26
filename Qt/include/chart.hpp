@@ -25,6 +25,7 @@ public:
 
 public slots:
     void addPoint(int* values);
+    void setSeriesVisible(int series, bool enable);
 
 private:
     QSplineSeries** series;
