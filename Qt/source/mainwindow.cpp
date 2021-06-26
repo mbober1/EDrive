@@ -143,7 +143,7 @@ void MainWindow::subscribe() {
 
     auto voltageSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/voltage"), 1);
     connect(voltageSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
-        this->setVoltage(msg.payload().toInt());
+        this->setVoltage(msg.payload().toFloat());
     });
 
 
@@ -159,6 +159,7 @@ void MainWindow::subscribe() {
         QByteArray array;
         array.setNum(value);
         mqtt->publish(QMqttTopicName("edrive/setpoint"), array);
+        ui->setpointLabelValue->setNum(value);
     });
 
     connect(ui->KpSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
@@ -196,9 +197,9 @@ void MainWindow::setSetpoint(int value) {
     ui->setpointLabelValue->setText(QString::number(value));
 }
 
-void MainWindow::setVoltage(int value) {
+void MainWindow::setVoltage(float value) {
     QString text(QString::number(value));
-    text += " mV";
+    text += " V";
     engine->setVoltage(value);
     ui->voltageLabelValue->setText(text);
 }
