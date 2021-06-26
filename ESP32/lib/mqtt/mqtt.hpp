@@ -46,7 +46,7 @@ void parseData(std::string &topic, std::string &data) {
 void mqttSendingTask(void* ptr) {
     esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t)ptr;
 
-    uint16_t pulses;
+    int16_t pulses;
     float voltage;
 
     while (true)
