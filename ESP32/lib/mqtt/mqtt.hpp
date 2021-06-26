@@ -58,7 +58,7 @@ void mqttSendingTask(void* ptr) {
 
         if(xQueueReceive(voltageQueue, &voltage, 0)) {
             std::string data = std::to_string(voltage);
-            esp_mqtt_client_publish(client, "edrive/value", data.c_str(), data.length(), 0, 0);
+            esp_mqtt_client_publish(client, "edrive/voltage", data.c_str(), data.length(), 0, 0);
         }
 
         vTaskDelay(50 / portTICK_PERIOD_MS);
@@ -75,53 +75,55 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     std::string data(event->data, event->data_len);
 
     switch ((esp_mqtt_event_id_t)event_id) {
-    case MQTT_EVENT_CONNECTED:
-        ESP_LOGI(MQTT_TAG, "Connected to server");
-        subscribeAllTopics(client);
-        xTaskCreatePinnedToCore(mqttSendingTask, "MQTT_SEND_TASK", 4096, (void*)client, 5, mqtt_sender, 1);
-        ESP_LOGI(MQTT_TAG, "New MQTT sender task!");
-        break;
-
-    case MQTT_EVENT_DISCONNECTED:
-        ESP_LOGI(MQTT_TAG, "Disconnected from server");
-        if(mqtt_sender != nullptr) {
-            ESP_LOGI(MQTT_TAG, "Killing MQTT sender task!");
-            vTaskDelete(mqtt_sender);
-        }
-        ESP_LOGI(MQTT_TAG, "Waiting 1 second...");
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-        ESP_LOGI(MQTT_TAG, "Reconnecting...");
-        esp_mqtt_client_reconnect(client);
-        break;
-
-    case MQTT_EVENT_SUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "Subscribed, Topic: %s", topic.c_str());
-        break;
-
-    case MQTT_EVENT_UNSUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "Unsubscribed, Topic: %s", topic.c_str());
-        break;
-        
-    // case MQTT_EVENT_PUBLISHED:
-    //     ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s", topic.c_str(), data.c_str());
-    //     break;
-
-    case MQTT_EVENT_DATA: {
-            // ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s", topic.c_str(), data.c_str());
-            parseData(topic, data);
+        case MQTT_EVENT_CONNECTED:
+            ESP_LOGI(MQTT_TAG, "Connected to server");
+            subscribeAllTopics(client);
+            xTaskCreatePinnedToCore(mqttSendingTask, "MQTT_SEND_TASK", 4096, (void*)client, 5, mqtt_sender, 1);
+            ESP_LOGI(MQTT_TAG, "New MQTT sender task!");
             break;
-        }
 
-    case MQTT_EVENT_ERROR:
-        ESP_LOGI(MQTT_TAG, "Mqtt client error!");
-        break;
+        case MQTT_EVENT_DISCONNECTED:
+            ESP_LOGI(MQTT_TAG, "Disconnected from server");
 
-    case MQTT_EVENT_BEFORE_CONNECT:
-        ESP_LOGI(MQTT_TAG, "Connecting...");
+            if(mqtt_sender != nullptr) {
+                ESP_LOGI(MQTT_TAG, "Killing MQTT sender task!");
+                vTaskDelete(mqtt_sender);
+            }
+            
+            ESP_LOGI(MQTT_TAG, "Waiting 1 second...");
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            ESP_LOGI(MQTT_TAG, "Reconnecting...");
+            esp_mqtt_client_reconnect(client);
+            break;
 
-    default:
-        // ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
-        break;
+        case MQTT_EVENT_SUBSCRIBED:
+            ESP_LOGI(MQTT_TAG, "Subscribed new topic");
+            break;
+
+        case MQTT_EVENT_UNSUBSCRIBED:
+            ESP_LOGI(MQTT_TAG, "Unsubscribed topic");
+            break;
+            
+        // case MQTT_EVENT_PUBLISHED:
+        //     ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s", topic.c_str(), data.c_str());
+        //     break;
+
+        case MQTT_EVENT_DATA: {
+                // ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s", topic.c_str(), data.c_str());
+                parseData(topic, data);
+                break;
+            }
+
+        case MQTT_EVENT_ERROR:
+            ESP_LOGI(MQTT_TAG, "Mqtt client error!");
+            break;
+
+        case MQTT_EVENT_BEFORE_CONNECT:
+            ESP_LOGI(MQTT_TAG, "Connecting...");
+
+        default:
+            // ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
+            break;
     }
 }
 

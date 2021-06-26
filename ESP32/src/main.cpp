@@ -20,8 +20,8 @@ void batteryTask(void*)
 void motorDriver(void*) 
 {
     int setpoint = 0;
-    int kp = 0;
-    int ki = 0;
+    int kp = 3;
+    int ki = 2;
     int kd = 0;
 
     TickType_t xLastWakeTime;
