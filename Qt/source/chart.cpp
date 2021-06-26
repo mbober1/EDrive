@@ -44,7 +44,7 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 
 
     // setup series
-    QString seriesName[3] = {"Setpoint", "Value", "Deviation"};
+    QString seriesName[3] = {"Setpoint", "Value", "Voltage"};
 
     for (size_t i = 0; i < 3; i++)
     {
