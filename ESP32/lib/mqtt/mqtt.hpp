@@ -78,14 +78,20 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(MQTT_TAG, "Connected to server");
         subscribeAllTopics(client);
-        xTaskCreate(mqttSendingTask, "MQTT_SEND_TASK", 4096, (void*)client, 5, mqtt_sender);
+        xTaskCreatePinnedToCore(mqttSendingTask, "MQTT_SEND_TASK", 4096, (void*)client, 5, mqtt_sender, 1);
         ESP_LOGI(MQTT_TAG, "New MQTT sender task!");
         break;
 
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(MQTT_TAG, "Disconnected from server");
-        ESP_LOGI(MQTT_TAG, "Killing MQTT sender task!");
-        vTaskDelete(mqtt_sender);
+        if(mqtt_sender != nullptr) {
+            ESP_LOGI(MQTT_TAG, "Killing MQTT sender task!");
+            vTaskDelete(mqtt_sender);
+        }
+        ESP_LOGI(MQTT_TAG, "Waiting 1 second...");
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        ESP_LOGI(MQTT_TAG, "Reconnecting...");
+        esp_mqtt_client_reconnect(client);
         break;
 
     case MQTT_EVENT_SUBSCRIBED:
@@ -107,8 +113,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         }
 
     case MQTT_EVENT_ERROR:
-        ESP_LOGI(MQTT_TAG, "EVENT ERROR!");
+        ESP_LOGI(MQTT_TAG, "Mqtt client error!");
         break;
+
+    case MQTT_EVENT_BEFORE_CONNECT:
+        ESP_LOGI(MQTT_TAG, "Connecting...");
 
     default:
         // ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
@@ -119,8 +128,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 
 
-static void mqtt_app_start(void)
+void mqtt_client_start()
 {
+    ESP_LOGI(MQTT_TAG, "Starting MQTT client");
     esp_mqtt_client_config_t mqtt_cfg = {};
     mqtt_cfg.host = mqtt_host;
     mqtt_cfg.port = mqtt_port;
@@ -130,6 +140,4 @@ static void mqtt_app_start(void)
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, MQTT_EVENT_ANY, mqtt_event_handler, NULL);
     esp_mqtt_client_start(client);
-
-
 }

@@ -65,8 +65,10 @@ extern "C" void app_main()
     setpointQueue = xQueueCreate(10, sizeof(int));
 
 
-    xTaskCreatePinnedToCore(motorDriver, "motorTask", 4096, nullptr, 40, nullptr, 0); // <- przypisać do rdzenia
-    // xTaskCreate(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr);
+    xTaskCreatePinnedToCore(motorDriver, "motorTask", 4096, nullptr, 40, nullptr, 0);
+    xTaskCreatePinnedToCore(batteryTask, "batteryTask", 4096, nullptr, 3, nullptr, 1);
 
-    mqtt_app_start();
+    mqtt_client_start();
+
+    vTaskSuspend(NULL);
 }
