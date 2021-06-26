@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::readData() {
-    int values[3] = {ui->SetpointSlider->value(), engine->getValue(), 0};
+    int values[3] = {engine->getSetpoint(), engine->getValue(), engine->getVoltage()};
     chart->addPoint(values);
 }
 
@@ -159,7 +159,7 @@ void MainWindow::subscribe() {
         QByteArray array;
         array.setNum(value);
         mqtt->publish(QMqttTopicName("edrive/setpoint"), array);
-        ui->setpointLabelValue->setNum(value);
+        this->setSetpoint(value);
     });
 
     connect(ui->KpSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), [this](int i) {
@@ -190,17 +190,18 @@ void MainWindow::unsubscribe() {}
 
 void MainWindow::setValue(int value) {
     engine->setValue(value);
-    ui->valueLabelValue->setText(QString::number(value));
+    ui->valueLabelValue->setNum(value);
 }
 
 void MainWindow::setSetpoint(int value) {
-    ui->setpointLabelValue->setText(QString::number(value));
+    engine->setSetpoint(value);
+    ui->setpointLabelValue->setNum(value);
 }
 
 void MainWindow::setVoltage(float value) {
+    engine->setVoltage((int)value);
     QString text(QString::number(value));
     text += " V";
-    engine->setVoltage(value);
     ui->voltageLabelValue->setText(text);
 }
 
