@@ -48,6 +48,7 @@ void mqttSendingTask(void* ptr) {
 
     int16_t pulses;
     float voltage;
+    int16_t power;
 
     while (true)
     {
@@ -59,6 +60,11 @@ void mqttSendingTask(void* ptr) {
         if(xQueueReceive(voltageQueue, &voltage, 0)) {
             std::string data = std::to_string(voltage);
             esp_mqtt_client_publish(client, "edrive/voltage", data.c_str(), data.length(), 0, 0);
+        }
+
+        if(xQueueReceive(powerQueue, &power, 0)) {
+            std::string data = std::to_string(power);
+            esp_mqtt_client_publish(client, "edrive/pwm_duty", data.c_str(), data.length(), 0, 0);
         }
 
         vTaskDelay(50 / portTICK_PERIOD_MS);

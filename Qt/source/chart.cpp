@@ -40,11 +40,11 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     axisY->setLabelsColor(Qt::white);
     axisY->setLabelsFont(labelsFont);
     axisY->setGridLineColor(QColor(150, 150, 150));
-    axisY->setRange(-70, 70);
+    axisY->setRange(-100, 100);
 
 
     // setup series
-    QString seriesName[3] = {"Setpoint", "Value", "Voltage"};
+    QString seriesName[3] = {"Setpoint", "Value", "PWM Duty"};
 
     for (size_t i = 0; i < 3; i++)
     {

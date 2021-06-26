@@ -18,17 +18,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mqtt, &QMqttClient::errorChanged, this, &MainWindow::connectionError);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
 
-    connect(ui->checkBox, &QCheckBox::stateChanged, [this](int state) {
+    connect(ui->SetpointCheckBox, &QCheckBox::stateChanged, [this](int state) {
         if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(0, false);
         else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(0, true);
     });
 
-    connect(ui->checkBox_2, &QCheckBox::stateChanged, [this](int state) {
+    connect(ui->ValueCheckBox, &QCheckBox::stateChanged, [this](int state) {
         if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(1, false);
         else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(1, true);
     });
 
-    connect(ui->checkBox_3, &QCheckBox::stateChanged, [this](int state) {
+    connect(ui->DutyCheckBox, &QCheckBox::stateChanged, [this](int state) {
         if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(2, false);
         else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(2, true);
     });
@@ -48,7 +48,7 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::readData() {
-    int values[3] = {engine->getSetpoint(), engine->getValue(), engine->getVoltage()};
+    int values[3] = {engine->getSetpoint(), engine->getValue(), engine->getPwmDuty()};
     chart->addPoint(values);
 }
 
@@ -152,14 +152,19 @@ void MainWindow::connectionError(QMqttClient::ClientError error) {
 void MainWindow::subscribe() {
 
     // read subscriptions
-    auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/value"), 1);
+    auto valueSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/value"), 0);
     connect(valueSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
         this->setValue(msg.payload().toInt());
     });
 
-    auto voltageSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/voltage"), 1);
+    auto voltageSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/voltage"), 0);
     connect(voltageSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
         this->setVoltage(msg.payload().toFloat());
+    });
+
+    auto pwmDutySubscription = mqtt->subscribe(QMqttTopicFilter("edrive/pwm_duty"), 0);
+    connect(pwmDutySubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
+        this->setPwmDuty(msg.payload().toInt());
     });
 
 
@@ -207,6 +212,11 @@ void MainWindow::unsubscribe() {}
 void MainWindow::setValue(int value) {
     engine->setValue(value);
     ui->valueLabelValue->setNum(value);
+}
+
+void MainWindow::setPwmDuty(int value) {
+    engine->setPwmDuty(value);
+    // ui->valueLabelValue->setNum(value);
 }
 
 void MainWindow::setSetpoint(int value) {

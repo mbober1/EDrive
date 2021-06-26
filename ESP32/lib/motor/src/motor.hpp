@@ -9,7 +9,8 @@
 
 extern QueueHandle_t powerQueue;
 
-#define MAX_POWER 100
+#define MAX_PID 100
+#define MIN_PID -100
 #define MAX_INTEGRAL 50
 
 

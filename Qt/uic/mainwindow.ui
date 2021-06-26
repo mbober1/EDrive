@@ -213,9 +213,12 @@
      <item row="0" column="0">
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="2" column="3">
-        <widget class="QCheckBox" name="checkBox_2">
+        <widget class="QCheckBox" name="ValueCheckBox">
          <property name="text">
           <string>Value</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -267,16 +270,22 @@
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="SetpointCheckBox">
          <property name="text">
           <string>Setpoint</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item row="3" column="3">
-        <widget class="QCheckBox" name="checkBox_3">
+        <widget class="QCheckBox" name="DutyCheckBox">
          <property name="text">
-          <string>Deviation</string>
+          <string>PWM Duty</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

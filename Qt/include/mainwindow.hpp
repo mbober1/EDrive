@@ -40,4 +40,5 @@ private:
     void setSetpoint(int value);
     void setVoltage(float value);
     void setValue(int value);
+    void setPwmDuty(int value);
 };
