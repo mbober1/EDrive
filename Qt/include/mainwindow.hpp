@@ -38,6 +38,6 @@ private:
     void createTopics();
 
     void setSetpoint(int value);
-    void setVoltage(int value);
+    void setVoltage(float value);
     void setValue(int value);
 };
