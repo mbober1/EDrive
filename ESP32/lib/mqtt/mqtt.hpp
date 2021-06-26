@@ -66,8 +66,6 @@ void mqttSendingTask(void* ptr) {
             std::string data = std::to_string(power);
             esp_mqtt_client_publish(client, "edrive/pwm_duty", data.c_str(), data.length(), 0, 0);
         }
-
-        vTaskDelay(50 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }
