@@ -11,7 +11,7 @@ void batteryTask(void*)
         float voltage = battery.getVoltage();
 
         xQueueSendToBack(voltageQueue, &voltage, 0);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }
