@@ -33,6 +33,11 @@ MainWindow::MainWindow(QWidget *parent) :
         else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(2, true);
     });
 
+    connect(ui->stopButton, &QPushButton::clicked, [this]() {
+        ui->SetpointSlider->setValue(0);
+    });
+
+
 
     // setup chart
     QChartView *chartView = new QChartView(this->chart);
