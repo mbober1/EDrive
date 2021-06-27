@@ -117,8 +117,6 @@ void IRAM_ATTR motor::compute(const int &setpoint) {
     if(pid > MAX_PID) pid = MAX_PID;
     else if(pid < MIN_PID) pid = MIN_PID;
 
-    // printf("PID: %4.4f, SETPOINT: %3d, INPUT: %3d, %d,%d,%d\n", pid, setpoint, input, this->kp, this->ki, this->kd);
-
 
     if(pid > 0) {
         mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B);
