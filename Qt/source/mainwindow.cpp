@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mqtt, &QMqttClient::stateChanged, this, &MainWindow::changeConnectionStatus);
     connect(mqtt, &QMqttClient::errorChanged, this, &MainWindow::connectionError);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->stopButton, &QPushButton::clicked, this, &MainWindow::stop);
 
     connect(ui->SetpointCheckBox, &QCheckBox::stateChanged, [this](int state) {
         if(state == Qt::CheckState::Unchecked) this->chart->setSeriesVisible(0, false);
@@ -33,9 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
         else if(state == Qt::CheckState::Checked) this->chart->setSeriesVisible(2, true);
     });
 
-    connect(ui->stopButton, &QPushButton::clicked, [this]() {
-        ui->SetpointSlider->setValue(0);
-    });
 
 
 
@@ -68,7 +66,9 @@ void MainWindow::actionConnect() {
 }
 
 
-void MainWindow::actionDisconnect() { 
+void MainWindow::actionDisconnect() {
+    this->stop();
+    chart->clear();
     mqtt->disconnectFromHost();
 }
 
@@ -216,17 +216,24 @@ void MainWindow::unsubscribe() {}
 
 void MainWindow::setValue(int value) {
     engine->setValue(value);
-    ui->valueLabelValue->setNum(value);
+    QString text(QString::number(tickToRPM(value)));
+    text += " RPM";
+    ui->valueLabelValue->setText(text);
 }
 
 void MainWindow::setPwmDuty(int value) {
     engine->setPwmDuty(value);
-    // ui->valueLabelValue->setNum(value);
+    QString text(QString::number(value));
+    text += "%";
+    ui->dutyLabelValue->setText(text);
 }
+
 
 void MainWindow::setSetpoint(int value) {
     engine->setSetpoint(value);
-    ui->setpointLabelValue->setNum(value);
+    QString text(QString::number(tickToRPM(value)));
+    text += " RPM";
+    ui->setpointLabelValue->setText(text);
 }
 
 void MainWindow::setVoltage(float value) {
@@ -234,6 +241,10 @@ void MainWindow::setVoltage(float value) {
     QString text(QString::number(value));
     text += " V";
     ui->voltageLabelValue->setText(text);
+}
+
+void MainWindow::stop() {
+    ui->SetpointSlider->setValue(0);
 }
 
 void MainWindow::createTopics() {

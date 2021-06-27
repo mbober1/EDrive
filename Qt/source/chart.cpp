@@ -88,6 +88,13 @@ void Chart::addPoint(int* values)
     }
 }
 
+void Chart::clear() {
+    for (size_t i = 0; i < 3; i++)
+    {
+        this->series[i]->clear();
+    }
+}
+
 void Chart::setSeriesVisible(int series, bool enable)
 {
     this->series[series]->setVisible(enable);
