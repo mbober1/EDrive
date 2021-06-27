@@ -1,7 +1,7 @@
 #include "config.hpp"
 
 
-void batteryTask(void*) 
+static inline void batteryTask(void*) 
 {
     myADC battery;
 
@@ -17,7 +17,7 @@ void batteryTask(void*)
 }
 
 
-void motorDriver(void*) 
+static inline void motorDriver(void*) 
 {
     int setpoint = 0;
     int kp = 3;
@@ -27,7 +27,7 @@ void motorDriver(void*)
     TickType_t xLastWakeTime;
     const TickType_t xFrequency = 1; // set PID loop to 10ms
 
-    motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
+    motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PCNT);
     engine.setKP(kp);
     engine.setKI(ki);
     engine.setKD(kd);
@@ -42,9 +42,6 @@ void motorDriver(void*)
 
         xQueueReceive(setpointQueue, &setpoint, 0);
         engine.compute(setpoint);
-
-        int16_t pulses = engine.getPulses();
-        xQueueSend(pulsesQueue, &pulses, 0);
 
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
     }

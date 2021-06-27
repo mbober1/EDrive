@@ -1,8 +1,5 @@
 #include "motor.hpp"
 
-#include "driver/mcpwm.h"
-#include "soc/mcpwm_reg.h"
-#include "soc/mcpwm_struct.h"
 
 /**
  * Constructor.
@@ -10,11 +7,19 @@
  * @param in2 input2 GPIO pin.
  * @param encoderA encoder first GPIO pin.
  * @param encoderB encoder second GPIO pin.
- * @param pwmPin enable GPIO pin.
- * @param pwmChannel PWM channel.
+ * @param enPin enable GPIO pin.
  * @param pcntUnit PCNT unit.
  */
-motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t encoderB, gpio_num_t enPin, ledc_channel_t pwmChannel, pcnt_unit_t pcntUnit) : in1(in1), in2(in2), enPin(enPin) {
+motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t encoderB, gpio_num_t enPin, pcnt_unit_t pcntUnit) : 
+    in1(in1),
+    in2(in2), 
+    enPin(enPin),
+    encoder(pcntUnit),
+    epsilonOld(0),
+    epsilonSuma(0),
+    integralError(0),
+    derivativeError(0)
+{
     esp_err_t err = ESP_OK;
 
     err += mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0A, in2);
@@ -79,11 +84,6 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
     if(!err) printf("Encoder %d initialized\n", pcntUnit);
     else printf("Encoder %d failed with error: %d\n", pcntUnit, err);
 
-    this->encoder = pcntUnit;
-    this->integralError = 0;
-    this->epsilonOld = 0;
-    this->epsilonSuma = 0;
-    this->derivativeError = 0;
 }
 
 
@@ -94,10 +94,7 @@ motor::motor(gpio_num_t in1, gpio_num_t in2, gpio_num_t encoderA, gpio_num_t enc
 void IRAM_ATTR motor::compute(const int &setpoint) {
     int16_t input;
     pcnt_get_counter_value(this->encoder, &input);
-    this->countedPulses += input;
     pcnt_counter_clear(this->encoder);
-
-
 
     int epsilon = setpoint - input;
 
@@ -133,20 +130,14 @@ void IRAM_ATTR motor::compute(const int &setpoint) {
         mcpwm_set_signal_low(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_GEN_B);
     }
 
+    xQueueSendToBack(pulsesQueue, &input, 0);
     xQueueSendToBack(powerQueue, &pid, 0);
 }
 
  
- void motor::setKP(const int kp) { this->kp = kp; }
- void motor::setKI(const int ki) { this->ki = ki; }
- void motor::setKD(const int kd) { this->kd = kd; }
-
- int16_t motor::getPulses() {
-    int16_t tmp = this->countedPulses;
-    this->countedPulses = 0;
-    return tmp;
- }
-
+void motor::setKP(const int kp) { this->kp = kp; }
+void motor::setKI(const int ki) { this->ki = ki; }
+void motor::setKD(const int kd) { this->kd = kd; }
 
 
 
