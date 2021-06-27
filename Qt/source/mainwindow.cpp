@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) : 
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    chart(new Chart(100)), // 100 points
+    chart(new Chart(80)), // 80 points
     mqtt(new Mqtt(this)),
     engine(new Engine)
 {
@@ -75,7 +75,7 @@ void MainWindow::actionDisconnect() {
 
 void MainWindow::enableUi(bool state) {
     ui->centralwidget->setEnabled(state);
-    if(state) this->chartTimer.start(10); // 10ms delay = 100Hz
+    if(state) this->chartTimer.start(17); // 17ms delay = 60Hz
     else this->chartTimer.stop();
 }
 
