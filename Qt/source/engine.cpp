@@ -13,6 +13,8 @@ void Engine::setSetpoint(const int setpoint) { this->setpoint = setpoint; }
 
 void Engine::setPwmDuty(const int duty) { this->pwmDuty = duty; }
 
+void Engine::setTorque(const float torque) { this->torque = torque; }
+
 int Engine::getValue() { return this->value; }
 
 int Engine::getVoltage() { return this->voltage; }
@@ -21,3 +23,4 @@ int Engine::getSetpoint() { return this->setpoint; }
 
 int Engine::getPwmDuty() { return this->pwmDuty; }
 
+float Engine::getTorque() { return this->torque; }

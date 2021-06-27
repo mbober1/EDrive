@@ -172,6 +172,11 @@ void MainWindow::subscribe() {
         this->setPwmDuty(msg.payload().toInt());
     });
 
+    auto currentSubscription = mqtt->subscribe(QMqttTopicFilter("edrive/current"), 0);
+    connect(currentSubscription, &QMqttSubscription::messageReceived, [this](QMqttMessage msg) {
+        this->setTorque(msg.payload().toFloat());
+    });
+
 
     // write default data
     mqtt->publish(QMqttTopicName("edrive/kp"), "0");
@@ -238,9 +243,17 @@ void MainWindow::setSetpoint(int value) {
 
 void MainWindow::setVoltage(float value) {
     engine->setVoltage((int)value);
-    QString text(QString::number(value));
+    QString text(QString::number(value, 'f', 2));
     text += " V";
     ui->voltageLabelValue->setText(text);
+}
+
+void MainWindow::setTorque(float current) {
+    float value = mAToKgCm(current);
+    engine->setTorque(value);
+    QString text(QString::number(value, 'f', 2));
+    text += " Kg*cm";
+    ui->torqueLabelValue->setText(text);
 }
 
 void MainWindow::stop() {

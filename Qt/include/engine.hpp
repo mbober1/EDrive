@@ -10,13 +10,16 @@ public:
     void setVoltage(const int voltage);
     void setSetpoint(const int setpoint);
     void setPwmDuty(const int duty);
+    void setTorque(const float torque);
     int getValue();
     int getVoltage();
     int getSetpoint();
     int getPwmDuty();
+    float getTorque();
 
 private:
     int value, voltage, setpoint, pwmDuty;
+    float torque;
 };
 
 
@@ -34,6 +37,6 @@ inline int tickToRPM(int tick) {
 
 const float Torque_Multiplier = 1 / (800/3.6); 
 
-inline int mAToKgCm(int current) {
+inline float mAToKgCm(int current) {
     return current * Torque_Multiplier;
 }
