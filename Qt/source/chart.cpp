@@ -32,7 +32,6 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     axisX->setGridLineColor(QColor(150, 150, 150));
     axisX->setLabelsVisible(false);
     axisX->setTickCount(this->pointCount);
-    axisX->setRange(0, 10);
 
 
     // setup Y axis
@@ -69,10 +68,10 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 
 void Chart::addPoint(int* values)
 {
-    static qreal xPosition = 10;
+    static int xPosition;
     
     // calculate the position for X in the chart
-    xPosition += (axisX->max() - axisX->min()) / axisX->tickCount();
+    xPosition++;
 
     for (size_t i = 0; i < 3; i++)
     {
@@ -80,8 +79,13 @@ void Chart::addPoint(int* values)
         this->series[i]->append(xPosition, values[i]); // add new points
     }
 
-    // scroll the chart
-    scroll(plotArea().width() / axisX->tickCount(), 0);
+    auto dataCount = (this->series[0])->count();
+    
+    if(dataCount) {
+        auto min = this->series[0]->at(0).x();
+        auto max = min + this->pointCount;
+        this->axisX->setRange(min, max);
+    }
 }
 
 void Chart::setSeriesVisible(int series, bool enable)
