@@ -21,14 +21,19 @@ private:
 
 
 
-const float multiplier = (100 * 60) / 224.4 / 4; 
+const float RPM_Multiplier = (100 * 60) / 224.4 / 4; 
 
 inline int tickToRPM(int tick) {
     // * 100 -> tick / s
     // * 60 -> tick / min
     // / 224.4 -> revolution / min
     // / 4 (encoder)
-    return tick * multiplier;
+    return tick * RPM_Multiplier;
 }
 
 
+const float Torque_Multiplier = 1 / (800/3.6); 
+
+inline int mAToKgCm(int current) {
+    return current * Torque_Multiplier;
+}
