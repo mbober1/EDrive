@@ -21,3 +21,14 @@ private:
 
 
 
+const float multiplier = (100 * 60) / 224.4 / 4; 
+
+inline int tickToRPM(int tick) {
+    // * 100 -> tick / s
+    // * 60 -> tick / min
+    // / 224.4 -> revolution / min
+    // / 4 (encoder)
+    return tick * multiplier;
+}
+
+
