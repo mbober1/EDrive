@@ -108,15 +108,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             ESP_LOGI(MQTT_TAG, "Unsubscribed topic");
             break;
             
-        // case MQTT_EVENT_PUBLISHED:
-        //     ESP_LOGI(MQTT_TAG, "Published, Topic: %s, Data: %s", topic.c_str(), data.c_str());
-        //     break;
-
-        case MQTT_EVENT_DATA: {
-                // ESP_LOGI(MQTT_TAG, "Data event, Topic: %s, Data: %s", topic.c_str(), data.c_str());
-                parseData(topic, data);
-                break;
-            }
+        case MQTT_EVENT_DATA:
+            parseData(topic, data);
+            break;
 
         case MQTT_EVENT_ERROR:
             ESP_LOGI(MQTT_TAG, "Mqtt client error!");
@@ -126,7 +120,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             ESP_LOGI(MQTT_TAG, "Connecting...");
 
         default:
-            // ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
             break;
     }
 }
