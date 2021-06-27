@@ -871,6 +871,16 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>KpSpinBox</tabstop>
+  <tabstop>KiSpinbox</tabstop>
+  <tabstop>KdSpinbox</tabstop>
+  <tabstop>SetpointCheckBox</tabstop>
+  <tabstop>ValueCheckBox</tabstop>
+  <tabstop>DutyCheckBox</tabstop>
+  <tabstop>SetpointSlider</tabstop>
+  <tabstop>stopButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
