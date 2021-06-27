@@ -13,13 +13,13 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     series(new QSplineSeries*[3]),
     pointCount(pointCount)
 {   
-    QPen red(Qt::red);
-    QPen green(Qt::green);
-    QPen blue(Qt::blue);
+    QPen red(QColor(0xF4, 0x43, 0x36));
+    QPen green(QColor(0x4C, 0xAF, 0x50));
+    QPen blue(QColor(0x21, 0x96, 0xF3));
 
-    red.setWidth(2);
-    green.setWidth(2);
-    blue.setWidth(2);
+    red.setWidth(3);
+    green.setWidth(3);
+    blue.setWidth(3);
 
     QPen seriesColor[3] = {red, green, blue};
 
@@ -29,16 +29,16 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 
     // setup X axis
     addAxis(axisX,Qt::AlignBottom);
-    axisX->setGridLineColor(QColor(150, 150, 150));
+    axisX->setGridLineColor(Qt::gray);
     axisX->setLabelsVisible(false);
     axisX->setTickCount(this->pointCount);
 
 
     // setup Y axis
     addAxis(axisY,Qt::AlignLeft);
-    axisY->setLabelsColor(Qt::white);
+    axisY->setLabelsColor(Qt::black);
     axisY->setLabelsFont(labelsFont);
-    axisY->setGridLineColor(QColor(150, 150, 150));
+    axisY->setGridLineColor(Qt::gray);
     axisY->setRange(-100, 100);
 
 
@@ -59,10 +59,10 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     // other settings
     this->legend()->setVisible(true);
     this->setAnimationOptions(QChart::NoAnimation);
-    this->legend()->setLabelColor(QColor(255, 255, 255));
+    this->legend()->setLabelColor(Qt::black);
     this->setMargins(QMargins(0,0,0,0));
     this->setBackgroundRoundness(3);
-    this->setBackgroundBrush(QBrush(QColor(80, 80, 80)));
+    this->setBackgroundBrush(QColor(0xE9, 0xE9, 0xE9));
 }
 
 
