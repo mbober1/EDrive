@@ -25,7 +25,7 @@ void motorDriver(void*)
     int kd = 0;
 
     TickType_t xLastWakeTime;
-    const TickType_t xFrequency = 1;
+    const TickType_t xFrequency = 1; // set PID loop to 10ms
 
     motor engine(MOTOR_IN1, MOTOR_IN2, ENC_A, ENC_B, MOTOR_PWM_PIN, MOTOR_PWM_CHANNEL, MOTOR_PCNT);
     engine.setKP(kp);
