@@ -14,6 +14,9 @@
         "qtglobal": "cpp",
         "*.tcc": "cpp",
         "string": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "vector": "cpp"
     }
 }
