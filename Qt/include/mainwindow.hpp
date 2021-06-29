@@ -32,7 +32,7 @@ private:
     QTimer chartTimer;
     Engine* engine;
 
-    void readData();
+    void drawData();
     void subscribe();
     void unsubscribe();
     void createTopics();
