@@ -1,5 +1,9 @@
 #include "mainwindow.hpp"
 
+/*!
+*   \file 
+*   \brief The file contains mainwindow class
+*/
 
 /**
  * A constructor
