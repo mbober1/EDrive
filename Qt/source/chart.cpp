@@ -16,6 +16,8 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     QPen red(QColor(0xF4, 0x43, 0x36));
     QPen green(QColor(0x4C, 0xAF, 0x50));
     QPen blue(QColor(0x21, 0x96, 0xF3));
+    auto grey = QColor(0x9E, 0x9E, 0x9E);
+    auto dark_grey = QColor(0x61, 0x61, 0x61);
 
     red.setWidth(3);
     green.setWidth(3);
@@ -29,16 +31,16 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 
     // setup X axis
     addAxis(axisX,Qt::AlignBottom);
-    axisX->setGridLineColor(Qt::gray);
+    axisX->setGridLineColor(grey);
     axisX->setLabelsVisible(false);
     axisX->setTickCount(this->pointCount);
 
 
     // setup Y axis
     addAxis(axisY,Qt::AlignLeft);
-    axisY->setLabelsColor(Qt::black);
+    axisY->setLabelsColor(dark_grey);
     axisY->setLabelsFont(labelsFont);
-    axisY->setGridLineColor(Qt::gray);
+    axisY->setGridLineColor(grey);
     axisY->setRange(-100, 100);
 
 
@@ -59,10 +61,10 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     // other settings
     this->legend()->setVisible(true);
     this->setAnimationOptions(QChart::NoAnimation);
-    this->legend()->setLabelColor(Qt::black);
+    this->legend()->setLabelColor(dark_grey);
     this->setMargins(QMargins(0,0,0,0));
     this->setBackgroundRoundness(3);
-    this->setBackgroundBrush(QColor(0xE9, 0xE9, 0xE9));
+    // this->setBackgroundBrush(grey);
 }
 
 
