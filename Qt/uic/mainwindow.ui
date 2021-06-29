@@ -483,8 +483,16 @@
    </property>
   </action>
   <action name="actionAuto_Tune">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/icons/icons/auto.png</normaloff>
+     <normalon>:/icons/icons/auto.png</normalon>:/icons/icons/auto.png</iconset>
+   </property>
    <property name="text">
     <string>Auto Tune</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

@@ -1,11 +1,12 @@
 <RCC>
   <qresource prefix="icons">
-    <file>icons/stop.png</file>
+    <file>icons/auto.png</file>
     <file>icons/alpha-e.png</file>
     <file>icons/connect.png</file>
     <file>icons/disconnect.png</file>
     <file>icons/github.png</file>
     <file>icons/information.png</file>
     <file>icons/quit.png</file>
+    <file>icons/stop.png</file>
   </qresource>
 </RCC>
