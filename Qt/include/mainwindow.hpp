@@ -5,6 +5,7 @@
 #include "secrets.hpp"
 #include "connectiondialog.hpp"
 #include "engine.hpp"
+#include "./ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
