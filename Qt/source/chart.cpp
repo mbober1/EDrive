@@ -68,6 +68,9 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 }
 
 
+/**
+ * Add point to the chart
+ */
 void Chart::addPoint(int* values)
 {
     static int xPosition;
@@ -90,6 +93,10 @@ void Chart::addPoint(int* values)
     }
 }
 
+
+/**
+ * Clear chart
+ */
 void Chart::clear() {
     for (size_t i = 0; i < 3; i++)
     {
@@ -97,6 +104,10 @@ void Chart::clear() {
     }
 }
 
+
+/**
+ * Set series visibility
+ */
 void Chart::setSeriesVisible(int series, bool enable)
 {
     this->series[series]->setVisible(enable);

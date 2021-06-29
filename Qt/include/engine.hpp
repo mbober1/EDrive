@@ -26,6 +26,11 @@ private:
 
 const float RPM_Multiplier = (100 * 60) / 224.4 / 4; 
 
+
+/**
+ * Convert encoder impulses to RPM
+ * @param[in] tick impulses
+ */
 inline int tickToRPM(int tick) {
     // * 100 -> tick / s
     // * 60 -> tick / min
@@ -37,6 +42,11 @@ inline int tickToRPM(int tick) {
 
 const float Torque_Multiplier = 1 / (800/3.6); 
 
+
+/**
+ * Convert milliamperes to Kg * cm
+ * @param[in] current milliamperes
+ */
 inline float mAToKgCm(int current) {
     return current * Torque_Multiplier;
 }
