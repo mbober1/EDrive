@@ -1,6 +1,11 @@
 #include "mainwindow.hpp"
 #include "./ui_mainwindow.h"
 
+
+/**
+ * A constructor
+ * @param[in,out] parent QWidget type parent.
+ */
 MainWindow::MainWindow(QWidget *parent) : 
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -13,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionConnect, &QAction::triggered, this, &MainWindow::actionConnect);
     connect(ui->actionDisconnect, &QAction::triggered, this, &MainWindow::actionDisconnect);
-    connect(&chartTimer, &QTimer::timeout, this, &MainWindow::readData);
+    connect(&chartTimer, &QTimer::timeout, this, &MainWindow::drawData);
     connect(mqtt, &QMqttClient::stateChanged, this, &MainWindow::changeConnectionStatus);
     connect(mqtt, &QMqttClient::errorChanged, this, &MainWindow::connectionError);
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
@@ -44,18 +49,27 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 
+/**
+ * A destructor
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
 
-void MainWindow::readData() {
+/**
+ * Add data to chart
+ */
+void MainWindow::drawData() {
     int values[3] = {engine->getSetpoint(), engine->getValue(), engine->getPwmDuty()};
     chart->addPoint(values);
 }
 
 
+/**
+ * Open connecting dialog and connect to server
+ */
 void MainWindow::actionConnect() {
     ConnectionDialog dialog;
     dialog.setModal(true);
@@ -66,6 +80,9 @@ void MainWindow::actionConnect() {
 }
 
 
+/**
+ * Disconect from server
+ */
 void MainWindow::actionDisconnect() {
     this->stop();
     chart->clear();
@@ -73,6 +90,9 @@ void MainWindow::actionDisconnect() {
 }
 
 
+/**
+ * Enable UI
+ */
 void MainWindow::enableUi(bool state) {
     ui->centralwidget->setEnabled(state);
     if(state) this->chartTimer.start(17); // 17ms delay = 60Hz
@@ -80,6 +100,9 @@ void MainWindow::enableUi(bool state) {
 }
 
 
+/**
+ * Change connection status
+ */
 void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
     switch (state)
     {
@@ -105,6 +128,9 @@ void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
 }
 
 
+/**
+ * Connection error handler
+ */
 void MainWindow::connectionError(QMqttClient::ClientError error) {
     QString mess("Unable connect to the server! ");
 
@@ -154,6 +180,9 @@ void MainWindow::connectionError(QMqttClient::ClientError error) {
 }
 
 
+/**
+ * Subscribe topics and publish data
+ */
 void MainWindow::subscribe() {
 
     // read subscriptions
@@ -179,10 +208,7 @@ void MainWindow::subscribe() {
 
 
     // write default data
-    mqtt->publish(QMqttTopicName("edrive/kp"), "0");
-    mqtt->publish(QMqttTopicName("edrive/ki"), "0");
-    mqtt->publish(QMqttTopicName("edrive/kd"), "0");
-    mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
+    this->createTopics();
 
 
     // write subscription
@@ -215,10 +241,16 @@ void MainWindow::subscribe() {
 
 
 
-
+/**
+ * Unsubscribe topics
+ */
 void MainWindow::unsubscribe() {}
 
 
+/**
+ * Set motor revolutions value
+ * @param[in] value Value to set
+ */
 void MainWindow::setValue(int value) {
     engine->setValue(value);
     QString text(QString::number(tickToRPM(value)));
@@ -226,6 +258,11 @@ void MainWindow::setValue(int value) {
     ui->valueLabelValue->setText(text);
 }
 
+
+/**
+ * Set PWM duty
+ * @param[in] value PWM duty
+ */
 void MainWindow::setPwmDuty(int value) {
     engine->setPwmDuty(value);
     QString text(QString::number(value));
@@ -234,6 +271,10 @@ void MainWindow::setPwmDuty(int value) {
 }
 
 
+/**
+ * Set PID setpoint
+ * @param[in] value Setpoint
+ */
 void MainWindow::setSetpoint(int value) {
     engine->setSetpoint(value);
     QString text(QString::number(tickToRPM(value)));
@@ -241,6 +282,11 @@ void MainWindow::setSetpoint(int value) {
     ui->setpointLabelValue->setText(text);
 }
 
+
+/**
+ * Set motor voltage
+ * @param[in] value Motor voltage
+ */
 void MainWindow::setVoltage(float value) {
     engine->setVoltage((int)value);
     QString text(QString::number(value, 'f', 2));
@@ -248,6 +294,11 @@ void MainWindow::setVoltage(float value) {
     ui->voltageLabelValue->setText(text);
 }
 
+
+/**
+ * Set motor torque
+ * @param[in] current Motor current
+ */
 void MainWindow::setTorque(float current) {
     float value = mAToKgCm(current);
     engine->setTorque(value);
@@ -256,10 +307,18 @@ void MainWindow::setTorque(float current) {
     ui->torqueLabelValue->setText(text);
 }
 
+
+/**
+ * Set setpoint to zero
+ */
 void MainWindow::stop() {
     ui->SetpointSlider->setValue(0);
 }
 
+
+/**
+ * Initialize topics
+ */
 void MainWindow::createTopics() {
     mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
     mqtt->publish(QMqttTopicName("edrive/value"), "0");
