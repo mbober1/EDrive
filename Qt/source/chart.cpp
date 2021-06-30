@@ -45,7 +45,7 @@ Chart::Chart(const uint pointCount, QGraphicsItem *parent, const Qt::WindowFlags
 
 
     // setup series
-    QString seriesName[3] = {"Setpoint", "Value", "PWM Duty"};
+    QString seriesName[3] = {"Setpoint (RPM)", "Motor (RPM)", "PWM Duty (%)"};
 
     for (size_t i = 0; i < 3; i++)
     {
