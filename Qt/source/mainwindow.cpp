@@ -110,7 +110,7 @@ void MainWindow::changeConnectionStatus(QMqttClient::ClientState state) {
         ui->actionConnect->setVisible(false);
         ui->actionDisconnect->setVisible(true);
         ui->actionDisconnect->setEnabled(true);
-        this->createTopics();
+        // this->createTopics();
         this->subscribe();
         break;
     }
@@ -206,10 +206,6 @@ void MainWindow::subscribe() {
     });
 
 
-    // write default data
-    this->createTopics();
-
-
     // write subscription
     connect(ui->SetpointSlider, &QAbstractSlider::valueChanged, [this](int value) {
         QByteArray array;
@@ -236,6 +232,7 @@ void MainWindow::subscribe() {
         mqtt->publish(QMqttTopicName("edrive/kd"), array);
     });
 
+    this->createTopics();
 }
 
 
@@ -319,10 +316,8 @@ void MainWindow::stop() {
  * Initialize topics
  */
 void MainWindow::createTopics() {
-    mqtt->publish(QMqttTopicName("edrive/setpoint"), "0");
-    mqtt->publish(QMqttTopicName("edrive/value"), "0");
-    mqtt->publish(QMqttTopicName("edrive/voltage"), "0");
-    mqtt->publish(QMqttTopicName("edrive/kp"), "0");
-    mqtt->publish(QMqttTopicName("edrive/ki"), "0");
-    mqtt->publish(QMqttTopicName("edrive/kd"), "0");
+    ui->SetpointSlider->setValue(0);
+    ui->KpSpinBox->setValue(3);
+    ui->KiSpinbox->setValue(2);
+    ui->KdSpinbox->setValue(1);
 }
