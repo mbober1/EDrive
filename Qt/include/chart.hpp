@@ -21,12 +21,12 @@ class Chart : public QChart
 {
     Q_OBJECT
 public:
-    Chart(uint pointCount, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = {});
+    Chart(const uint pointCount, QGraphicsItem *parent = nullptr, const Qt::WindowFlags wFlags = {});
     void clear();
 
 public slots:
-    void addPoint(int* values);
-    void setSeriesVisible(int series, bool enable);
+    void addPoint(const int* values);
+    void setSeriesVisible(const int series, const bool enable);
 
 private:
     QSplineSeries** series;

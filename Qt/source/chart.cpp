@@ -6,7 +6,7 @@
  * @param[in,out] parent QWidget type parent.
  * @param[in] wFlags Window flags.
  */
-Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) : 
+Chart::Chart(const uint pointCount, QGraphicsItem *parent, const Qt::WindowFlags wFlags) : 
     QChart(QChart::ChartTypeCartesian, parent, wFlags),
     axisX(new QValueAxis()),
     axisY(new QValueAxis()),
@@ -71,7 +71,7 @@ Chart::Chart(uint pointCount, QGraphicsItem *parent, Qt::WindowFlags wFlags) :
 /**
  * Add point to the chart
  */
-void Chart::addPoint(int* values)
+void Chart::addPoint(const int* values)
 {
     static int xPosition;
     
@@ -108,7 +108,7 @@ void Chart::clear() {
 /**
  * Set series visibility
  */
-void Chart::setSeriesVisible(int series, bool enable)
+void Chart::setSeriesVisible(const int series, const bool enable)
 {
     this->series[series]->setVisible(enable);
 }
