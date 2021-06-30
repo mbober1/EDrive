@@ -4,14 +4,21 @@
 static inline void batteryTask(void*) 
 {
     myADC battery;
+    int idx = 0;
+    float voltage;
 
     while (1)
     {
         battery.nextMeasurement();
-        float voltage = battery.getVoltage();
 
-        xQueueSendToBack(voltageQueue, &voltage, 0);
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        if (idx++ > 10)
+        {
+            idx = 0;
+            voltage = battery.getVoltage();
+            xQueueSendToBack(voltageQueue, &voltage, 0);
+        }
+        
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
     vTaskDelete(NULL);
 }

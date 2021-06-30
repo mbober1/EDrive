@@ -1,5 +1,5 @@
 #include "driver/adc.h"
-#define dataSize 50
+#define dataSize 10
 
 class myADC {
     const int conversion_factor = 415;
