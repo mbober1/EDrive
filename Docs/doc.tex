@@ -6,16 +6,19 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{latexsym}
+\usepackage{afterpage}
 
 
 \begin{document}
   \include{parts/titlepage.tex}
 
-  \tableofcontents
-  \section{Pierwszy rozdział}
-  Treść pierwszego rozdziału.
-  \section{Drugi rozdział}
-  Treść drugie rozdziału.
+  \leavevmode\thispagestyle{empty}\newpage %pusta strona
 
+
+  \tableofcontents
+  \section{Wprowadzenie}
+  \section{Opis}
+  \section{Podsumowane}
+  \section{Literatura}
 
 \end{document}
