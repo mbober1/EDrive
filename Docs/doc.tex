@@ -1,5 +1,5 @@
-\documentclass[eng, 11pt]{mgr}
-
+\documentclass[eng, 11pt, twoside, openany]{mgr}
+% draft
 
 \usepackage{hyperref}
 \usepackage{polski}
@@ -26,6 +26,8 @@
   
     Celem pracy jest stworzenie systemu sensorycznego 
     potrafiącego zarządzać silnikiem prądu stałego.
+
+    % dopisać 1-2 lania wody 
   
 
     \section{Założenia}
@@ -159,6 +161,10 @@
   \chapter{Szczegółowy opis sterownika}
     \section{System operacyjny}
       jaki? po co? 
+
+    \section{System operacyjny}
+      użyty framework
+
         
     \section{Schemat funkcionowania}
       diagram wątków, kolejki
@@ -174,16 +180,19 @@
 
   \chapter{Szczegółowy opis brokera MQTT}
     \section{Sposób działania}
-      sposób działania, docker, 
+      sposób działania,
 
     \section{Implementacja i konfiguracja}
-      
+      docker, konfiguracja
 
   \chapter{Szczegółowy opis aplikacji dostępowej}
     \section{Wykorzystana technologia}
+        Qt
+
     \section{Implementacja komunikacji}
       \subsection{Odbiór danych}
       \subsection{Wysyłanie danych}
+    \section{Wykresy}
 
 
   \chapter{Instrukcja obsługi}
@@ -197,11 +206,28 @@
 
     \bibitem{qt}
       Qt Development Frameworks: Dokumentacja biblioteki Qt \newline
-      \url{https://doc.qt.io/qt-5/}
+      \url{https://doc.qt.io/qt-5/} \newline
+      Dostęp 14.09.2021
 
     \bibitem{mostek}
-      STMicroelectronics: L298H Dokumentacja \newline
-      \url{https://www.sparkfun.com/datasheets/Robotics/L298_H_Bridge.pdf}
+      STMicroelectronics: Dokumentacja L298H \newline
+      \url{https://www.sparkfun.com/datasheets/Robotics/L298_H_Bridge.pdf} \newline
+      Dostęp 14.09.2021
+
+    \bibitem{esp32}
+      Espressif Systems: Dokumentacja ESP32
+      \url{https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf} \newline
+      Dostęp 14.09.2021
+      
+    \bibitem{mqtt}
+      OASIS: Dokumentacja standardu MQTT 5.0 \newline
+      \url{https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.pdf} \newline
+      Dostęp 14.09.2021
+    
+    \bibitem{mostek}
+      V.P. Eloranta, J. Koskinen, M. Leppanen, V. Reijonen: 
+      Designing Distributed Control Systems: A Pattern Language Approach, 
+      Wiley, 2014.
       
   \end{thebibliography}
 
