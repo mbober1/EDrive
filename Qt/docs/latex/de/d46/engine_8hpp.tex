@@ -1,0 +1,69 @@
+\hypertarget{engine_8hpp}{}\doxysection{/home/mbober/\+Dokumenty/\+EDrive/\+Qt/include/engine.hpp File Reference}
+\label{engine_8hpp}\index{/home/mbober/Dokumenty/EDrive/Qt/include/engine.hpp@{/home/mbober/Dokumenty/EDrive/Qt/include/engine.hpp}}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/dd8/engine_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_engine}{Engine}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{engine_8hpp_a0e40eefdbb4f511b3928a8398e7fa2ca}{tick\+To\+RPM}} (int tick)
+\item 
+float \mbox{\hyperlink{engine_8hpp_a9bb6ce6a32b8290e836c15bf6c8202f3}{m\+ATo\+Kg\+Cm}} (int current)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const float \mbox{\hyperlink{engine_8hpp_ac1ee8e50f3b41ff93fbac62b780ed24c}{RPM\+\_\+\+Multiplier}} = (100 $\ast$ 60) / 224.\+4 / 4
+\item 
+const float \mbox{\hyperlink{engine_8hpp_a44f3e07931e61ad97f7669f45269d7f8}{Torque\+\_\+\+Multiplier}} = 1 / (800/3.\+6)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{engine_8hpp_a9bb6ce6a32b8290e836c15bf6c8202f3}\label{engine_8hpp_a9bb6ce6a32b8290e836c15bf6c8202f3}} 
+\index{engine.hpp@{engine.hpp}!mAToKgCm@{mAToKgCm}}
+\index{mAToKgCm@{mAToKgCm}!engine.hpp@{engine.hpp}}
+\doxysubsubsection{\texorpdfstring{mAToKgCm()}{mAToKgCm()}}
+{\footnotesize\ttfamily float m\+ATo\+Kg\+Cm (\begin{DoxyParamCaption}\item[{int}]{current }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Convert milliamperes to Kg $\ast$ cm 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em current} & milliamperes \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{engine_8hpp_a0e40eefdbb4f511b3928a8398e7fa2ca}\label{engine_8hpp_a0e40eefdbb4f511b3928a8398e7fa2ca}} 
+\index{engine.hpp@{engine.hpp}!tickToRPM@{tickToRPM}}
+\index{tickToRPM@{tickToRPM}!engine.hpp@{engine.hpp}}
+\doxysubsubsection{\texorpdfstring{tickToRPM()}{tickToRPM()}}
+{\footnotesize\ttfamily int tick\+To\+RPM (\begin{DoxyParamCaption}\item[{int}]{tick }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Convert encoder impulses to RPM 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em tick} & impulses \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{engine_8hpp_ac1ee8e50f3b41ff93fbac62b780ed24c}\label{engine_8hpp_ac1ee8e50f3b41ff93fbac62b780ed24c}} 
+\index{engine.hpp@{engine.hpp}!RPM\_Multiplier@{RPM\_Multiplier}}
+\index{RPM\_Multiplier@{RPM\_Multiplier}!engine.hpp@{engine.hpp}}
+\doxysubsubsection{\texorpdfstring{RPM\_Multiplier}{RPM\_Multiplier}}
+{\footnotesize\ttfamily const float RPM\+\_\+\+Multiplier = (100 $\ast$ 60) / 224.\+4 / 4}
+
+\mbox{\Hypertarget{engine_8hpp_a44f3e07931e61ad97f7669f45269d7f8}\label{engine_8hpp_a44f3e07931e61ad97f7669f45269d7f8}} 
+\index{engine.hpp@{engine.hpp}!Torque\_Multiplier@{Torque\_Multiplier}}
+\index{Torque\_Multiplier@{Torque\_Multiplier}!engine.hpp@{engine.hpp}}
+\doxysubsubsection{\texorpdfstring{Torque\_Multiplier}{Torque\_Multiplier}}
+{\footnotesize\ttfamily const float Torque\+\_\+\+Multiplier = 1 / (800/3.\+6)}
+
