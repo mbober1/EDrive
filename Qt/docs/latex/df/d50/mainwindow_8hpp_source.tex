@@ -1,0 +1,53 @@
+\hypertarget{mainwindow_8hpp_source}{}\doxysection{mainwindow.\+hpp}
+\label{mainwindow_8hpp_source}\index{/home/mbober/Dokumenty/EDrive/Qt/include/mainwindow.hpp@{/home/mbober/Dokumenty/EDrive/Qt/include/mainwindow.hpp}}
+\mbox{\hyperlink{mainwindow_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include <QMainWindow>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{chart_8hpp}{chart.hpp}}"{}}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}mqtt.hpp"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}secrets.hpp"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{connectiondialog_8hpp}{connectiondialog.hpp}}"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}engine.hpp"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}./ui\_mainwindow.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 QT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }Ui \{ \textcolor{keyword}{class }\mbox{\hyperlink{class_main_window}{MainWindow}}; \}}
+\DoxyCodeLine{12 QT\_END\_NAMESPACE}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{19 \textcolor{keyword}{class }\mbox{\hyperlink{class_main_window}{MainWindow}} : \textcolor{keyword}{public} QMainWindow}
+\DoxyCodeLine{20 \{}
+\DoxyCodeLine{21     Q\_OBJECT}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{MainWindow}}(QWidget *parent = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{25     \mbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{\string~MainWindow}}();}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{public} slots:}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_a50ad376f4c1f3a989b381de4fd3a071d}{actionConnect}}();}
+\DoxyCodeLine{29     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_aeed5af23fce11f0ef698e6e5fdc14a30}{actionDisconnect}}();}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_a886df9bd2618c250a998bbdd3508ac6a}{enableUi}}(\textcolor{keywordtype}{bool} state);}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_a778973359ed7b13548f67c146e9ae6ad}{changeConnectionStatus}}(QMqttClient::ClientState state);}
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_a0e2671d7c1fc700d8c63da9bdd0abfa4}{connectionError}}(QMqttClient::ClientError error);}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{private}:}
+\DoxyCodeLine{35     Ui::MainWindow* ui;}
+\DoxyCodeLine{36     \mbox{\hyperlink{class_chart}{Chart}}* chart;}
+\DoxyCodeLine{37     \mbox{\hyperlink{class_mqtt}{Mqtt}}* mqtt;}
+\DoxyCodeLine{38     QTimer chartTimer;}
+\DoxyCodeLine{39     \mbox{\hyperlink{class_engine}{Engine}}* engine;}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} drawData();}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} subscribe();}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} unsubscribe();}
+\DoxyCodeLine{44     \textcolor{keywordtype}{void} createTopics();}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     \textcolor{keywordtype}{void} setSetpoint(\textcolor{keywordtype}{int} value);}
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} setVoltage(\textcolor{keywordtype}{float} value);}
+\DoxyCodeLine{48     \textcolor{keywordtype}{void} setValue(\textcolor{keywordtype}{int} value);}
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} setPwmDuty(\textcolor{keywordtype}{int} value);}
+\DoxyCodeLine{50     \textcolor{keywordtype}{void} setTorque(\textcolor{keywordtype}{float} value);}
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} stop();}
+\DoxyCodeLine{52 \};}
+
+\end{DoxyCode}
