@@ -1,0 +1,16 @@
+@startuml
+loop forever
+    batteryTask -> battery: nextMeasurement()
+    battery -> myADC: adc1_get_raw()
+    return
+    
+group if this is every tenth iteration
+    batteryTask --> battery: getVoltage()
+    return
+
+    batteryTask --> voltageQueue: xQueueSendToBack()
+    return
+end
+...10 miliseconds later...
+end
+@enduml

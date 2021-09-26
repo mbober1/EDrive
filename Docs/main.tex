@@ -1,0 +1,73 @@
+\documentclass[eng, 12pt, twoside, openany]{mgr}
+% draft
+
+\usepackage{hyperref}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.7}
+% \usepackage{latexsym}
+% \usepackage{afterpage}
+\usepackage{floatrow}
+\usepackage[section]{minted}
+\usepackage{csquotes}
+\setminted[cpp]{breaklines,linenos,fontsize=\footnotesize,tabsize=4,baselinestretch=1}
+\newenvironment{kod}{  \captionsetup{type=listing} \vspace{1em} }{}
+
+% Spis listingów
+\renewcommand{\listoflistingscaption}{Spis listingów}
+\renewcommand{\listoflistings}{
+%   \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{section}{\listoflistingscaption}
+  \listof{listing}{\listoflistingscaption}
+}
+
+\author{Marcin Bober}
+\title{Projekt systemu sensorycznego bazującego na protokole MQTT}
+\engtitle{Design a sensor system based on MQTT protocol}
+\supervisor{Dr inż., Mateusz Cholewiński, K29W04D02}
+\field{Automatyka i Robotyka (AIR)}
+\specialisation{Robotyka (ARR)}
+\date{2021}
+
+
+\begin{document}
+    \bibliographystyle{plabbrv}
+    
+    
+    \maketitle % strona tytułowa
+    \tableofcontents % spis treści
+    
+    \include{introduction} % wprowadzenie
+    \include{project_desc} % schemat działania projektu
+
+    \include{esp/desc} % ESP - opis
+    \include{esp/pcnt} % ESP - licznik
+    \include{esp/pid} % ESP - PID
+    \include{esp/adc} % ESP - adc
+    \include{esp/mqtt} % ESP - mqtt
+
+    \include{mqtt/desc} % MQTT - opis
+
+    \include{app/desc} % APP - opis 
+    \include{app/signals} % APP - sloty i sygnały
+    \include{app/mqtt} % APP - komunikacja
+    \include{app/chart} % APP - wykresy
+    \include{app/engine} % APP - klasa silnika
+  
+    \include{manual} % instrukcja
+    
+    \include{summary} % podsumowanie
+
+ 
+    \addcontentsline{toc}{chapter}{\bibname}
+    
+    \include{thebibliography} % bibliografia
+    
+    \listoffigures % spis rysunków
+    \listoflistings % spis kodu
+\end{document}

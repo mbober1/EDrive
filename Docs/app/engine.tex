@@ -1,0 +1,28 @@
+\section{Abstrakcja silnika}
+    \subsection{Definicja klasy silnika}
+        W celu ujednoliconego zarządzania danymi odbieranymi i wysyłanymi do sterownika, została utworzona specjalna klasa, która przechowuje wartości z nim związane. Zdecydowanie zwiększa to czytelność kodu ponieważ zmienne dotyczące na przykład prędkości obrotowej nie są porozrzucane po całym programie. Co więcej, zostały stworzone odpowiednie metody które niwelują niebezpieczeństwo przypadkowego nadpisania jakiejś zmiennej. Implementacja została przedstawiona w listingu \ref{code:app_engine_class}. Przykładowe użycie metody można zobaczyć w listingu \ref{code:app_mqtt_setValue}.
+        
+        \begin{kod}
+            \inputminted[firstline=3, lastline=23]{cpp}{app/listings/engine.hpp}
+            \caption{Klasa abstrakcji silnika}
+            \label{code:app_engine_class}
+            \vspace{2em}
+        \end{kod}    
+
+
+    \subsection{Przeliczanie wartości obrotów}
+        Konwersja liczby otrzymanej impulsów na ilość wykonanych obrotów wymaga od nas posiadania odpowiednich informacji na temat enkodera. Częstotliwości pomiaru impulsów przez sterownik to 100Hz. Oznacza to czas pomiędzy pomiarami równy:
+        
+       \begin{displaymath}
+          T = \frac{1}{ f } = \frac{1}{ 100Hz } = 10ms
+        \end{displaymath}
+        
+        Wynika z tego że ilość obrotów należy pomnożyć stukrotnie, aby uzyskać ilość impulsów na sekundę. Następne mnożenie przez 60 doprowadzi do otrzymania ilości impulsów w okresie jednej minuty. Nie można zapomnieć że wartość impulsów jest czterokrotnie większa ze względu na konfigurację liczników (patrz \ref{code:pcnt}). Z tego też powodu niezbędne jest podzielenie wyniku przez 4. Ostatecznie całość należy podzielić przez ilość impulsów przypadających na jeden obrót wałka wychodzącego z przedkładani (224.4PPR/RPM). W ten sposób możliwe jest uzyskanie odpowiedniego przelicznika.
+        
+        \begin{kod}
+            \inputminted[firstline=27, lastline=40]{cpp}{app/listings/engine.hpp}
+            \caption{Przeliczanie impulsów na obroty}
+            \label{code:app_engine_rpm}
+            \vspace{2em}
+        \end{kod}
+        

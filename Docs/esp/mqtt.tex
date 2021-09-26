@@ -1,0 +1,70 @@
+    \section{Łączenie z brokerem MQTT}
+        Jedną z zalet wykorzystania oficjalnego frameworka wydawanego przez producenta jest gotowa implementacja warstw abstrakcji ułatwiających obsługę protokołu MQTT. Umożliwia ona łatwą konfigurację i wykorzystanie tego środka komunikacji za pomocą kilku wysokopoziomowych funkcji.
+        
+        \subsection{Konfiguracja}
+        Pierwsze co musimy zrobić to wypełnić strukturę konfiguracyjną. Znajduje się w niej aż 165 elementów. Jednak dla prawidłowej pracy wystarczy wypełnić kilka podstawowych pól takich jak dane logowania użytkownika czy adres brokera. Część z nich służy jako wskaźniki do danych przychodzących, bufory, czy flagi niezbędne do funkcjonowania. 
+        
+        Kolejnym krokiem jest stworzenie struktury inicjalizacyjnej z pomocą poprzedniej struktury. Posłuży nam do tego specjalna funkcja która sprawdza poprawność wprowadzonych przez nas danych, a dane nie definiowane zostają zastąpione wartościami domyślnymi. 
+        
+        Następne musimy wybrać jakie zdarzenia chcemy rejestrować i gdzie mają one trafiać. W tym przypadku wybieramy pełną pulę dostępnych sygnałów. Zawartość funkcji obsługującej zdarzenia znajduje się w listingu \ref{code:mqtt5}. 
+        
+        Pozostaje już tylko uruchomić moduł MQTT przekazując powstałą konfigurację do funkcji startowej. Dane zostaną przesłane do nowego procesu, który zajmie się za nas obsługą komunikacji. Wszystkie niezbędne kroki oraz konfiguracja została przedstawiona na listingu \ref{code:mqtt1}. 
+        
+        \begin{kod}
+            \inputminted[firstline=130]{cpp}{esp/listings/mqtt.cpp}
+            \caption{Konfiguracja połączenia MQTT}
+            \label{code:mqtt1}
+            \vspace{2em}
+        \end{kod}
+        
+        
+        
+        \subsection{Obsługa zdarzeń}
+        Wykorzystana warstwa abstrakcji posiada system udostępniający nam możliwość odbierania sygnałów generowanych przez zdarzenia wynikające z pracy klienta MQTT. Skorzystamy z tej funkcjonalności, aby informować użytkownika o stanie komunikacji, a także aby odpowiednio reagować na zdarzenia. Została ona załączona w listingu \ref{code:mqtt5}.
+        
+        Po otrzymaniu sygnału poprawnego nawiązania połączenia, zaczynamy subskrybować wszystkie tematy które przechowują potrzebne nam dane. Jest to przedstawione na listingu \ref{code:mqtt3}.
+          
+        \begin{kod}
+            \inputminted[firstline=14, lastline=19]{cpp}{esp/listings/mqtt.cpp}
+            \caption{Subskrybowanie niezbędnych tematów}
+            \label{code:mqtt3}
+            \vspace{2em}
+        \end{kod}
+        
+        
+        
+        Następnym krokiem jest utworzenie nowego procesu przypisanego do rdzenia drugiego (numeracja jest od zera). Jego zadaniem jest transmisja danych z urządzenia do brokera. Utworzenie kolejnego zadania oraz sam fakt pomyślnego uzyskania połączenia obarczony jest komunikatem diagnostycznym.
+        
+        Otrzymanie informacji o zakończeniu połączenia wiąże się z odwróceniem zmian dokonanych przez poprzedni sygnał. Po wysłaniu komunikatu na strumień wyjścia, dokonujemy zabicia procesu wysyłającego dane, po uprzednim sprawdzeniu czy taki jeszcze istnieje. Jest to zabezpieczenie przez sytuacją, gdy istnieje więcej jak jeden taki proces. Następnie po odczekaniu jednej sekundy, wyzwalana jest próba ponownego łączenia. 
+        
+        Ostatnim ważnym sygnałem jest informacja o zmianie wartości subskrybowanego kanału. Jest ona obrazu  przekazywana do stworzonej prze zemnie funkcji. Znajduje się ona w listingu \ref{code:mqtt4}. Jej jedynym zadaniem jest dodawanie odebranych wartości do odpowiednich kolejek priorytetowych w zależności od tematu wiadomości. 
+     
+        \begin{kod}
+            \inputminted[firstline=21, lastline=44]{cpp}{esp/listings/mqtt.cpp}
+            \caption{Odbieranie danych}
+            \label{code:mqtt4}
+            \vspace{2em}
+        \end{kod}
+        
+           
+           
+        Pozostałe sygnały służą czysto w celach diagnostycznych. Z tego też powodu nie wykonują one żadnego kodu poza raportowaniem zdarzenia poprzez komunikat na standardowym strumieniu wyjścia.  
+        
+        \begin{kod}
+            \inputminted[firstline=73, lastline=125]{cpp}{esp/listings/mqtt.cpp}
+            \caption{Obsługa sygnałów}
+            \label{code:mqtt5}
+            \vspace{2em}
+        \end{kod}
+        
+        
+
+        \subsection{Wysyłanie danych}
+        Transmisja informacji odbywa się na osobnym procesie aniżeli reszta modułu MQTT. Logika przekazywania danych jest względnie prosta. Wystarczy odebrać wiadomość z kolejki priorytetowej, a następnie przekazać ją do wysłania z pomocą odpowiedniej funkcji. Na listingu \ref{code:mqtt6} przedstawione jest wysyłanie wiadomości na wszystkich trzech tematach zarządzanych przez mikrokontroler.
+        
+        \begin{kod}
+            \inputminted[firstline=46, lastline=71]{cpp}{esp/listings/mqtt.cpp}
+            \caption{Wysyłanie danych}
+            \label{code:mqtt6}
+            \vspace{2em}
+        \end{kod}
