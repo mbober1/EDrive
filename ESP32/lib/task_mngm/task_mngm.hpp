@@ -11,7 +11,7 @@
 
 /*-------- TASK STRUCTS --------*/
 
-struct task_config
+struct Task_config_t
 {
     TaskFunction_t pvTaskCode;
     const char *pcName;
@@ -39,7 +39,7 @@ enum Task_id
 
 /*------- QUEUES STRUCTS -------*/
 
-struct queue_config
+struct Queue_config_t
 {
     QueueHandle_t handle;
     uint32_t uxItemSize;
@@ -62,7 +62,7 @@ enum Queue_id
 
 
 /*----------- QUEUES -----------*/
-extern queue_config queue[QUEUES_MAX_ID];
+extern Queue_config_t queue[QUEUES_MAX_ID];
 
 #define pidQueue        queue[PID_QUEUE_ID].handle
 #define powerQueue      queue[POWER_QUEUE_ID].handle

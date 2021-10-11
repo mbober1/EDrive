@@ -16,7 +16,7 @@ extern void batteryTask(void*);
 /*--------------------------*/
 
 
-task_config tasks[TASKS_MAX_ID] =
+Task_config_t tasks[TASKS_MAX_ID] =
 {
     {
         .pvTaskCode = motorTask,
@@ -60,7 +60,7 @@ task_config tasks[TASKS_MAX_ID] =
 };
 
 
-queue_config queue[QUEUES_MAX_ID] =
+Queue_config_t queue[QUEUES_MAX_ID] =
 {
     {
         .handle = NULL,
