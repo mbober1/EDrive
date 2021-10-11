@@ -1,12 +1,16 @@
-#include "driver/adc.h"
-#define dataSize 10
+#pragma once
+#include "freertos/FreeRTOS.h"
+
+#define CONVERSION_FACTOR 415
+#define ADC_DATA_SIZE 10
 
 class myADC {
-    const int conversion_factor = 415;
-    uint16_t data[dataSize] = {};
+    uint16_t data[ADC_DATA_SIZE] = {};
 
 public:
     myADC();
     void nextMeasurement();
     float getVoltage();
 };
+
+void batteryTask(void*);
