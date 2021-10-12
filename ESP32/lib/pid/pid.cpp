@@ -87,7 +87,6 @@ void motorTask(void*)
 
         if (pdTRUE == xQueueReceive(pidQueue, &mess, 0L)) 
         {
-            pid.set_parameters(&config);
             switch (mess.parameter)
             {
             case SETPOINT_PARAMETER:
@@ -109,6 +108,8 @@ void motorTask(void*)
             default:
                 break;
             }
+
+            pid.set_parameters(&config);
         }
 
         pid_result = pid.compute(setpoint);
