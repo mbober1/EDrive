@@ -83,4 +83,5 @@ void wifiTask(void*)
     }
 
     wifi_init_sta();
+    vTaskDelete(NULL);
 }
