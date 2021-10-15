@@ -4,4 +4,4 @@
 .vscode/launch.json
 .vscode/ipch
 .vscode
-include/secrets.hpp
+lib/config/secrets.hpp
