@@ -4,6 +4,18 @@
 #include "mqtt.hpp"
 
 
+#define PID_LIMIT 100
+#define INTEGRAL_LIMIT 50
+
+#define NORMALIZE_I(integral_error) ({\
+    if(integral_error > INTEGRAL_LIMIT) integral_error = INTEGRAL_LIMIT;\
+    else if(integral_error < -INTEGRAL_LIMIT) integral_error = -INTEGRAL_LIMIT; })
+
+#define NORMALIZE_PID(pid) ({\
+    if(pid > PID_LIMIT) pid = PID_LIMIT;\
+    else if(pid < -PID_LIMIT) pid = -PID_LIMIT; })
+
+
 /**
  * @brief PID class constructor.
  * @param encoder Encoder object to use.
@@ -41,7 +53,6 @@ int16_t Pid::compute(const int &setpoint) {
     int16_t pid = p + i + d;
     NORMALIZE_PID(pid);
 
-    // printf("P: %3d, I: %3d, D: %3d, EPS: %3d, POWER: %3d%% \n", p, i, d, epsilon, pid); //DEBUG
     return pid;
 }
 

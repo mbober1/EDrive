@@ -103,6 +103,7 @@ Task_manager::Task_manager() {}
 
 Task_manager::~Task_manager()
 {
+    esp_log_level_set(TASK_MNGM_TAG, ESP_LOG_VERBOSE);
     this->end_schedule();
 }
 

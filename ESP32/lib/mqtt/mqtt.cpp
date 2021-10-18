@@ -1,6 +1,7 @@
 #include "mqtt.hpp"
 #include "task_mngm.hpp"
 #include "secrets.hpp"
+#include "config.hpp"
 #include <string>
 
 static bool connected = false;

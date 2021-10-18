@@ -4,16 +4,7 @@
 #include "motor_driver.hpp"
 
 
-#define PID_LIMIT 100
-#define INTEGRAL_LIMIT 50
 
-#define NORMALIZE_I(integral_error) ({\
-    if(integral_error > INTEGRAL_LIMIT) integral_error = INTEGRAL_LIMIT;\
-    else if(integral_error < -INTEGRAL_LIMIT) integral_error = -INTEGRAL_LIMIT; })
-
-#define NORMALIZE_PID(pid) ({\
-    if(pid > PID_LIMIT) pid = PID_LIMIT;\
-    else if(pid < -PID_LIMIT) pid = -PID_LIMIT; })
 
 
 typedef struct 

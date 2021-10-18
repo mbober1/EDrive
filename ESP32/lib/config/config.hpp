@@ -27,3 +27,12 @@ const gpio_num_t MOTOR_IN2 = GPIO_NUM_13;
 const mcpwm_unit_t MOTOR_UNIT = MCPWM_UNIT_0;
 const mcpwm_timer_t MOTOR_TIMER = MCPWM_TIMER_0;
 /*--------------------------------*/
+
+
+/*--------- TOPICS CONFIG --------*/
+#define SETPOINT_TOPIC "edrive/setpoint"
+#define KP_TOPIC "edrive/kp"
+#define KI_TOPIC "edrive/ki"
+#define KD_TOPIC "edrive/kd"
+
+/*--------------------------------*/
