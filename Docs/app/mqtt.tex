@@ -2,6 +2,14 @@
       \subsection{Łączenie z brokerem}
         Podobnie jak w framework'u użytym na poczet przygotowania wsadu do sterownika, tutaj również jest zdefiniowana fenomenalnie prosta w obsłudze abstrakcja. Niemniej jednak w celu utrzymania wysokiej czytelności produkowanego kodu została przygotowana nowa autorska klasa. Dziedziczy ona po klasie zawartej w module QtMqtt. Jej celem jest rozszerzenie klasy bazowej o dodatkową funkcjonalność, która sprawi że inicjalizacja i obsługa połączenia będą jeszcze wygodniejsze. Jako argumenty wywołania należy podać adres i port serwera, a następnie nazwę użytkownika oraz hasło. Cała reszta procesu została zgrabnie ukryta pod warstwą abstrakcji. Omawiany kod przedstawiony został w listingu \ref{code:app_mqtt_connection}.
         
+                
+       \begin{figure}[ht]
+          \centering
+          \includegraphics[width=0.8\textwidth]{img/qt_mqtt.png}
+          \caption{Schemat działania modułu Qt MQTT}
+          \label{fig:qt_mqtt}
+        \end{figure}   
+        
         \begin{kod}
           \inputminted[firstline=21, lastline=34]{cpp}{app/listings/mqtt.cpp}
           \caption{Nawiązanie połączenia z brokerem}

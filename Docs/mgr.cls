@@ -421,7 +421,7 @@
 \if@pl
 \newcommand{\@university}{%
   \LARGE  POLITECHNIKA WROC\L{}AWSKA \\[0mm] %
-  WYDZIA\L{} ELEKTRONIKI            %
+  WYDZIA\L{} ELEKTRONIKI, FOTONIKI I MIKROSYSTEMÓW            %
   \vspace{-6mm}%
 }
 \newcommand{\@fieldtext}{\Large\sc Kierunek:}

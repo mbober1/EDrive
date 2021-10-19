@@ -5,12 +5,12 @@
      
      
     \subsection{Konfiguracja ADC}
-        Po dokładnym przestudiowaniu dokumentacji przyjąłem ustawienie tłumienia na poziomie 2.5dB za najkorzystniejsze. Patrz \ref{code:adc1}. Wyższe ustawienia wprowadzają znaczną niedokładność pomiarów. Według dokumentacji \cite{esp32} takie ustawienie sprawia że efektywny zakres pomiarowy kształtuje się w zakresie od 100mV do 1250mV na pinie mikrokontrolera. Błędy pomiaru zadeklarowane przez producenta nie powinny przekroczyć $ \pm 30 mV$. Jednakże, zasilanie płytki jest zaprojektowane do obsługi dużo większych napięć, tak aby móc wykorzystywać szeroki zakres silników. Podanie napięcia wyższego jak zasilanie procesora, które w tym wypadku wynosi 3.3V, spowodowałoby trwałe uszkodzenia układu. Do bezpiecznego pomiaru napięcia zasilania niezbędne jest więc zastosowanie dzielnika napięcia. 
+        Po dokładnym przestudiowaniu dokumentacji przyjęte zostało ustawienie tłumienia na poziomie 2,5dB. Patrz \ref{code:adc1}. Wyższe ustawienia wprowadzają znaczną niedokładność pomiarów. Według dokumentacji \cite{esp32} takie ustawienie sprawia że efektywny zakres pomiarowy kształtuje się w zakresie od 100mV do 1250mV na pinie mikrokontrolera. Błędy pomiaru zadeklarowane przez producenta nie powinny przekroczyć $ \pm 30 mV$. Jednakże, zasilanie płytki jest zaprojektowane do obsługi dużo większych napięć, tak aby móc wykorzystywać szeroki zakres silników. Podanie napięcia wyższego jak zasilanie procesora, które w tym wypadku wynosi 3.3V, spowodowałoby trwałe uszkodzenia układu. Do bezpiecznego pomiaru napięcia zasilania niezbędne jest więc zastosowanie dzielnika napięcia. 
         
         Rozdzielczość peryferium została ustawiona na 12 bitów. Wynika z tego że istnieje $2^{12} = 4096$ poziomów kwantyzacji. Nie spodziewam się że mój autorski projekt płytki drukowanej \ref{fig:pcb} będzie miał na tyle niski szum kwantyzacji, aby móc w pełni wykorzystać taką rozdzielczość, ale w tym przypadku czas pomiaru nie jest tutaj kluczowy. Założenie wykonywania pomiaru zakłada że i tak będzie wykonywane wiele pomiarów pod rząd, aby później móc wyciągnąć z nich średnią.
         
         \begin{kod}
-          \inputminted[firstline=3,lastline=11]{cpp}{esp/listings/adc.cpp}
+          \inputminted[firstline=8,lastline=17]{cpp}{esp/listings/adc.cpp}
           \caption{Konfiguracja przetwornika ADC}
           \label{code:adc1}
           \vspace{2em}
@@ -59,7 +59,7 @@
         
         Oznacza to że w zakresie zasilania od $1.01V$ do $12.625V$ mamy dużą szansę uzyskać wynik pomiaru bliski rzeczywistemu.
         
-
+    \newpage
         
     \subsection{Wyznaczanie współczynnika konwersji}
         W celu przeliczenia wartości odczytywanych z przetwornika analogowy-cyfrowego na napięcie wyrażone w woltach, niezbędne jest wyznaczenie współczynnika konwersji. 
@@ -116,7 +116,7 @@
  
         
         \begin{kod}
-          \inputminted[firstline=13]{cpp}{esp/listings/adc.cpp}
+          \inputminted[firstline=19, lastline=44]{cpp}{esp/listings/adc.cpp}
           \caption{Wyzwalanie pomiaru i przeliczanie wartości}
           \label{code:adc2}
           \vspace{2em}

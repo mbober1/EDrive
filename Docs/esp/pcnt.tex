@@ -3,7 +3,7 @@
             Licznik impulsów (Pulse Counter) jest peryferium, które znakomicie ułatwia obsługę enkoderów. Procesory bez takich udogodnień są skazane na odczytywanie przerwania za każdym razem jak enkoder wyśle impuls, aby następnie za pomocą kodu Graya rozpoznawać kierunek obrotu \cite{gray}. W takim zastosowaniu użycie enkodera jako pokrętła jest zrozumiałe. Zmieniając enkoder ręczny na taki zamontowany na silniku znacznie zwiększamy częstość generowania impulsów, a co za tym idzie również przerwań, odbieranych w sekundzie pracy procesora. W przypadku użytego w tym projekcie silnika prędkość obrotowa silnika przed przekładnią równa jest:
             
             \begin{displaymath}
-              V = \frac{ n \cdot k}{t_{n}} = \frac{ 300 \cdot 20.4 }{60s} = 102
+              V = \frac{ n \cdot k}{t_{n}} = \frac{ 300 \cdot 20.4 }{60s} = 102 RPS
             \end{displaymath}
             
             Gdzie:
@@ -45,7 +45,7 @@
             W przypadku tego układu, konfiguracja jest bardzo prosta i sprowadza się do wypełnienia zaledwie dwóch struktur i wysłania ich do peryferium.
             
             \begin{kod}
-              \inputminted[firstline=52,lastline=82]{cpp}{esp/listings/motor.cpp}
+              \inputminted[firstline=5,lastline=48]{cpp}{esp/listings/encoder_driver.cpp}
               \caption{Konfiguracja licznika impulsów}
               \label{code:pcnt}
               \vspace{2em}

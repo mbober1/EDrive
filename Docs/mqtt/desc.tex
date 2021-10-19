@@ -15,7 +15,7 @@
                     
         \begin{figure}[ht]
             \centering
-            \includegraphics[width=0.9\textwidth]{img/mqtt_schematic.png}
+            \includegraphics[width=0.8\textwidth]{img/mqtt_schematic.png}
             \caption{Schemat działania protokołu MQTT}
             \label{fig:mqtt_schematic}
         \end{figure}
@@ -42,6 +42,52 @@
         \end{itemize}
         
         
-    
-    \section{Implementacja i konfiguracja}
-      TODO docker, konfiguracja
+    \section{Instalacja i konfiguracja}
+        \subsection{Tworzenie kontenera}
+            Instalacja brokera Mosquitto w kontenerze jest niezwykle prosta. Do uruchomienia instancji brokera wystarczy jedna komenda \ref{code:docker_install} wpisana w konsoli. W przypadku, gdy Docker nie znajdzie lokalnie danego kontenera, automatycznie pobierze on niezbędne pliki, rozpakuje je, a następnie kontynuuje uruchomienie. Jedynym wymogiem jest poprawnie przeprowadzona instalacja programu Docker.
+            
+            \begin{kod}
+                \inputminted[lastline=2]{sh}{mqtt/listings/docker.sh}
+                \caption{Utworzenie instancji brokera MQTT w kontenerze}
+                \label{code:docker_install}
+                \vspace{2em}
+            \end{kod}
+            
+            Do kompleksowego zrozumienia użytego polecania warto pochylić się nad sensem wykorzystanych opcji:
+            
+            \begin{itemize}
+                \item $run$ uruchamia nowy kontener.
+                
+                \item $-it$ włącza interaktywność kontenera, przekierowuje standardowy strumień wejściowy do kontenera.
+                
+                \item $-name$ przypisuje kontenerowi przyjazną nazwę.
+                
+                \item $-p$ to opcja pozwalająca przekierować port poza kontener. Domyślny port wykorzystywany przy komunikacji MQTT to 1883.
+                
+                \item $-v$ montowanie woluminu. W tym przypadku montowany jest on w folderze użytkownika. Taka opcja znacząco ułatwia ingerencję w pliki konfiguracyjne.
+                
+            \end{itemize}
+            
+            Na końcu polecenia znajduje się nazwa obrazu z biblioteki, który ma zostać uruchomiony.
+        
+        \subsection{Konfiguracja}
+            Po pomyślnej instalacji wymagana jest minimalna konfiguracja programu. Plik "mosquitto.conf" jest głównym plikiem konfiguracyjnym, w którym należy zawrzeć opcje wymienione w listingu \ref{code:docker_conf}. Przede wszystkim należy ustawić wykorzystywany port na identyczny z podanym przy tworzeniu kontenera. Kolejno należy wybrać możliwość zapisywania stanów oraz ścieżkę zapisu. Ważnym aspektem jest także wymuszenie autoryzacji podczas połączenia wraz ze wskazaniem na listę dopuszczanych klientów i haseł.
+            
+            \begin{kod}
+                \inputminted[firstline=7, lastline=11]{sh}{mqtt/listings/docker.sh}
+                \caption{Minimalna konfiguracja brokera}
+                \label{code:docker_conf}
+                \vspace{2em}
+            \end{kod}
+            
+        \subsection{Dodawanie użytkowników}
+            Ostatnim krokiem w przygotowywaniu brokera do przyjęcia klientów jest zdefiniowanie listy akceptowanych loginów wraz z przypisanymi im hasłami. Najprostszym sposobem jest wykorzystanie dedykowanej temu celu komendy widocznej w listingu \ref{code:docker_user}.
+            
+            \begin{kod}
+                \inputminted[firstline=14]{sh}{mqtt/listings/docker.sh}
+                \caption{Dodawanie pierwszego użytkownika}
+                \label{code:docker_user}
+                \vspace{2em}
+            \end{kod}
+            
+            Tworzy ona nowy plik z hasłami o nazwie $passwordfile$ jednocześnie wyzwalając inicjalizację pierwszego użytkownika o loginie $user$. Po wykonaniu polecenia zostaje wystosowane również dwukrotne zapytanie o hasło dla nowego konta.

@@ -1,8 +1,38 @@
 
   \chapter{Schemat działania projektu}
-    Do sprawnej wymiany informacji między urządzeniami potrzebne jest kilka tematów. Oprogramowanie służące do trzymania piecza nad tymi drogami komunikacji działa tak że w razie potrzeby automatycznie potrafi tworzyć niezbędne tematy, dzięki czemu niezależnie czy dany broker już wcześniej obsługiwał to urządzenia czy nie, system potrafi samodzielnie przygotować sobie środowisko pracy.
+  
+    \section{Założenia}
+
+    Zostały zdefiniowane ogólne założenia dotyczące każdego z elementów, których spełnienie definiuje kryterium sukcesu.
     
-    \vspace{1em} 
+    \begin{itemize}
+        \item    System składa się z trzech głównych elementów, połączonych ze sobą:
+            \begin{itemize}
+                \item urządzenia wykonawczego,
+                \item brokera MQTT,
+                \item aplikacji dostępowej.
+            \end{itemize}
+            
+        \item     Komunikacja pomiędzy częściami składowymi odbywa się z poprzez sieć bezprzewodową wykonaną w technologii WiFi z wykorzystaniem protokołu MQTT.
+        \item     Urządzenie wykonawcze ma zadawać napięcia na silnik prądu stałego w taki sposób, aby uzyskać parametry jak najbardziej zbliżone do zadanych przez aplikację dostępową.   
+        \item    Aplikacja dostępowa ma za zadanie stanowić prosty i przejrzysty interfejs do sterowania urządzeniem. Umożliwia ona:
+    
+            \begin{itemize}
+                \item zadawania prędkości obrotowej silnika,
+                \item odczytu aktualnej prędkości silnika,
+                \item zmiany nastaw regulatora PID,
+                \item odczytu napięcia zasilania urządzenia,
+                \item odczytu wypełnienia sygnału PWM.
+            \end{itemize}
+            
+        \item    Broker MQTT on za zadanie być lekkim i szybkim pośrednikiem w komunikacji między aplikacją dostępową, a urządzeniem wykonawczym.
+    \end{itemize}
+ 
+ 
+    \section{Wymiana informacji}
+    
+    %TO DO: opisać topiki
+
     Tematy tworzone i zarządzane przez aplikację okienkową to:
 
     \begin{itemize}
@@ -19,12 +49,17 @@
 
     \begin{itemize}
       \item rpm - ilość obrotów odczytana z silnika przy pomocy enkodera. Wyrażona w obrotach na minutę. Służy jedynie w celach kontrolnych. Daje możliwość zorientować się z jaką prędkością obraca się silnik w rzeczywistości i porównać wynik z wartością zadaną.
-      \item pwm\_duty - wartość wypełnienia PWM, wyrażona w procentach. Obrazuje stopień wykorzystania silnika.
-      \item voltage - Napięcie zasilania urządzenia. Według specyfikacji L298 napięcie dostarczane do silników jest niższe o 1.8V - 3.2V w zależności od obciążenia. \cite{mostek}
+      
+      \item pwm\_duty - wartość wypełnienia PWM, wyrażona w procentach. Obrazuje stopień wykorzystania dostępnej mocy silnika.
+      
+      \item voltage - Napięcie zasilania urządzenia. 
+      
+      %Według specyfikacji L298 napięcie dostarczane do silników jest niższe o 1.8V - 3.2V w zależności od obciążenia. \cite{mostek}
     \end{itemize}
     
     Obaj klienci brokera MQTT subskrybują nawzajem swoje tematy. Schemat wymiany danych został przedstawiony na rysunku \ref{data_transmision}. Obrazuje on sposób komunikacji i zależności.
     
+
     \begin{figure}[ht]
       \centering
       \includegraphics[width=1\textwidth]{img/dane.png}

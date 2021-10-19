@@ -29,7 +29,7 @@
 \author{Marcin Bober}
 \title{Projekt systemu sensorycznego bazującego na protokole MQTT}
 \engtitle{Design a sensor system based on MQTT protocol}
-\supervisor{Dr inż., Mateusz Cholewiński, K29W04D02}
+\supervisor{Dr inż., Mateusz Cholewiński, K29W12ND02}
 \field{Automatyka i Robotyka (AIR)}
 \specialisation{Robotyka (ARR)}
 \date{2021}
@@ -47,9 +47,12 @@
 
     \include{esp/desc} % ESP - opis
     \include{esp/pcnt} % ESP - licznik
+    \include{esp/pwm} % ESP - PWM
     \include{esp/pid} % ESP - PID
+    
     \include{esp/adc} % ESP - adc
     \include{esp/mqtt} % ESP - mqtt
+    \include{esp/device} % ESP - prototyp
 
     \include{mqtt/desc} % MQTT - opis
 
@@ -58,6 +61,7 @@
     \include{app/mqtt} % APP - komunikacja
     \include{app/chart} % APP - wykresy
     \include{app/engine} % APP - klasa silnika
+    \include{app/ui} % APP - interfejs użytkownika
   
     \include{manual} % instrukcja
     
