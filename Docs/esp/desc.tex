@@ -1,10 +1,10 @@
 
     \chapter{Szczegółowy opis sterownika}
-        Przygotowanie urządzenia wykonawczego pochłonęło lwią część czasu przeznaczonego na rozwój projektu. Wynika to z wielu części składowych niezbędnych do przygotowania kompleksowego produktu. Składa się na to między innymi projekt płytki drukowanej oraz projekt oprogramowania. Warto zaznaczyć że do skonstruowania w pełni autorskiego rozwiązania niezbędna jest szczegółowa wiedza z wielu dziedzin. Poczynając od elektroniki na programowaniu systemów wbudowanych kończąc.
+        Urządzenie wykonawcze jest głównym elementem całego systemu. Jest ono także najbardziej skomplikowanym fragmentem, a wynika to z wielu części składowych niezbędnych do przygotowania kompleksowego produktu. Składa się na niego między innymi projekt płytki drukowanej oraz projekt oprogramowania. Warto zaznaczyć że do skonstruowania w pełni autorskiego rozwiązania niezbędna jest szczegółowa wiedza z wielu dziedzin. Poczynając od elektroniki na programowaniu systemów wbudowanych kończąc.
     
     
         \section{Mikrokontroler}
-            Jednostka obliczeniowa wybrana do przeprowadzania obliczeń mieści się w popularnym SoC (z angielskiego System on a chip) o oznaczeniu ESP32-WROOM-32UE. Jest to układ chińskiej firmy Espressif Systems. Został on wybrany ze względu na zintegrowany moduł WiFi oraz bardzo niską cenę wynoszącą poniżej 2\$ za sztukę, co perfekcyjnie wpisuje się w założenia projektu. Ponadto znajduje się w nim wiele ciekawych komponentów takich jak:
+            Jednostka obliczeniowa wybrana do przeprowadzania obliczeń mieści się w popularnym SoC (z angielskiego System on a chip) o oznaczeniu ESP32-WROOM-32UE \cite{esp_module}. Jest to układ chińskiej firmy Espressif Systems \cite{espressif}. Został on wybrany ze względu na zintegrowany moduł WiFi oraz bardzo niską cenę wynoszącą poniżej 2\$ za sztukę, co perfekcyjnie wpisuje się w założenia projektu. Ponadto znajduje się w nim wiele ciekawych komponentów takich jak:
     
             \begin{itemize}
               \item dwurdzeniowy procesor o taktowaniu do 240MHz,
@@ -48,7 +48,6 @@
     
     
         \section{Kolejki i wątki}
-            % TODO  diagram wątków, kolejki
             \subsection{Opis}
             Największą zaletą posiadania systemu operacyjnego jest możliwość tworzenia osobnego procesu dla każdego zadania. To znowu pozwala dokładnie kontrolować czasy wywołań i częstotliwości odpowiednich wydarzeń. Główne zadania stawiane temu sterownikowi to:
             
@@ -76,7 +75,7 @@
             
             \begin{figure}[ht]
                 \centering
-                \includegraphics[width=0.7\textwidth]{img/task_diagram.png}
+                \includegraphics[width=0.8\textwidth]{img/task_diagram.png}
                 \caption{Diagram wątków}
                 \label{fig:task_diagram}
             \end{figure}
@@ -123,7 +122,7 @@
               \inputminted[firstline=63, lastline=99]{cpp}{esp/listings/task_mngm.cpp}
               \caption{Konfiguracja kolejek FIFO}
               \label{code:queue_config}
-              \vspace{2em}
+              \vspace{1em}
             \end{kod}
             
             Uchwyty do kolejek są przypisywane podczas inicjalizacji kolejek. Kod dotyczący inicjalizacji umieszczony jest pod listingiem \ref{code:queue_init}.
@@ -132,7 +131,7 @@
               \inputminted[firstline=235, lastline=242]{cpp}{esp/listings/task_mngm.cpp}
               \caption{Inicjalizacja kolejek FIFO}
               \label{code:queue_init}
-              \vspace{2em}
+              \vspace{1em}
             \end{kod}          
             
             Wykorzystanie kolejek poza modułem byłoby mocno utrudnione bez zdefiniowania odpowiednich makr, które odnoszą się do przypisanych uchwytów. Kod znajduje się w listingu \ref{code:queue_define}.
@@ -146,7 +145,7 @@
             
             
         \section{Mostek H}
-            Głównym zadaniem mikrokontrolerów jest zbieranie danych z czujników, wykonywanie obliczeń i podejmowanie decyzji. Nie zostały jednak stworzone do sterowania elementami o wyższym napięciu czy dużych prądach. Wyjścia mikrokontrolerów potrafią dostarczyć zazwyczaj około kilkudziesięciu miliamperów prądu. W przypadku mikrokontrolera użytego w projekcie dokumentacja \cite{esp32} informuje o bardzo wysokim prądzie wyjściowym dochodzącym nawet do 40mA w sprzyjających warunkach. Jest to wystarczające natężenie prądu do zasilenia diody LED (ok. 20mA) czy sterowania tranzystorem. Z drugiej strony jest to wielokrotnie za mało, aby uruchomić silnik prądu stałego. Takie silniki zazwyczaj nie dość że działają na znaczenie wyższych napięciach niż 3.3V to często potrafią także zużyć ponad 2A prądu podczas obciążenia. Jednym ze sposobów kontrolowania prędkości obrotowej takiego jest zastosowanie wcześniej wspomnianego tranzystora lub przekaźnika. Minusem takiego rozwiązania jest brak możliwości zmiany kierunku obrotów. Z tego powodu najczęściej stosowanym rozwiązaniem, które pozwoli na sterowanie silnikiem w obu kierunkach jest użycie mostka H. Jego schemat przedstawiono na rys. \ref{fig:h_bridge_schematic}.
+            Głównym zadaniem mikrokontrolerów jest zbieranie danych z czujników, wykonywanie obliczeń i podejmowanie decyzji. Nie zostały jednak stworzone do sterowania elementami o wyższym napięciu czy dużych prądach, ponieważ takie wymagania znacznie utrudniają miniaturyzację. Z tego powodu wyjścia mikrokontrolerów potrafią dostarczyć zazwyczaj około kilkudziesięciu miliamperów prądu. W przypadku mikrokontrolera użytego w projekcie dokumentacja \cite{esp32} informuje o bardzo wysokim prądzie wyjściowym dochodzącym nawet do 40mA w sprzyjających warunkach. Jest to wystarczające natężenie prądu do zasilenia diody LED (ok. 20mA) czy sterowania tranzystorem. Z drugiej strony jest to wielokrotnie za mało, aby uruchomić silnik prądu stałego. Takie silniki zazwyczaj nie dość że działają na znaczenie wyższych napięciach niż 3.3V to często potrafią także zużyć ponad 2A prądu podczas obciążenia. Jednym ze sposobów kontrolowania prędkości obrotowej takiego jest zastosowanie wcześniej wspomnianego tranzystora lub przekaźnika, ale minusem takiego rozwiązania jest brak możliwości zmiany kierunku obrotów. Z tego powodu najczęściej stosowanym rozwiązaniem, które pozwoli na sterowanie silnikiem w obu kierunkach jest użycie mostka H. Jego schemat przedstawiono na rys. \ref{fig:h_bridge_schematic}.
             
             \begin{figure}[ht]
                 \centering

@@ -5,9 +5,9 @@
      
      
     \subsection{Konfiguracja ADC}
-        Po dokładnym przestudiowaniu dokumentacji przyjęte zostało ustawienie tłumienia na poziomie 2,5dB. Patrz \ref{code:adc1}. Wyższe ustawienia wprowadzają znaczną niedokładność pomiarów. Według dokumentacji \cite{esp32} takie ustawienie sprawia że efektywny zakres pomiarowy kształtuje się w zakresie od 100mV do 1250mV na pinie mikrokontrolera. Błędy pomiaru zadeklarowane przez producenta nie powinny przekroczyć $ \pm 30 mV$. Jednakże, zasilanie płytki jest zaprojektowane do obsługi dużo większych napięć, tak aby móc wykorzystywać szeroki zakres silników. Podanie napięcia wyższego jak zasilanie procesora, które w tym wypadku wynosi 3.3V, spowodowałoby trwałe uszkodzenia układu. Do bezpiecznego pomiaru napięcia zasilania niezbędne jest więc zastosowanie dzielnika napięcia. 
+        Po dokładnym przestudiowaniu dokumentacji przyjęte zostało ustawienie tłumienia na poziomie 2,5dB \ref{code:adc1}. Wyższe ustawienia wprowadzają znaczną niedokładność pomiarów. Według dokumentacji \cite{esp32} takie ustawienie sprawia że efektywny zakres pomiarowy kształtuje się w zakresie od 100mV do 1250mV na nóżce mikrokontrolera. Błędy pomiaru zadeklarowane przez producenta nie powinny przekroczyć $ \pm 30 mV$. Jednakże, zasilanie płytki jest zaprojektowane do obsługi dużo większych napięć, tak aby móc wykorzystywać szeroki zakres silników. Podanie napięcia wyższego jak zasilanie procesora, które w tym wypadku wynosi 3.3V, spowodowałoby trwałe uszkodzenia układu. Do bezpiecznego pomiaru napięcia zasilania niezbędne jest więc zastosowanie dzielnika napięcia. 
         
-        Rozdzielczość peryferium została ustawiona na 12 bitów. Wynika z tego że istnieje $2^{12} = 4096$ poziomów kwantyzacji. Nie spodziewam się że mój autorski projekt płytki drukowanej \ref{fig:pcb} będzie miał na tyle niski szum kwantyzacji, aby móc w pełni wykorzystać taką rozdzielczość, ale w tym przypadku czas pomiaru nie jest tutaj kluczowy. Założenie wykonywania pomiaru zakłada że i tak będzie wykonywane wiele pomiarów pod rząd, aby później móc wyciągnąć z nich średnią.
+        Rozdzielczość peryferium została ustawiona na 12 bitów. Wynika z tego że istnieje $2^{12} = 4096$ poziomów kwantyzacji. Zaprojektowanie płytki drukowanej, która będzie w stanie w pełni wykorzystać tak dużą rozdzielczość jest bardzo trudne. Obecność przetwornicy impulsowej oraz niewielki dystans pomiędzy procesorem, a mostkiem H sprawia że poziom szumu kwantyzacji będzie znaczący. W przypadku wymogu bardzo szybkich pomiarów lepszym wyborem okazałaby się zmiana rozdzielczości na 10 bitów, co przełożyłoby się na krótszy czas operacji. W tym przypadku czas pomiaru nie jest kluczowy, więc przyjętą strategią uzyskiwania dokładnych wyników jest wykonywanie serii następujących po sobie pomiarów, z którym następnie wyliczana jest średnia.
         
         \begin{kod}
           \inputminted[firstline=8,lastline=17]{cpp}{esp/listings/adc.cpp}
@@ -21,9 +21,9 @@
 
         
     \subsection{Dzielnik napięcia}
-        Zadecydowałem że w tym projekcie wystarczający będzie najprostszy dzielnik oparty na dwóch rezystorach. Pozwoli nam on liniowo podzielić napięcie, tak aby nigdy nie przekroczyło ono wartości niebezpiecznej dla mikroprocesora. Do stworzenia dzielnika wykorzystałem rezystory z szeregu E24 \cite{szereg} o wartościach $9.1k \Omega $ oraz $1k \Omega $ i podłączyłem je w sposób pokazany na schemacie \ref{fig:pcb_schematic_1}.
+        Ze względu na niekrytyczne znaczenie pomiarów napięcia zdecydowano że w tym projekcie całkowicie wystarczający będzie najprostszy dzielnik oparty na dwóch rezystorach. Pozwala on na liniowe podzielenie napięcia w taki sposób, aby nigdy nie przekroczyło ono wartości niebezpiecznej dla mikroprocesora. Do stworzenia dzielnika wykorzystano rezystory z szeregu E24 \cite{szereg} o wartościach $9.1k \Omega $ oraz $1k \Omega $. Ich podłączenia jest pokazane na schemacie \ref{fig:pcb_schematic_1}.
         
-        Obliczenie dostępnego zakresu pomiarowego przetwornika adc odbywa się przy pomocy wzoru na dzielnik napięcia \cite{dzielnik}. Jest on następujący:
+        Obliczenie dostępnego zakresu pomiarowego przetwornika ADC odbywa się przy pomocy wzoru na dzielnik napięcia \cite{dzielnik}. Jest on następujący:
         
         \vspace{1em}
         \begin{displaymath}
@@ -64,7 +64,7 @@
     \subsection{Wyznaczanie współczynnika konwersji}
         W celu przeliczenia wartości odczytywanych z przetwornika analogowy-cyfrowego na napięcie wyrażone w woltach, niezbędne jest wyznaczenie współczynnika konwersji. 
         
-        Posiadając wiedzę na temat użytych rezystorów w dzielniku napięcia, jest możliwe wyliczenie tego współczynnika. Aczkolwiek, moje doświadczenie z projektowaniem układów pomiarowych podpowiada że teoria bardzo często mija się z praktyką i zazwyczaj kalibruję swoje układy wykonując serię pomiarów. Tak też zrobiłem w tym przypadku. Wyniki zostały przedstawione na wykresie \ref{fig:adc_plot}
+        Posiadając wiedzę na temat użytych rezystorów w dzielniku napięcia, jest możliwe wyliczenie tego współczynnika. Innym sposobem kalibracji przetwornika jest wykonanie serii pomiarów, porównując otrzymane wyniki z zaufanym urządzeniem pomiarowym. Zostały one przedstawione na wykresie \ref{fig:adc_plot}.
  
         \begin{figure}
         \vspace{1em}

@@ -261,38 +261,6 @@
         <property name="rightMargin">
          <number>10</number>
         </property>
-        <item row="2" column="0">
-         <widget class="QLabel" name="valueLabel">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Value:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="setpointLabel">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Setpoint:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1">
          <widget class="QLabel" name="valueLabelValue">
           <property name="text">
@@ -332,13 +300,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="voltageLabelValue">
-          <property name="text">
-           <string>0 V</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="1">
          <widget class="QLabel" name="setpointLabelValue">
           <property name="text">
@@ -346,15 +307,15 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="dutyLabelValue">
+        <item row="0" column="1">
+         <widget class="QLabel" name="voltageLabelValue">
           <property name="text">
-           <string>0%</string>
+           <string>0 V</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="torqueLabel">
+        <item row="2" column="0">
+         <widget class="QLabel" name="valueLabel">
           <property name="font">
            <font>
             <weight>75</weight>
@@ -362,17 +323,33 @@
            </font>
           </property>
           <property name="text">
-           <string>Torque:</string>
+           <string>Value:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="torqueLabelValue">
+        <item row="1" column="0">
+         <widget class="QLabel" name="setpointLabel">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>0 Kg*cm</string>
+           <string>Setpoint:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="dutyLabelValue">
+          <property name="text">
+           <string>0%</string>
           </property>
          </widget>
         </item>

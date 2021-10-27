@@ -1,4 +1,13 @@
 \section{Interfejs użytkownika}
+    Interfejs zawiera wszystkie elementy niezbędne do wygodnej obsługi urządzenia.
+    
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=1\textwidth]{img/app_ui.png}
+        \caption{Interfejs użytkownika}
+        \label{fig:app_ui}
+    \end{figure}
+    
     
     \subsection{Górna belka}
         W górnej części aplikacji znajduje się menu kontekstowe. Pozwala ono na wywołanie okna inicjalizującego połączenie z serwerem (patrz \ref{fig:app_connect}). Do nawiązania pomyślnego połączenia wymagane jest umieszczenie poprawnego adresu oraz portu brokera MQTT. W przypadku dezaktywowanej opcji przyjmowania anonimowych użytkowników wymagane jest także podanie ważnych danych autoryzacyjnych.
@@ -20,14 +29,26 @@
             \item Panel z aktualnymi danymi.
         \end{itemize}
         
-        Pierwsza z nich udostępnia interfejs do dynamicznej zmiany nastaw regulatora 
+        Pierwsza z nich udostępnia interfejs do dynamicznej zmiany nastaw regulatora PID. Pozwala to bardzo szybko uzyskać zadowalające nastawy, niezbędne do prawidłowego działania silnika. 
+        
+        Środkowy panel zawiera pola wielokrotnego wyboru służące do ukrywania niepotrzebnych danych na wykresie. Dzięki tej funkcjonalności możliwe jest uniknięcie nakładanie się na siebie wykresów, co znaczenie zwiększa komfort i czytelność prezentowanych informacji.
+        
+        Ostatni panel, umieszczony z prawej strony zawiera zrób danych zebranych z urządzenia wykonawczego. Można wyróżnić w śród nich:
+        
+        \begin{itemize}
+            \item napięcie zasilanie urządzenia,
+            \item ustawiony punkt pracy,
+            \item aktualną prędkość obrotową silnika,
+            \item wartość procentową wypełnienia PWM.
+        \end{itemize}
 
     \subsection{Graf}
-    Interfejs zawiera wszystkie elementy niezbędne do wygodnej obsługi urządzenia.
-    
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=1\textwidth]{img/app_ui.png}
-        \caption{Interfejs użytkownika}
-        \label{fig:app_ui}
-    \end{figure}
+        Najatrakcyjniejszym wizualnie elementem jest wykres umieszczony w centrum okna. Wizualizuje on trzy zmienne:
+        
+        \begin{itemize}
+            \item zadaną wartość obrotów silnika,
+            \item aktualną wartość obrotów silnika,
+            \item wypełnienie PWM.
+        \end{itemize}
+        
+        Obecność wykresu umożliwia wizualną ocenę jakości sterowania.

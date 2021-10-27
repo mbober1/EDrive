@@ -300,7 +300,7 @@ void MainWindow::setTorque(float current) {
     engine->setTorque(value);
     QString text(QString::number(value, 'f', 2));
     text += " Kg*cm";
-    ui->torqueLabelValue->setText(text);
+    // ui->torqueLabelValue->setText(text);
 }
 
 

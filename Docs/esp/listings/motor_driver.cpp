@@ -26,18 +26,18 @@ Motor::Motor(mcpwm_unit_t mcpwm_unit, gpio_num_t in1, gpio_num_t in2, mcpwm_time
 
 /**
  * @brief Set motor duty cycle.
- * @param duty_cycle - float - Duty cycle to set. Range 0-100.
+ * @param duty_cycle - float - Duty cycle to set. Range from -100 to 100.
  */
 void Motor::set_duty(float duty_cycle)
 {
-    /* motor moves in forward direction, with duty cycle = duty % */
+    /* Motor moves in forward direction. */
     if (duty_cycle > 0) 
     {
         mcpwm_set_signal_low(this->mcpwm_unit, this->timer_num, MCPWM_GEN_A);
         mcpwm_set_duty(this->mcpwm_unit, this->timer_num, MCPWM_GEN_B, duty_cycle);
         mcpwm_set_duty_type(this->mcpwm_unit, this->timer_num, MCPWM_GEN_B, MCPWM_DUTY_MODE_0);  
     }
-    /* motor moves in backward direction, with duty cycle = -duty % */
+    /* Motor moves in backward direction */
     else 
     {
         mcpwm_set_signal_low(this->mcpwm_unit, this->timer_num, MCPWM_GEN_B);

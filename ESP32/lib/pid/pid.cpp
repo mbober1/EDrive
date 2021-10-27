@@ -125,6 +125,7 @@ void motorTask(void*)
 
         pid_result = pid.compute(setpoint);
         engine.set_duty(pid_result);
+        xQueueSendToBack(powerQueue, &pid_result, 0);
 
         vTaskDelayUntil(&xLastWakeTime, PID_LOOP_PERIOD);         // set PID loop to 10ms
     }

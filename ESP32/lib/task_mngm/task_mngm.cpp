@@ -202,8 +202,8 @@ void Task_manager::set_mode(Mode new_mode)
         case Mode::OPERATIONAL:
         {
             ESP_LOGI(TASK_MNGM_TAG, "Going to operational mode");
-            this->resume_task(MOTOR_TASK_ID);
-            this->resume_task(BATTERY_TASK_ID);
+            // this->resume_task(MOTOR_TASK_ID);
+            // this->resume_task(BATTERY_TASK_ID);
             
             power = 
             {
@@ -218,8 +218,8 @@ void Task_manager::set_mode(Mode new_mode)
         case Mode::SLEEP:
         {
             ESP_LOGI(TASK_MNGM_TAG, "Going to sleep mode");
-            this->suspend_task(MOTOR_TASK_ID);
-            this->suspend_task(BATTERY_TASK_ID);
+            // this->suspend_task(MOTOR_TASK_ID);
+            // this->suspend_task(BATTERY_TASK_ID);
 
             power = 
             {
