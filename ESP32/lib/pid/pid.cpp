@@ -16,6 +16,13 @@
     else if(pid < -PID_LIMIT) pid = -PID_LIMIT; })
 
 
+inline void GET_ENCODER_VALUE(pcnt_unit_t pcnt_unit, int16_t *input)
+{
+    pcnt_get_counter_value(pcnt_unit, input);
+    pcnt_counter_clear(pcnt_unit);
+    xQueueSendToBack(pulsesQueue, input, 0);
+}
+
 /**
  * @brief PID class constructor.
  * @param encoder Encoder object to use.
@@ -101,7 +108,7 @@ void motorTask(void*)
             switch (mess.parameter)
             {
             case SETPOINT_PARAMETER:
-                setpoint = RPMtoTick(mess.value);
+                setpoint = mess.value;
                 break;
             
             case KP_PARAMETER:

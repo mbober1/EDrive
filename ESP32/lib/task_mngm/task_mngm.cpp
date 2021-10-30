@@ -23,7 +23,7 @@ Task_config_t tasks[TASKS_MAX_ID] =
         .pcName = "motorTask",
         .usStackDepth = 4096,
         .pvParameters = nullptr,
-        .uxPriority = configMAX_PRIORITIES-1,
+        .uxPriority = 15,
         .pvCreatedTask = NULL,
         .xCoreID = 1,
     },

@@ -7,8 +7,8 @@
 #define ENCODER_TAG "ENCODER"
 
 
-#define GET_ENCODER_VALUE(pcnt_unit, input)        pcnt_get_counter_value(pcnt_unit, input); \
-    pcnt_counter_clear(pcnt_unit);
+
+
 
 
 class Encoder
