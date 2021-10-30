@@ -23,9 +23,9 @@ Task_config_t tasks[TASKS_MAX_ID] =
         .pcName = "motorTask",
         .usStackDepth = 4096,
         .pvParameters = nullptr,
-        .uxPriority = 15,
+        .uxPriority = 40,
         .pvCreatedTask = NULL,
-        .xCoreID = 1,
+        .xCoreID = 0,
     },
 
     {
@@ -35,7 +35,7 @@ Task_config_t tasks[TASKS_MAX_ID] =
         .pvParameters = nullptr,
         .uxPriority = 3,
         .pvCreatedTask = NULL,
-        .xCoreID = 0,
+        .xCoreID = 1,
     },
     
     {
@@ -45,7 +45,7 @@ Task_config_t tasks[TASKS_MAX_ID] =
         .pvParameters = nullptr,
         .uxPriority = 4,
         .pvCreatedTask = NULL,
-        .xCoreID = 0,
+        .xCoreID = 1,
     },
 
     {
@@ -55,7 +55,7 @@ Task_config_t tasks[TASKS_MAX_ID] =
         .pvParameters = nullptr,
         .uxPriority = 5,
         .pvCreatedTask = NULL,
-        .xCoreID = 0,
+        .xCoreID = 1,
     },
 };
 

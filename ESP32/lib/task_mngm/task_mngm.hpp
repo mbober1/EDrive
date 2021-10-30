@@ -25,9 +25,9 @@ struct Task_config_t
 enum Task_id 
 {
     MOTOR_TASK_ID,
+    BATTERY_TASK_ID,
     WIFI_TASK_ID,
     MQTT_TASK_ID,
-    BATTERY_TASK_ID,
     TASKS_MAX_ID,
 };
 
