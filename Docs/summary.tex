@@ -1,2 +1,17 @@
+ \chapter{Podsumowane}
+  
+Powyższa praca jest przykładem rozwiązania problemu budowy projektu systemu sensorycznego opartego na protokole MQTT. W pracy znalazły się jedynie najważniejsze fragmenty kodu źródłowego oprogramowania niezbędnego do budowy systemu. Podkreślają one kwestie szczególnie istotne i warte omówienia. Całość kodu wraz z wylewną dokumentacją oraz projekt płytki drukowanej wykonanego urządzenia znajdują się na repozytorium projektu. 
 
-  \chapter{Podsumowane}
+Zastosowanie rozwiązań otwrtoźródołych znacząco przyczyniło się do zwiększenia dostępności przedstawionego rozwiązania. Co więcej, wykorzystanie proponowanego systemu i wdrożenie go do środowiska komercyjnego również nie będzie stanowiło dużego obciążenia finansowego ze względu na brak konieczności zakupienia żadnych licencji. 
+
+Najważniejsze aspekty niezbędne przy realizacji projektu to:
+\begin{itemize}
+    \item zdefiniowanie ogólnych założeń systemu i struktur danych, 
+    \item zaprojektowanie płytki drukowanej urządzenia i wykonanie prototypu,
+    \item konfiguracja i konteneryzacja brokera MQTT,
+    \item oprogramowanie prototypu urządzenia,
+    \item stworzenie aplikacji dostępowej we frameworku QT,
+    \item stworzenie dokumentacji kodu.
+\end{itemize}
+
+Dogłębna analiza działania urządzenia i symulowanie jego zachowania pozwoliły na stworzenie prototypu wolnego od wad. Sekcja zasilania bezproblemowo filtruje wszelkie zakłócenia generowane przez szczotki silnika prądu stałego. Może się ona pochwalić również bardzo szerokim zakresem obsługiwanego napięcia wejściowego. Dzięki temu urządzenie działa stabilnie i przewidywalnie. Nie ma problemu z utratą połączenia z serwerem czy restartami podczas pracy. System błyskawicznie reaguje na zmiany zadanej wartości obrotowej silnika. Opóźnienia transmisji i przetwarzania danych są na tyle małe wydają się być niezauważalne przez człowieka. 

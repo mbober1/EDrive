@@ -7,7 +7,7 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=1\textwidth]{img/pwm-duty.png}
-                \caption{Przebieg modulacji PWM}
+                \caption{Przebieg modulacji PWM \cite{pwm_fig}}
                 \label{fig:pwm_duty}
             \end{figure}
             
@@ -15,14 +15,14 @@
         
         
         \subsection{Implementacja}
-            Stworzenie obiektu "Motor" automatycznie inicjalizuje peryferium odpowiedzialne na obsługę PWM. Wybór częstotliwości pracy był podyktowany minimalizacją hałasu generowanego podczas pracy silnika. Z tego powodu zdecydowano się na wartość 22kHz, czyli granice ludzkiego słuchu. Jest to także typowa wartość proponowana przez producenta użytego mostka H \cite{mostek}.
+            Za obsługę peryferium PWM odpowiada klasa "Motor" przedstawiona w listingu \ref{code:pwm_init}. Utworzenie obiektu tej klasy automatycznie inicjalizuje peryferium odpowiedzialne na obsługę PWM. Wybór częstotliwości pracy był podyktowany minimalizacją hałasu generowanego podczas pracy silnika. Z tego powodu zdecydowano się na wartość 22kHz, czyli granice ludzkiego słuchu. Jest to także typowa wartość proponowana przez producenta użytego mostka H \cite{mostek}.
             
             Peryferium znajdujące się w wykorzystanym układzie pozwala na generowanie symetrycznego PWM. Różni sie ono od tradycyjnej asymetryczenej regulacji tym że generowane impulsy są zawsze symetryczne względem środka. Zaletą takiego rozwiązania jest generowanie mniejszych harmonicznych w napięciach i prądach wyjściowych oraz lepiej naddaje się ono do sterowania silnikami DC \cite{pwm_center}. Porównanie przebiegów symetrycznego i asymetrycznego PWM zostało umieszczone na obrazku \ref{fig:sym_pwm}
             
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=0.9\textwidth]{img/symetric_pwm.png}
-                \caption{Przebieg modulacji PWM}
+                \caption{Przebieg modulacji PWM \cite{pwm_center}}
                 \label{fig:sym_pwm}
             \end{figure}   
             
@@ -31,7 +31,7 @@
           \inputminted[firstline=3,lastline=24]{cpp}{esp/listings/motor_driver.cpp}
           \caption{Inicjalizacja PWM}
           \label{code:pwm_init}
-          \vspace{2em}
+          \vspace{1em}
         \end{kod}
         
         Jedyna metoda tej klasy wykorzystywana podczas typowej pracy programu jest przedstawiona na listingu \ref{code:pwm_duty}. Jej zadaniem jest zmiana ustawień wypełnienia PWM oraz kierunku obrotu silnika w zależności od przekazanej wartości.

@@ -6,7 +6,7 @@
        \begin{figure}[ht]
           \centering
           \includegraphics[width=0.8\textwidth]{img/qt_mqtt.png}
-          \caption{Schemat działania modułu Qt MQTT}
+          \caption{Schemat działania modułu Qt MQTT \cite{qt_mqtt_fig}}
           \label{fig:qt_mqtt}
         \end{figure}   
         
@@ -29,13 +29,12 @@
       \subsection{Subskrybowanie tematów}
         Subskrybowanie tematów jest dość długą funkcją. Wbrew pozorom nie jest ona skomplikowana. Jej zadaniem jest zasubskrybować jedynie cztery temat. Z tego też powodu wszystko jest powielone czterokrotnie. To właśnie wpływa w znaczący sposób na jej objętość. Dla każdego tematu wywoływana jest metoda na obiekcie MQTT, która przyjmuje temat oraz parametr QoS. 
         
-        QoS z angielskiego "Quality of Service" określa poziom istotności wiadomości. W tym przypadku użyta została wartość $0$. Oznacza to że nie ma gwarancji otrzymania wiadomość. Taka kolej rzeczy nie wydaje się być z żaden sposób problematyczna ze względu na cykliczność z jaką otrzymywane są ramki. Zgubienie jednej wartości nie musi być istotne w momencie, gdy są one transmitowane z ponadprzeciętnie dużą częstotliwością. W takim systemie pierwszoplanowa jest wydajność i przepustowość. Pozostałe wartości które są możliwe do ustawienia to $1$ i $2$. Pierwsza z nich sprawia że mamy pewność otrzymania wiadomości, natomiast druga gwarantuje jednokrotność tego zdarzenia \cite{QoS}. 
+        QoS z angielskiego "Quality of Service" określa poziom istotności wiadomości. W tym przypadku użyta została wartość $0$. Oznacza to że nie ma gwarancji otrzymania wiadomość. Taka kolej rzeczy nie wydaje się być z żaden sposób problematyczna ze względu na cykliczność z jaką otrzymywane są ramki. Zgubienie jednej wartości nie musi być istotne w momencie, gdy są one transmitowane z ponadprzeciętnie dużą częstotliwością. W takim systemie pierwszoplanowa jest wydajność i przepustowość. Pozostałe wartości które są możliwe do ustawienia to $1$ i $2$. Pierwsza z nich sprawia że mamy pewność otrzymania wiadomości, natomiast druga gwarantuje jednokrotność tego zdarzenia.
         
         Produktem wywołania tej metody będzie obiekt typu QMqttSubscription, który następnie należy przy pomocy systemu sygnałów i slotów, połączyć z odpowiednią funkcją. Funkcja ta jedynie skleja otrzymaną wartość z uprzednio przygotowanym ciągiem znaków i bezpośrednio wyświetla ją w interfejsie użytkownika. Przykład takiej funkcji dostępny jest w listingu \ref{code:app_mqtt_setValue}. 
         
         Na samym końcu znajduje się jeszcze wywołanie funkcji ustawiającej wartości domyślne dla wyżej wymienionych tematów, tak aby można było je umieścić w interfejsie. Cała ta procedura powtórzona jest cztery razy dla czterech różnych tematów. Odnosi się do niej listing \ref{code:app_mqtt_subscribe}. 
-        
-        %TODO: artykuł na temat QoS
+
         
         \begin{kod}
           \inputminted[firstline=245, lastline=254]{cpp}{app/listings/mainwindow.cpp}

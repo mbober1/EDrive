@@ -1,4 +1,3 @@
-
     \chapter{Szczegółowy opis sterownika}
         Urządzenie wykonawcze jest głównym elementem całego systemu. Jest ono także najbardziej skomplikowanym fragmentem, a wynika to z wielu części składowych niezbędnych do przygotowania kompleksowego produktu. Składa się na niego między innymi projekt płytki drukowanej oraz projekt oprogramowania. Warto zaznaczyć że do skonstruowania w pełni autorskiego rozwiązania niezbędna jest szczegółowa wiedza z wielu dziedzin. Poczynając od elektroniki na programowaniu systemów wbudowanych kończąc.
     
@@ -21,7 +20,7 @@
             \begin{figure}[ht]
               \centering
               \includegraphics[width=0.4\textwidth]{img/esp32.jpg}
-              \caption{Wykorzystana jednostka centralna}
+              \caption{Wykorzystana jednostka centralna \cite{esp_fig}}
               \label{esp}
             \end{figure}
     
@@ -36,14 +35,25 @@
             \begin{figure}[ht]
               \centering
               \includegraphics[width=0.5\textwidth]{img/multicore_amp_hardware_configuration.png}
-              \caption{Topologia procesora z użyciem FreeRTOS}
+              \caption{Topologia procesora z użyciem FreeRTOS \cite{freertos_fig}}
               \label{freertos}
             \end{figure}
             
             \vspace{1em}
             
-            Mówiąc o zaletach systemów operacyjnych warto też wspomnieć o ich wadach. Najważniejszą z nich jest narzut obliczeniowy wynikający między innymi z pracy planisty. Z tego powodu część czasu procesora poświęcana jest na pracę samego systemu i nie bierze udziału w wykonywaniu obliczeń na rzecz programu, aczkolwiek nie są to jednak znaczące wartości. Z tego powodu systemy operacyjne znajdują szerokie zastosowanie nie tylko w zastosowaniach profesjonalnych, bo dzięki prostocie FreeRTOS, jest on coraz to częściej wykorzystywanych przez amatorów i hobbistów.
+            Mówiąc o zaletach systemów operacyjnych warto też wspomnieć o ich wadach. Najważniejszą z nich jest narzut obliczeniowy wynikający między innymi z pracy planisty oraz przełączania kontekstów. Z tego powodu część czasu procesora poświęcana jest na pracę samego systemu i nie bierze udziału w wykonywaniu obliczeń na rzecz programu. Należy zaznaczy że nie są to duże wartości i są one zależne od indywidualnej konfiguracji systemu operacyjnego. W przytoczonym przez dokumentację FreeRTOS przykładzie \cite{context} przełączenie kontekstu zajmuje 84 cykle procesora, co jest bardzo małą wartością biorąc pod uwagę taktowanie na poziomie 240MHz. Z tego powodu systemy operacyjne znajdują szerokie zastosowanie nie tylko w zastosowaniach profesjonalnych, bo dzięki prostocie FreeRTOS, jest on coraz to częściej wykorzystywanych przez amatorów i hobbistów.
+            
+        \subsection{Szeregowanie zadań}
+            Ważnych aspektem funkcjonowania systemu operacyjnego jest współbieżność procesów. Każdy z nich posiada swój priorytet oraz aktualny stan. Możliwe stany w systemie FreeRTOS zostały przedstawione na rysunku \ref{fig:freertos_tasks_state}.
       
+            \begin{figure}[ht]
+              \centering
+              \includegraphics[width=0.6\textwidth]{img/FreeRTOS-tasks-state.png}
+              \caption{Możliwe stany procesów w FreeRTOS \cite{freertos_task_fig}}
+              \label{fig:freertos_tasks_state}
+            \end{figure}
+            
+            Zadania w stanie gotowości szeregowane są względem ustawionego priorytetu. W przypadku znalezienia się kilku zadań o identycznym priorytecie, są one szeregowane według algorytmu karuzelowego (z ang. Round Robin \cite{round_robin}).
             
         \section{Framework}
             Przy opracowywaniu kodu źródłowego sterownika został użyty framework ESP-IDF \cite{esp-idf} przygotowany przez producenta procesora. Na stronie dostawcy tego rozwiązania można znaleźć także obszerną dokumentację tłumaczącą wykorzystanie frameworka w praktyce wraz z wieloma przykładami użycia. Zastosowanie gotowej abstrakcji zdejmuje z dewelopera obowiązek implementacji wielu skomplikowanych aspektów programu. W tym projekcie szczególnie przydatna jest implementacja stosu TCP/IP i protokołu MQTT.
@@ -152,7 +162,7 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=0.7\textwidth]{img/h_bridge_schametic.png}
-                \caption{Ogólny schemat mostka H}
+                \caption{Ogólny schemat mostka H \cite{h_bridge_conn_fig}}
                 \label{fig:h_bridge_schematic}
             \end{figure}
             
@@ -163,14 +173,14 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=0.7\textwidth]{img/h_bridge.png}
-                \caption{Schemat wykorzystanego mostka H}
+                \caption{Schemat wykorzystanego mostka H \cite{h_bridge_fig}}
                 \label{fig:h_bridge}
             \end{figure}
             
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=0.7\textwidth]{img/h_bridge_connection.png}
-                \caption{Schemat podłączenia mostka H}
+                \caption{Schemat podłączenia mostka H \cite{h_bridge_conn_fig}}
                 \label{fig:h_bridge_connection}
             \end{figure}
             
@@ -180,7 +190,7 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=0.9\textwidth]{img/silnik.png}
-                \caption{Schemat wykorzystanego silnika}
+                \caption{Schemat wykorzystanego silnika \cite{engine_fig}}
                 \label{fig:engine}
             \end{figure}
 
@@ -229,6 +239,3 @@
                       \label{fig:pcb_schematic_3}
                     \end{figure}
                 \end{landscape}
-        
-    
-    

@@ -1,5 +1,4 @@
 \documentclass[eng, 12pt, twoside, openany]{mgr}
-% draft
 
 \usepackage{hyperref}
 \usepackage{polski}
@@ -9,8 +8,7 @@
 \usepackage{pdflscape}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.7}
-% \usepackage{latexsym}
-% \usepackage{afterpage}
+
 \usepackage{floatrow}
 \usepackage[section]{minted}
 \usepackage{csquotes}
@@ -45,16 +43,15 @@
     \include{introduction} % wprowadzenie
     \include{project_desc} % schemat działania projektu
 
+    \include{mqtt/desc} % MQTT - opis
+    
     \include{esp/desc} % ESP - opis
     \include{esp/pcnt} % ESP - licznik
     \include{esp/pwm} % ESP - PWM
     \include{esp/pid} % ESP - PID
-    
     \include{esp/adc} % ESP - adc
     \include{esp/mqtt} % ESP - mqtt
     \include{esp/device} % ESP - prototyp
-
-    \include{mqtt/desc} % MQTT - opis
 
     \include{app/desc} % APP - opis 
     \include{app/signals} % APP - sloty i sygnały
@@ -62,11 +59,9 @@
     \include{app/chart} % APP - wykresy
     \include{app/engine} % APP - klasa silnika
     \include{app/ui} % APP - interfejs użytkownika
-  
     
     \include{summary} % podsumowanie
 
- 
     \addcontentsline{toc}{chapter}{\bibname}
     
     \include{thebibliography} % bibliografia

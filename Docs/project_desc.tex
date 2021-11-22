@@ -29,6 +29,30 @@
     \end{itemize}
  
  
+    \section{Architektura systemowa}
+        Projekt opiera się o współpracę trzech kluczowych elementów ciągle komunikujących się ze sobą. Komponenty wchodzące w skład systemu zostały umieszczone na rysunku \ref{fig:system}.
+        
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=1\textwidth]{img/system.png}
+          \caption{Elementy systemu}
+          \label{fig:system}
+        \end{figure}
+
+
+        \subsection{Aplikacja dostępowa}
+            W celu komfortowej obsługi sterownika silnika, została stworzona aplikacja dostępowa w języku C++, która będzie komunikowała się w protokole MQTT. W tym celu wykorzystano otwarto źródłową wersję narzędzia programistycznego jakim jest QT \cite{qt}. Biblioteki QT posiadają dobrze zdefiniowane warstwy abstrakcji oraz bardzo wylewną dokumentację, co sprawia że tworzenie zaawansowanych, przenośnych aplikacji okienkowych jest niezwykle łatwe i przyjemne.
+        
+        \subsection{Urządzenie wykonawcze}
+            Urządzenie końcowe jest dedykowanym rozwiązaniem przygotowanym specjalnie na poczet tego projektu. Bazuje ono na nowoczesnym SoC z rodziny ESP32, który łączy się z brokerem MQTT. Odbierane z niego dane wykorzystane są w procesie sterowania silnikiem. Poza odczytem informacji z brokera, urządzenie publikuje również aktualny stan silnika.
+        
+        \subsection{Serwer}
+            Ostatnim elementem projektu jest Broker MQTT. Jego zadaniem jest bycie łącznikiem pomiędzy urządzeniami. Pozwala on na łatwe subskrybowanie jak i publikowanie informacji. Ta rola przypadła dla otwarto źródłowego brokera Mosquitto wydanego przez fundację Eclipse \cite{mosquitto}. Jest to jeden z popularniejszych programów tego typu, a zawdzięcza to małym wymaganiom sprzętowym, skalowalności oraz
+            dostępności na wielu architekturach sprzętowych. Co więcej, w celu wdrożenia
+            przenośności projektu, oprogramowanie to zostało poddane konteneryzacji,
+            dzięki czemu można łatwo transportować go i uruchamiać na innych komputerach wraz z całą konfiguracją przy użyciu ekosystemu Docker \cite{docker}.
+            
+ 
     \section{Wymiana informacji}
         
         W protokole MQTT kluczowy aspekt mają tematy, z angielskiego "Topics". Pozwalają one na wymianę i porządkowanie informacji. Każda nadawana wiadomość jest kierowana do konkretnego tematu na brokerze. W celu odbioru wiadomości niezbędna jest subskrypcja danego tematu.

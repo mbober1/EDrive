@@ -15,13 +15,13 @@
         \begin{figure}[ht]
             \centering
             \includegraphics[width=0.8\textwidth]{img/mqtt_schematic.png}
-            \caption{Schemat działania protokołu MQTT}
+            \caption{Schemat działania protokołu MQTT \cite{mqtt_schematic_fig}}
             \label{fig:mqtt_schematic}
         \end{figure}
          
         
     \section{Typy wiadomości}
-        Istnieje obsługiwanych 14 typów wiadomości.
+        W dokumentacji protokołu MQTT \cite{mqtt} istnieje aż 15 obsługiwanych typów wiadomości. Odpowiadają one za:
         
         \begin{itemize}
             \item CONNECT - Nawiązanie połączenia,
@@ -37,7 +37,8 @@
             \item UNSUBACK - Potwierdzenie anulowania subskrypcji,
             \item PINGREQ - Żądanie PINGU,
             \item PINGRESP - Odpowiedź na żądanie PINGU,
-            \item DISCONNECT - Zakończenie połączenia.
+            \item DISCONNECT - Zakończenie połączenia,
+            \item AUTH - Uwierzytelnienie.
         \end{itemize}
         
         

@@ -1,9 +1,9 @@
     \section{Regulator PID} 
     
     \subsection{Implementacja}
-         Najważniejszą częścią programu jest implementacja regulatora PID. Odpowiednie zaprojektowanie jego działania jest kluczowe w kwestii wydajności oraz poprawności funkcjonowania całego systemu. Schemat funkcjonowania algorytmu jest prosty i został on przedstawiony na listingu \ref{code:pid_compute}.
+         Najważniejszą częścią programu jest implementacja regulatora PID. Odpowiednie zaprojektowanie jego działania jest kluczowe w kwestii wydajności oraz poprawności funkcjonowania całego systemu \cite{hor}. Schemat funkcjonowania algorytmu jest prosty i został on przedstawiony na listingu \ref{code:pid_compute}.
          
-         Czytamy ilość impulsów z układu odpowiedzialnego za ich zliczanie. Przy okazji czyścimy jego rejestry, aby mógł zliczać już kolejne impulsy w trakcie, gdy my będziemy dokonywać obliczeń. Realizacja tego jest przesłonięta przez marko zawarte w \ref{code:encoder_macro} w celu zwiększenia czytelności kodu. 
+         Pierwszym krokiem jest odczytanie z rejestru licznika ilości zliczonych impulsów. Następnie należy wyzerować ten rejestr, aby mógł on ponownie zliczać kolejne impulsy zaczynając od zera. Operacja ta musi zostać wykonana bezpośrednio po dokonaniu odczytu, aby nie pominąć żadnych impulsów, które będą pojawiać się w trakcie wykonywania dalszych obliczeń. Realizacja tego krótkiego procesu przesłonięta przez marko zawarte w \ref{code:encoder_macro} w celu zwiększenia czytelności kodu. 
          
         \begin{kod}
           \inputminted[firstline=10,lastline=12]{cpp}{esp/listings/encoder_driver.hpp}
