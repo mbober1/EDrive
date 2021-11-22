@@ -1,0 +1,50 @@
+\hypertarget{engine_8hpp_source}{}\doxysection{engine.\+hpp}
+\label{engine_8hpp_source}\index{/home/mbober/Dokumenty/EDrive/Qt/include/engine.hpp@{/home/mbober/Dokumenty/EDrive/Qt/include/engine.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{keyword}{class }\mbox{\hyperlink{class_engine}{Engine}}}
+\DoxyCodeLine{4 \{}
+\DoxyCodeLine{5 \textcolor{keyword}{public}:}
+\DoxyCodeLine{6     \mbox{\hyperlink{class_engine_a8c98683b0a3aa28d8ab72a8bcd0d52f2}{Engine}}();}
+\DoxyCodeLine{7     \mbox{\hyperlink{class_engine_a8ef7030a089ecb30bbfcb9e43094717a}{\string~Engine}}();}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_engine_a588e08dd6ccf82f09aa73db694f128ca}{setValue}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} value);}
+\DoxyCodeLine{10     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_engine_a7ba93ff37cda8215a1564b88b6c1f2a7}{setVoltage}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} voltage);}
+\DoxyCodeLine{11     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_engine_a0f283fa073ecf6bd12f2394015f50c32}{setSetpoint}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} setpoint);}
+\DoxyCodeLine{12     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_engine_a76d83c8ce53a013bfa1aaf0af42e7872}{setPwmDuty}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} duty);}
+\DoxyCodeLine{13     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_engine_a196d41e1463b990976f3a7902fc38723}{setTorque}}(\textcolor{keyword}{const} \textcolor{keywordtype}{float} torque);}
+\DoxyCodeLine{14     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_engine_a4670bc219f799ad3b72ece80779edec1}{getValue}}();}
+\DoxyCodeLine{15     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_engine_afd06955f9eac262af73466783eeb0a55}{getVoltage}}();}
+\DoxyCodeLine{16     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_engine_aa6755b7e87ea25bcc615c939bf1e541b}{getSetpoint}}();}
+\DoxyCodeLine{17     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_engine_a126f7479eebd1dbc70fa4383305dd5f6}{getPwmDuty}}();}
+\DoxyCodeLine{18     \textcolor{keywordtype}{float} \mbox{\hyperlink{class_engine_a600a4b41fb3d8c89622ae831f6517251}{getTorque}}();}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{private}:}
+\DoxyCodeLine{21     \textcolor{keywordtype}{int} value, voltage, setpoint, pwmDuty;}
+\DoxyCodeLine{22     \textcolor{keywordtype}{float} torque;}
+\DoxyCodeLine{23 \};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{const} \textcolor{keywordtype}{float} RPM\_Multiplier = (100 * 60) / 224.4 / 4; }
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{34 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} tickToRPM(\textcolor{keywordtype}{int} tick) \{}
+\DoxyCodeLine{35     \textcolor{comment}{// * 100 -\/> tick / s}}
+\DoxyCodeLine{36     \textcolor{comment}{// * 60 -\/> tick / min}}
+\DoxyCodeLine{37     \textcolor{comment}{// / 224.4 -\/> revolution / min}}
+\DoxyCodeLine{38     \textcolor{comment}{// / 4 (encoder)}}
+\DoxyCodeLine{39     \textcolor{keywordflow}{return} tick * RPM\_Multiplier;}
+\DoxyCodeLine{40 \}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keyword}{const} \textcolor{keywordtype}{float} Torque\_Multiplier = 1 / (800/3.6); }
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 }
+\DoxyCodeLine{50 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} mAToKgCm(\textcolor{keywordtype}{int} current) \{}
+\DoxyCodeLine{51     \textcolor{keywordflow}{return} current * Torque\_Multiplier;}
+\DoxyCodeLine{52 \}}
+
+\end{DoxyCode}

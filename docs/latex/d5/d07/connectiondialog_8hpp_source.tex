@@ -1,0 +1,33 @@
+\hypertarget{connectiondialog_8hpp_source}{}\doxysection{connectiondialog.\+hpp}
+\label{connectiondialog_8hpp_source}\index{/home/mbober/Dokumenty/EDrive/Qt/include/connectiondialog.hpp@{/home/mbober/Dokumenty/EDrive/Qt/include/connectiondialog.hpp}}
+\mbox{\hyperlink{connectiondialog_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CONNECTIONDIALOG\_HPP}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CONNECTIONDIALOG\_HPP}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <QDialog>}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }Ui \{}
+\DoxyCodeLine{7 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection_dialog}{ConnectionDialog}};}
+\DoxyCodeLine{8 \}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 }
+\DoxyCodeLine{19 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection_dialog}{ConnectionDialog}} : \textcolor{keyword}{public} QDialog}
+\DoxyCodeLine{20 \{}
+\DoxyCodeLine{21     Q\_OBJECT}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_connection_dialog_a387fff44e17fc12f48ae4072641a12d4}{ConnectionDialog}}(QWidget *parent = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{25     \mbox{\hyperlink{class_connection_dialog_a43281efe3677803bce4e84c46b1f43b8}{\string~ConnectionDialog}}();}
+\DoxyCodeLine{26     QString \mbox{\hyperlink{class_connection_dialog_a1e2316700759709e0e5ab0deff99a9e6}{getAdress}}();}
+\DoxyCodeLine{27     QString \mbox{\hyperlink{class_connection_dialog_a0bf70600d7aa42186b6c4099fad0c924}{getUsername}}();}
+\DoxyCodeLine{28     QString \mbox{\hyperlink{class_connection_dialog_ac7074f913f2ce48060554f1c413d89b7}{getPassword}}();}
+\DoxyCodeLine{29     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_connection_dialog_ac09fa7f9fb1095b3841e8b188baea16e}{getPort}}();}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{private}:}
+\DoxyCodeLine{32     Ui::ConnectionDialog *ui;}
+\DoxyCodeLine{33 \};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CONNECTIONDIALOG\_HPP}}
+
+\end{DoxyCode}

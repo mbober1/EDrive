@@ -1,0 +1,99 @@
+\hypertarget{class_main_window}{}\doxysection{Main\+Window Class Reference}
+\label{class_main_window}\index{MainWindow@{MainWindow}}
+
+
+Inheritance diagram for Main\+Window\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{de/d4b/class_main_window__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Main\+Window\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{d0/db8/class_main_window__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_a50ad376f4c1f3a989b381de4fd3a071d}{action\+Connect}} ()
+\item 
+void \mbox{\hyperlink{class_main_window_aeed5af23fce11f0ef698e6e5fdc14a30}{action\+Disconnect}} ()
+\item 
+void \mbox{\hyperlink{class_main_window_a886df9bd2618c250a998bbdd3508ac6a}{enable\+Ui}} (bool state)
+\item 
+void \mbox{\hyperlink{class_main_window_a778973359ed7b13548f67c146e9ae6ad}{change\+Connection\+Status}} (QMqtt\+Client\+::\+Client\+State state)
+\item 
+void \mbox{\hyperlink{class_main_window_a0e2671d7c1fc700d8c63da9bdd0abfa4}{connection\+Error}} (QMqtt\+Client\+::\+Client\+Error error)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{Main\+Window}} (QWidget $\ast$parent=nullptr)
+\item 
+\mbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{$\sim$\+Main\+Window}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_main_window_a996c5a2b6f77944776856f08ec30858d}\label{class_main_window_a996c5a2b6f77944776856f08ec30858d}} 
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{MainWindow()}{MainWindow()}}
+{\footnotesize\ttfamily Main\+Window\+::\+Main\+Window (\begin{DoxyParamCaption}\item[{QWidget $\ast$}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+A constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em parent} & QWidget type parent. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}\label{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}} 
+\index{MainWindow@{MainWindow}!````~MainWindow@{$\sim$MainWindow}}
+\index{````~MainWindow@{$\sim$MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{$\sim$MainWindow()}{~MainWindow()}}
+{\footnotesize\ttfamily Main\+Window\+::$\sim$\+Main\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+A destructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_main_window_a50ad376f4c1f3a989b381de4fd3a071d}\label{class_main_window_a50ad376f4c1f3a989b381de4fd3a071d}} 
+\index{MainWindow@{MainWindow}!actionConnect@{actionConnect}}
+\index{actionConnect@{actionConnect}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{actionConnect}{actionConnect}}
+{\footnotesize\ttfamily void Main\+Window\+::action\+Connect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Open connecting dialog and connect to server \mbox{\Hypertarget{class_main_window_aeed5af23fce11f0ef698e6e5fdc14a30}\label{class_main_window_aeed5af23fce11f0ef698e6e5fdc14a30}} 
+\index{MainWindow@{MainWindow}!actionDisconnect@{actionDisconnect}}
+\index{actionDisconnect@{actionDisconnect}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{actionDisconnect}{actionDisconnect}}
+{\footnotesize\ttfamily void Main\+Window\+::action\+Disconnect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Disconect from server \mbox{\Hypertarget{class_main_window_a778973359ed7b13548f67c146e9ae6ad}\label{class_main_window_a778973359ed7b13548f67c146e9ae6ad}} 
+\index{MainWindow@{MainWindow}!changeConnectionStatus@{changeConnectionStatus}}
+\index{changeConnectionStatus@{changeConnectionStatus}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{changeConnectionStatus}{changeConnectionStatus}}
+{\footnotesize\ttfamily void Main\+Window\+::change\+Connection\+Status (\begin{DoxyParamCaption}\item[{QMqtt\+Client\+::\+Client\+State}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Change connection status \mbox{\Hypertarget{class_main_window_a0e2671d7c1fc700d8c63da9bdd0abfa4}\label{class_main_window_a0e2671d7c1fc700d8c63da9bdd0abfa4}} 
+\index{MainWindow@{MainWindow}!connectionError@{connectionError}}
+\index{connectionError@{connectionError}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{connectionError}{connectionError}}
+{\footnotesize\ttfamily void Main\+Window\+::connection\+Error (\begin{DoxyParamCaption}\item[{QMqtt\+Client\+::\+Client\+Error}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Connection error handler \mbox{\Hypertarget{class_main_window_a886df9bd2618c250a998bbdd3508ac6a}\label{class_main_window_a886df9bd2618c250a998bbdd3508ac6a}} 
+\index{MainWindow@{MainWindow}!enableUi@{enableUi}}
+\index{enableUi@{enableUi}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{enableUi}{enableUi}}
+{\footnotesize\ttfamily void Main\+Window\+::enable\+Ui (\begin{DoxyParamCaption}\item[{bool}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Enable UI 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/mbober/\+Dokumenty/\+EDrive/\+Qt/include/\mbox{\hyperlink{mainwindow_8hpp}{mainwindow.\+hpp}}\item 
+/home/mbober/\+Dokumenty/\+EDrive/\+Qt/source/mainwindow.\+cpp\end{DoxyCompactItemize}
